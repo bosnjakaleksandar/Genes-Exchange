@@ -6,8 +6,8 @@ export interface RateHistoryEntry {
   recorded_at: string;
 }
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY as string;
+const SUPABASE_URL = import.meta.env.SUPABASE_DATABASE_URL as string;
+const SUPABASE_KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY as string;
 
 export async function fetchHistory(
   currency: string,
