@@ -45,7 +45,7 @@ const handleRowClick = (
     detailsOpen = true;
     document.querySelector('.rates')?.classList.add('rates--details-open');
     const backBtn = document.getElementById('back-btn');
-    if (backBtn) backBtn.style.display = 'block';
+    if (backBtn) backBtn.style.display = 'flex';
   }
 
   fetchAndRenderChart();
@@ -178,14 +178,16 @@ export const initRatesTable = () => {
   updateIsMobile();
   window.addEventListener('resize', updateIsMobile);
 
-  // Set first currency as selected
-  const firstRow = document.querySelector('.rates__table-row');
-  if (firstRow) {
-    const currency = firstRow.getAttribute('data-currency') || '';
-    const buyRate = parseFloat(firstRow.getAttribute('data-buy-rate') || '0');
-    const sellRate = parseFloat(firstRow.getAttribute('data-sell-rate') || '0');
-    const currencyImage = firstRow.getAttribute('data-currency-image') || '';
-    handleRowClick(currency, buyRate, sellRate, currencyImage);
+  // Set first currency as selected (only on desktop)
+  if (!isMobile) {
+    const firstRow = document.querySelector('.rates__table-row');
+    if (firstRow) {
+      const currency = firstRow.getAttribute('data-currency') || '';
+      const buyRate = parseFloat(firstRow.getAttribute('data-buy-rate') || '0');
+      const sellRate = parseFloat(firstRow.getAttribute('data-sell-rate') || '0');
+      const currencyImage = firstRow.getAttribute('data-currency-image') || '';
+      handleRowClick(currency, buyRate, sellRate, currencyImage);
+    }
   }
 
   // Add event listeners

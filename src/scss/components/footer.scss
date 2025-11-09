@@ -50,6 +50,10 @@
             margin-top: 50px;
             max-width: 100%;
         }
+
+        @include mq (768) {
+            margin-top: 20px;
+        }
     }
 
     .footer__info {

@@ -125,6 +125,14 @@
                 padding-left: 16px;
                 padding-right: 16px;
                 padding-top: 16px;
+
+                img {
+                    border-radius: 5px;
+                }
+
+                @include mq (1024) {
+                    padding-top: 50px;
+                }
             }
 
             .interval-buttons {
@@ -208,7 +216,7 @@
             display: none;
 
             @include mq (1024) {
-                display: unset;
+                display: flex;
                 position: absolute;
                 top: 50%;
                 bottom: 50%;
@@ -258,16 +266,19 @@
         }
     }
 
-    &__back-btn {
+    .rates__back-btn {
         background: none;
         border: none;
         position: absolute;
-        top: 40px;
-        left: 40px;
+        flex-direction: row;
+        align-items: center;
+        top: 10px;
+        left: 10px;
         color: $gold;
         z-index: 10;
 
         svg {
+            transform: rotate(180deg);
             width: 40px;
             height: 30px;
         }
