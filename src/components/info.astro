@@ -21,7 +21,7 @@ const { title, description, imageSrc, imageAlt } = Astro.props;
 ---
 
 <section class="info">
-  <div class={Astro.props.reverse ? 'info__container info__container--reverse' : 'info__container'}>
+  <div class={Astro.props.reverse ? 'info__container container info__container--reverse' : 'info__container container'}>
     <div class="info__content">
       <h2 class="info__title rw-48-600">{title}</h2>
       <p class="info__description rw-24-500">{description}</p>

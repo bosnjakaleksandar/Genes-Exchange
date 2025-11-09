@@ -10,10 +10,10 @@ body {
 // }
 
 .container {
-    margin: 0 8%;
+    margin: 5%;
 
     @include mq (768) {
-        margin: 0 5%;
+        margin: 10% 5%;
     }
 }
 

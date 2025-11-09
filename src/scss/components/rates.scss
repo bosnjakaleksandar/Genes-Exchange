@@ -67,6 +67,7 @@
             align-items: center;
             text-align: center;
             gap: 15px;
+            margin-bottom: 30px;
         }
     }
 
@@ -81,6 +82,7 @@
         border-radius: 12px;
 
         @include mq (1024) {
+            flex-direction: column;
             background-color: rgba(44, 63, 79, .2509803922);
             border-radius: 16px 16px 0 0;
             backdrop-filter: blur(10px);
@@ -92,6 +94,7 @@
             width: 60%;
 
             @include mq (1024) {
+                display: block;
                 width: 100%;
                 height: 100%;
                 border-radius: 20px 20px 0 0;
@@ -105,6 +108,10 @@
             border-bottom-right-radius: 12px;
             color: $white;
             width: 39%;
+
+            @include mq (1024) {
+                display: none;
+            }
 
             .rates__chart {
                 margin-top: 24px;
@@ -144,7 +151,9 @@
             }
 
             @include mq (1024) {
-                display: none;
+                width: 100%;
+                height: 100vh;
+                border-radius: 20px 20px 0 0;
             }
         }
     }
@@ -236,13 +245,16 @@
     }
 
     &--details-open {
-        .rates__columns-left {
-            display: none;
-        }
+        @include mq (1024) {
+            .rates__columns-left {
+                display: none !important;
+            }
 
-        .rates__columns-right {
-            display: block;
-            width: 100%;
+            .rates__columns-right {
+                display: block !important;
+                width: 100%;
+                position: relative;
+            }
         }
     }
 
@@ -320,6 +332,7 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }

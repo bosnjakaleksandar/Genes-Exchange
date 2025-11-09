@@ -8,25 +8,17 @@ const { lang = 'sr' } = Astro.props;
 const translations = {
   sr: {
     copyright:
-      '&copy; 2025 Priče sa parketa. All rights reserved. Design and Development by @bosnjakaleksandar.',
+      '&copy; 2025 Menjačnica Genes. All rights reserved. Design and Development by @bosnjakaleksandar.',
     contactUs: 'Kontaktirajte nas',
     home: 'Početna',
-    blog: 'Blog',
-    euroleague: 'Evroliga',
-    // episodes: 'Epizode',
-    // about: 'O meni',
-    // contact: 'Kontakt',
+    list: 'Kursna lista',
   },
   en: {
     copyright:
-      '&copy; 2025 Priče sa parketa. All rights reserved. Design and Development by @bosnjakaleksandar.',
+      '&copy; 2025 Exchange office Genes. All rights reserved. Design and Development by @bosnjakaleksandar.',
     contactUs: 'Contact us',
     home: 'Home',
-    blog: 'Blog',
-    euroleague: 'Euroleague',
-    // episodes: 'Episodes',
-    // about: 'About me',
-    // contact: 'Contact',
+    list: 'Exchange rates',
   },
 };
 
@@ -36,14 +28,14 @@ const t = translations[lang];
 <footer class="footer">
   <div class="footer__container">
     <div class="footer__top">
-      <a class="footer__logo" href={lang === 'en' ? '/en' : '/'}
-        ><img src="/images/genesLogo.png" alt="logoPriceSaParketa" /></a
-      >
-      <div class="footer__list-wrapper">
+      <div class="footer__content">
+        <a class="footer__logo" href={lang === 'en' ? '/en' : '/'}
+          ><img src="/images/GenesLogo-white.png" alt="GenesLogo" /></a
+        >
         <div class="footer__info">
           <p class="footer__contact rw-32-500">{t.contactUs}</p>
           <a href="mailto:pricesaparketa@gmail.com" class="footer__email rw-32-500"
-            >pricesaparketa@gmail.com</a
+            >menjacnicagenes@gmail.com</a
           >
         </div>
         <ul class="footer__list">
@@ -51,58 +43,24 @@ const t = translations[lang];
             <a href={lang === 'en' ? '/en' : '/'} class="footer__link rw-24-500">{t.home}</a>
           </li>
           <li class="footer__item">
-            <a href={lang === 'en' ? '/en/euroleague' : '/evroliga'} class="footer__link rw-24-500"
-              >{t.euroleague}</a
+            <a
+              href={lang === 'en' ? '/en/exchange-rates' : '/kursna-lista'}
+              class="footer__link rw-24-500">{t.list}</a
             >
           </li>
-          <li class="footer__item">
-            <a href={lang === 'en' ? '/en/blog' : '/blog'} class="footer__link rw-24-500"
-              >{t.blog}</a
-            >
-          </li>
-          <!-- <li class="footer__item">
-            <a href="/coming-soon" class="footer__link rw-24-500">{t.episodes}</a>
-          </li> -->
         </ul>
-        <!-- <ul class="footer__list-two">
-          <li class="footer__item">
-            <a href="/coming-soon" class="footer__link rw-24-500">{t.about}</a>
-          </li>
-          <li class="footer__item">
-            <a href="/coming-soon" class="footer__link rw-24-500">{t.contact}</a>
-          </li>
-        </ul> -->
+      </div>
+      <div class="footer__map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2808.488374549859!2d19.8206756!3d45.2581377!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475b11236b4a3005%3A0x4d78b614008acc8c!2sMenja%C4%8Dnica%20Genes!5e0!3m2!1ssr!2srs!4v1762702923745!5m2!1ssr!2srs"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
     <hr class="footer__divider" />
     <div class="footer__bottom">
       <p class="footer__copyright rw-16-500" set:html={t.copyright} />
-      <div class="footer__socials">
-        <a
-          href="https://www.instagram.com/pricesaparketa/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="footer__social-link"
-          data-svg="instagram-logo-2"
-          aria-label="Visit our Instagram page"
-          title="Follow us on Instagram"></a>
-        <a
-          href="https://www.youtube.com/@Pri%C4%8Desaparketa1"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="footer__social-link"
-          data-svg="youtube-logo-2"
-          aria-label="Visit our YouTube channel"
-          title="Subscribe to our YouTube channel"></a>
-        <a
-          href="https://www.tiktok.com/@pricesaparketa/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="footer__social-link"
-          data-svg="tiktok-logo"
-          aria-label="Visit our TikTok profile"
-          title="Follow us on TikTok"></a>
-      </div>
     </div>
   </div>
 </footer>

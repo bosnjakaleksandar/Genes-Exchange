@@ -1,0 +1,122 @@
+@use '../base' as *;
+
+.footer {
+    background-color: $dark-grey;
+
+    .footer__container {
+        padding: 30px 5%;
+
+        @include mq (768) {
+            padding: 10% 5%;
+        }
+    }
+
+    .footer__top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+
+        @include mq (768) {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 30px;
+        }
+    }
+
+    .footer__content {
+        margin-right: 20px;
+    }
+
+    .footer__map {
+        width: 100%;
+        max-width: 600px;
+        aspect-ratio: 4 / 3;
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @include mq (1150) {
+            margin-top: 50px;
+            max-width: 100%;
+        }
+    }
+
+    .footer__info {
+        margin-top: 50px;
+        margin-bottom: 30px;
+        color: $white;
+
+        .footer__email {
+            color: $white;
+            transition: all 0.3s ease;
+            position: relative;
+            text-decoration: none;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: $gold;
+                transition: width 0.3s ease;
+            }
+
+            &:hover {
+                color: $gold;
+
+                &::after {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .footer__list {
+        .footer__link {
+            color: $white;
+            transition: all 0.3s ease;
+            position: relative;
+            text-decoration: none;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: $gold;
+                transition: width 0.3s ease;
+            }
+
+            &:hover {
+                color: $gold;
+
+                &::after {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .footer__divider {
+        border-color: $gold;
+    }
+
+    .footer__bottom {
+        color: $white;
+    }
+}
