@@ -1,0 +1,167 @@
+@use '../base' as *;
+@use 'sass:color';
+
+.hero {
+    background-image: url('/images/novosadski-sajam.webp');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    height: 100dvh;
+    width: 100%;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    .hero__container {
+        height: 100%;
+        margin: 0 10%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        @include mq (1024) {
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+    .hero__content {
+        color: $white;
+        z-index: 1;
+        position: relative;
+        max-width: 800px;
+
+        @include mq (1024) {
+            margin-bottom: 50px;
+        }
+    }
+
+    .hero__title {
+        opacity: 0;
+        transform: translateX(-60px);
+        animation: slideInLeft 1s ease-out 0.2s forwards;
+    }
+
+    .hero__description {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        opacity: 0;
+        transform: translateX(60px);
+        animation: slideInRight 1s ease-out 0.5s forwards;
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    }
+
+    .hero__euro-rate {
+        color: $white;
+        padding: 40px 80px;
+        background-color: rgba(44, 63, 79, .2509803922);
+        border-radius: 12px;
+        backdrop-filter: blur(5px);
+        z-index: 2;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(60px);
+        box-shadow: 0 0 22px rgba($gold, 0.5);
+
+        .hero__euro-buy {
+            margin-top: 20px;
+        }
+
+        .hero__euro-day {
+            margin: 10px 0;
+        }
+
+        animation: slideInUp 1s ease-out 0.8s forwards;
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @include mq (1024) {
+            .hero__euro-title {
+                font-size: 28px;
+            }
+
+            .hero__euro-buy,
+            .hero__euro-sell {
+                font-size: 45px;
+            }
+
+            .hero__euro-day {
+                font-size: 20px;
+            }
+        }
+
+        @include mq (640) {
+            width: 100%;
+            padding: 40px 0;
+        }
+    }
+}
+
+// 4k responsive
+
+@media screen and (min-width: 1921px) {
+
+    .hero__content {
+        .hero__button {
+            padding: 1.04167vw 1.5625vw;
+            border-radius: 0.625vw;
+            gap: 0.52083vw;
+            box-shadow: 0 0 0.78125vw rgba($orange, 0.5);
+
+            svg {
+                width: 2.08333vw;
+                height: 2.08333vw;
+            }
+
+            &:hover {
+                svg {
+                    transform: translate(0.26042vw);
+                }
+            }
+        }
+    }
+}

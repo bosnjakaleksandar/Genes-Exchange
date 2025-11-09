@@ -1,0 +1,347 @@
+---
+import type { CurrencyRate } from '../ts/API/useRates';
+
+export interface Props {
+  rates: CurrencyRate[];
+  lastUpdate: string;
+}
+
+const { rates, lastUpdate } = Astro.props;
+---
+
+<section class="rates">
+  <div class="rates__container">
+    <div class="rates__card">
+      <div class="rates__top js-from-down">
+        <h1 class="rates__title rw-48-600"><span>GENES</span>EXCHANGE</h1>
+        <div class="rates__top-content">
+          <p class="rates__time rw-16-400">
+            Poslednji put ažurirano: <span id="last-update">{lastUpdate || 'Error'}</span>
+          </p>
+          <p class="rates__description rw-16-400">
+            Kursevi su informativnog karaktera i podložni su promenama.
+          </p>
+        </div>
+      </div>
+
+      <div class="rates__columns">
+        <div class="rates__columns-left">
+          <!-- Rates table -->
+          <table class="rates__table">
+            <thead>
+              <tr>
+                <th class="rw-16-700">Valuta</th>
+                <th class="rw-16-700">Kupovni</th>
+                <th class="rw-16-700">Prodajni</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                rates.map((rate) => (
+                  <tr
+                    class="rates__table-row"
+                    data-currency={rate.currency}
+                    data-buy-rate={rate.buyRate}
+                    data-sell-rate={rate.sellRate}
+                    data-currency-image={rate.currencyImage}
+                  >
+                    <td class="rw-16-400 rates__table-currency">
+                      {rate.currencyImage && (
+                        <img
+                          src={rate.currencyImage}
+                          alt={rate.currency}
+                          class="rates__table-flag"
+                          onerror="this.style.display='none'"
+                        />
+                      )}
+                      <span>{rate.currency}</span>
+                    </td>
+                    <td class="rw-16-400">{rate.buyRate.toFixed(2)}</td>
+                    <td class="rw-16-400">{rate.sellRate.toFixed(2)}</td>
+                    <td class="rates__table-more">
+                      <span>⋮</span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rates__columns-right">
+          <button class="rates__back-btn" id="back-btn" aria-label="Back" style="display: none;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
+
+          <!-- Chart column -->
+          <div class="rates__right-content">
+            <div class="rates__chart-header">
+              <img
+                id="selected-flag"
+                src=""
+                alt=""
+                class="rates__table-flag"
+                style="width: 40px; height: 30px; display: none;"
+                onerror="this.style.display='none'"
+              />
+              <h2 class="i-24-600" style="display: flex; align-items: center; gap: 10px">
+                <span id="selected-currency"></span> - <span id="selected-type-label">Kupovni</span>
+              </h2>
+            </div>
+            <div class="rates__interval-buttons">
+              <button class="rates__interval-button rates__interval-button--active" data-type="buy">
+                BUY
+              </button>
+              <button class="rates__interval-button" data-type="sell"> SELL </button>
+            </div>
+            <div class="rates__chart-loading" id="chart-loading" style="display: none;">
+              <div class="loader"></div>
+            </div>
+            <canvas id="rates-chart" class="rates__chart"></canvas>
+            <div class="rates__interval-buttons">
+              <button
+                class="rates__interval-button rates__interval-button--active"
+                data-interval="day"
+              >
+                Day
+              </button>
+              <button class="rates__interval-button" data-interval="week"> Week </button>
+              <button class="rates__interval-button" data-interval="month"> Month </button>
+              <button class="rates__interval-button" data-interval="year"> Year </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { Chart, registerables } from 'chart.js';
+  import { fetchHistory } from '../ts/API/useRatesHistory';
+
+  Chart.register(...registerables);
+
+  let chartInstance: Chart | null = null;
+  let selectedCurrency = '';
+  let selectedType: 'buy' | 'sell' = 'buy';
+  let selectedInterval: 'day' | 'week' | 'month' | 'year' = 'day';
+  let detailsOpen = false;
+  let isMobile = false;
+
+  const updateIsMobile = () => {
+    isMobile = window.innerWidth <= 1024;
+  };
+
+  const handleRowClick = (
+    currency: string,
+    buyRate: number,
+    sellRate: number,
+    currencyImage: string
+  ) => {
+    selectedCurrency = currency;
+
+    // Update header
+    const currencyEl = document.getElementById('selected-currency');
+    const flagEl = document.getElementById('selected-flag') as HTMLImageElement;
+
+    if (currencyEl) currencyEl.textContent = currency;
+    if (flagEl && currencyImage) {
+      flagEl.src = currencyImage;
+      flagEl.alt = currency;
+      flagEl.style.display = 'block';
+    }
+
+    // Highlight selected row
+    document.querySelectorAll('.rates__table-row').forEach((row) => {
+      row.classList.remove('rates__table-row--selected');
+    });
+    document
+      .querySelector(`[data-currency="${currency}"]`)
+      ?.classList.add('rates__table-row--selected');
+
+    if (isMobile) {
+      detailsOpen = true;
+      document.querySelector('.rates')?.classList.add('rates--details-open');
+      const backBtn = document.getElementById('back-btn');
+      if (backBtn) backBtn.style.display = 'block';
+    }
+
+    fetchAndRenderChart();
+  };
+
+  const handleBack = () => {
+    detailsOpen = false;
+    document.querySelector('.rates')?.classList.remove('rates--details-open');
+    const backBtn = document.getElementById('back-btn');
+    if (backBtn) backBtn.style.display = 'none';
+  };
+
+  const handleTypeChange = (type: 'buy' | 'sell') => {
+    selectedType = type;
+
+    // Update active button
+    document.querySelectorAll('[data-type]').forEach((btn) => {
+      btn.classList.toggle(
+        'rates__interval-button--active',
+        btn.getAttribute('data-type') === type
+      );
+    });
+
+    // Update label
+    const label = document.getElementById('selected-type-label');
+    if (label) label.textContent = type === 'buy' ? 'Kupovni' : 'Prodajni';
+
+    fetchAndRenderChart();
+  };
+
+  const handleIntervalChange = (interval: 'day' | 'week' | 'month' | 'year') => {
+    selectedInterval = interval;
+
+    // Update active button
+    document.querySelectorAll('[data-interval]').forEach((btn) => {
+      btn.classList.toggle(
+        'rates__interval-button--active',
+        btn.getAttribute('data-interval') === interval
+      );
+    });
+
+    fetchAndRenderChart();
+  };
+
+  const fetchAndRenderChart = async () => {
+    if (!selectedCurrency) return;
+
+    const loadingEl = document.getElementById('chart-loading');
+    if (loadingEl) loadingEl.style.display = 'flex';
+
+    try {
+      const history = await fetchHistory(selectedCurrency, selectedInterval);
+      renderChart(history);
+    } catch (error) {
+      console.error('Error fetching history:', error);
+    } finally {
+      if (loadingEl) loadingEl.style.display = 'none';
+    }
+  };
+
+  const renderChart = (history: any[]) => {
+    const canvas = document.getElementById('rates-chart') as HTMLCanvasElement;
+    if (!canvas || !history.length) return;
+
+    const labels = history.map((entry) => entry.recorded_at.replace('T', ' ').substring(0, 16));
+    const data = history.map((entry) => (selectedType === 'buy' ? entry.buyRate : entry.sellRate));
+
+    const minY = Math.min(...data);
+    const maxY = Math.max(...data);
+    const padding = Math.max((maxY - minY) * 0.1, 0.5);
+
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            data,
+            borderColor: '#e0a501',
+            backgroundColor: 'rgba(224, 165, 1, 0.1)',
+            tension: 0.4,
+            pointRadius: 0,
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            display: false,
+            min: minY - padding,
+            max: maxY + padding,
+          },
+          x: { display: false },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            intersect: false,
+            mode: 'index',
+            callbacks: {
+              label: function (context: any) {
+                return `Kurs: ${context.parsed.y?.toFixed(2) || 'N/A'}`;
+              },
+              title: function (context: any) {
+                const isoString = context[0].label.replace(' ', 'T') + 'Z';
+                const date = new Date(isoString);
+                const serbianTime = new Intl.DateTimeFormat('sr-RS', {
+                  timeZone: 'Europe/Belgrade',
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                }).format(date);
+                return `Vreme: ${serbianTime}`;
+              },
+            },
+          },
+        },
+      },
+    });
+  };
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+
+    // Set first currency as selected
+    const firstRow = document.querySelector('.rates__table-row');
+    if (firstRow) {
+      const currency = firstRow.getAttribute('data-currency') || '';
+      const buyRate = parseFloat(firstRow.getAttribute('data-buy-rate') || '0');
+      const sellRate = parseFloat(firstRow.getAttribute('data-sell-rate') || '0');
+      const currencyImage = firstRow.getAttribute('data-currency-image') || '';
+      handleRowClick(currency, buyRate, sellRate, currencyImage);
+    }
+
+    // Add event listeners
+    document.querySelectorAll('.rates__table-row').forEach((row) => {
+      row.addEventListener('click', () => {
+        const currency = row.getAttribute('data-currency') || '';
+        const buyRate = parseFloat(row.getAttribute('data-buy-rate') || '0');
+        const sellRate = parseFloat(row.getAttribute('data-sell-rate') || '0');
+        const currencyImage = row.getAttribute('data-currency-image') || '';
+        handleRowClick(currency, buyRate, sellRate, currencyImage);
+      });
+    });
+
+    document.getElementById('back-btn')?.addEventListener('click', handleBack);
+
+    document.querySelectorAll('[data-type]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const type = btn.getAttribute('data-type') as 'buy' | 'sell';
+        handleTypeChange(type);
+      });
+    });
+
+    document.querySelectorAll('[data-interval]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const interval = btn.getAttribute('data-interval') as 'day' | 'week' | 'month' | 'year';
+        handleIntervalChange(interval);
+      });
+    });
+  });
+</script>

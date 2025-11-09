@@ -1,0 +1,108 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+@use "sass:map";
+@use "sass:list";
+@use "sass:meta";
+
+// --------------------------------------------
+// FONT FACE
+// --------------------------------------------
+
+@font-face {
+    font-family: "Raleway";
+    src: url("/src/fonts/Raleway.ttf") format("truetype");
+    font-weight: 200 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+// --------------------------------------------
+// MIXIN
+// --------------------------------------------
+
+@mixin font-style($family, $size, $weight, $line-height, $letter-spacing: null) {
+    $font-families: (
+        "rw": "Raleway"
+    );
+
+$font-family: map.get($font-families, $family);
+
+font-family: $font-family;
+font-size: #{$size}px;
+font-weight: $weight;
+line-height: calc(#{$line-height} / #{$size});
+
+@if $letter-spacing !=null {
+    letter-spacing: $letter-spacing;
+}
+
+@include mq(1921, min) {
+    font-size: calc(#{$size} * 100 / 1920 * 1vw);
+}
+}
+
+// --------------------------------------------
+// FONT STYLES MAP
+// --------------------------------------------
+
+$font-variants: (
+    // Font Weight 800
+    "rw-200-800": ("rw", 200, 800, 220, null, ($lap-small: 144, $tablet: 144, $phone: 96)),
+
+    // Font Weight 700
+    "rw-16-700": ("rw", 16, 700, 24, null, ($lap-small: 14, $tablet: 14, $phone: 12)),
+
+    // Font Weight 600
+    "rw-78-600": ("rw", 78, 600, 82, null, ($lap-small: 48, $tablet: 48, $phone: 32)),
+    "rw-48-600": ("rw", 48, 600, 56, null, ($lap-small: 36, $tablet: 36, $phone: 24)),
+    "rw-36-600": ("rw", 36, 600, 44, null, ($lap-small: 28, $tablet: 28, $phone: 20)),
+    "rw-24-600": ("rw", 24, 600, 32, null, ($lap-small: 20, $tablet: 20, $phone: 16)),
+    "rw-20-600": ("rw", 20, 600, 28, null, ($lap-small: 18, $tablet: 18, $phone: 14)),
+    "rw-16-600": ("rw", 16, 600, 24, null, ($lap-small: 14, $tablet: 14, $phone: 12)),
+
+    // Font Weight 500
+    "rw-54-500": ("rw", 54, 500, 56, null, ($lap-small: 36, $tablet: 36, $phone: 24)),
+    "rw-32-500": ("rw", 32, 500, 40, null, ($lap-small: 28, $tablet: 28, $phone: 20)),
+    "rw-24-500": ("rw", 24, 500, 32, null, ($lap-small: 20, $tablet: 20, $phone: 16)),
+    "rw-20-500": ("rw", 20, 500, 28, null, ($lap-small: 18, $tablet: 18, $phone: 14)),
+    "rw-16-500": ("rw", 16, 500, 24, null, ($lap-small: 14, $tablet: 14, $phone: 12)),
+    "rw-14-500": ("rw", 14, 500, 20, null, ($lap-small: 12, $tablet: 12, $phone: 10)),
+
+    // Font Weight 400
+    "rw-18-400": ("rw", 18, 400, 28, null, ($lap-small: 16, $tablet: 16, $phone: 14)),
+    "rw-16-400": ("rw", 16, 400, 24, null, ($lap-small: 14, $tablet: 14, $phone: 12)),
+);
+
+// --------------------------------------------
+// CLASS GENERATOR
+// --------------------------------------------
+
+@each $class, $vals in $font-variants {
+    $family: list.nth($vals, 1);
+    $size: list.nth($vals, 2);
+    $weight: list.nth($vals, 3);
+    $line-height: list.nth($vals, 4);
+    $letter-spacing: if(list.length($vals) >=5 and list.nth($vals, 5) !=null, list.nth($vals, 5), null);
+    $responsive-map: if(list.length($vals) >=6, list.nth($vals, 6), null);
+
+    .#{$class} {
+        @include font-style($family, $size, $weight, $line-height, $letter-spacing);
+
+        @if $responsive-map !=null and meta.type-of($responsive-map)=="map" {
+            @each $breakpoint-var, $responsive-font-size in $responsive-map {
+
+                @include mq($breakpoint-var) {
+                    font-size: #{$responsive-font-size}px;
+                }
+            }
+        }
+    }
+}
+
+section h1,
+article h1,
+aside h1,
+nav h1 {
+    font-size: initial;
+}

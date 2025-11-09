@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/layout.astro';
+import RatesTable from '../components/rates-table.astro';
+import { fetchRates } from '../ts/API/useRates';
+
+const pageData = {
+  title: 'Kursna lista',
+  description: 'Pregled trenutnih kurseva valuta u menjačnici Genes.',
+};
+
+// Fetch all rates
+const { rates, lastUpdate } = await fetchRates();
+---
+
+<Layout
+  title={pageData.title + ' - Menjačnica Genes'}
+  description={pageData.description}
+  ogImage="/images/HeroBanner.webp"
+>
+  <main class="exchange-rates">
+    <RatesTable rates={rates} lastUpdate={lastUpdate} />
+  </main>
+</Layout>

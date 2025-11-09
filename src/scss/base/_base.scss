@@ -1,0 +1,104 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+body {
+    background-color: $black;
+}
+
+// * {
+//     border: 1px solid red;
+// }
+
+.container {
+    margin: 0 8%;
+
+    @include mq (768) {
+        margin: 0 5%;
+    }
+}
+
+.container11 {
+    margin: 0 11%;
+
+    @include mq (768) {
+        margin: 0 5%;
+    }
+}
+
+.container15 {
+    margin: 0 15%;
+
+    @include mq (768) {
+        margin: 0 5%;
+    }
+}
+
+.btn-primary {
+    padding: 12px 20px;
+    background-color: $gold;
+    color: $white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    box-shadow: 0 0 15px rgba($gold, 0.5);
+    opacity: 0;
+    transform: translateY(60px);
+    border: 1px solid transparent;
+    animation: slideInLeft 1s ease-out 0.8s forwards;
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    svg {
+        width: 30px;
+        height: 30px;
+        transition: all 0.3s ease;
+
+        circle,
+        polygon {
+            transition: all 0.3s ease;
+        }
+    }
+
+    &:hover {
+        background-color: $dark-grey;
+        transform: scale(1.05);
+        color: $gold;
+        border: 1px solid $gold;
+        box-shadow: 0 0 20px rgba($gold, 0.8);
+
+        svg {
+            transform: translate(5px);
+
+            circle,
+            polygon {
+                stroke: $gold;
+            }
+        }
+    }
+
+    @include mq (768) {
+        padding: 10px 20px;
+
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}

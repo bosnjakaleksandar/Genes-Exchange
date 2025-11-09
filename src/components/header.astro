@@ -1,0 +1,70 @@
+---
+export interface Props {
+  lang?: 'sr' | 'en';
+}
+
+const { lang = 'sr' } = Astro.props;
+
+const translations = {
+  sr: {
+    home: 'Početna',
+    list: 'Kursna lista',
+  },
+  en: {
+    home: 'Home',
+    list: 'Exchange rates',
+  },
+};
+
+const t = translations[lang];
+---
+
+<header class="header">
+  <div class="header__container">
+    <a class="header__logo" href={lang === 'en' ? '/en' : '/'}
+      ><img src="/images/genesLogo.png" alt="genesLogo" /></a
+    >
+    <nav class="header__nav">
+      <ul class="header__list">
+        <li class="header__item">
+          <a href={lang === 'en' ? '/en' : '/'} class="header__link rw-24-500">{t.home}</a>
+        </li>
+        <li class="header__item">
+          <a
+            href={lang === 'en' ? '/en/exchange-rates' : '/kursna-lista'}
+            class="header__link rw-24-500">{t.list}</a
+          >
+        </li>
+        <div class="header__lang">
+          <div class="custom-select">
+            <div class="custom-select__trigger">
+              <img
+                src={lang === 'en' ? '/images/english.png' : '/images/serbia.png'}
+                alt={lang === 'en' ? 'english' : 'serbia'}
+                class="custom-select__flag"
+              />
+              <span class="custom-select__arrow" data-svg="caret-down"></span>
+            </div>
+            <div class="custom-select__options">
+              <div class="custom-select__option" data-value="sr">
+                <span class={lang === 'sr' ? 'rw-16-500 custom-select__disabled' : 'rw-16-500'}>
+                  <img src="/images/serbia.png" alt="serbia" /> SRB
+                </span>
+              </div>
+              <div class="custom-select__option" data-value="en">
+                <span class={lang === 'en' ? 'rw-16-500 custom-select__disabled' : 'rw-16-500'}>
+                  <img src="/images/english.png" alt="english" /> ENG
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ul>
+    </nav>
+    <div class="burger" role="button" aria-label="Toggle navigation menu" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</header>

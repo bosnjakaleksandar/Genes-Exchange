@@ -1,0 +1,164 @@
+---
+import Header from '../components/header.astro';
+import Footer from '../components/footer.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  lang?: 'sr' | 'en';
+  canonicalURL?: string;
+  ogImage?: string;
+  isErrorPage?: boolean;
+}
+
+const {
+  title,
+  description = 'Najpopularniji košarkaški podcast u Srbiji i regionu',
+  lang = 'sr',
+  canonicalURL,
+  ogImage,
+  isErrorPage = false,
+} = Astro.props;
+
+const baseURL = 'https://pricesaparketa.netlify.app';
+const currentCanonicalURL = canonicalURL || new URL(Astro.url.pathname, baseURL).href;
+
+const currentPath = Astro.url.pathname;
+const srURL = currentPath.startsWith('/en/')
+  ? new URL(currentPath.replace('/en/', '/'), baseURL).href
+  : new URL(currentPath, baseURL).href;
+
+const hasEnglishVersion =
+  currentPath === '/' || currentPath === '/evroliga' || currentPath.startsWith('/en/');
+const enURL = currentPath.startsWith('/en/')
+  ? new URL(currentPath, baseURL).href
+  : hasEnglishVersion && currentPath === '/'
+    ? new URL('/en/', baseURL).href
+    : hasEnglishVersion && currentPath === '/evroliga'
+      ? new URL('/en/euroleague', baseURL).href
+      : null;
+
+// Open Graph Image
+const defaultOgImage = `${baseURL}/images/HeroBanner.webp`;
+const ogImageURL = ogImage ? `${baseURL}${ogImage}` : defaultOgImage;
+
+// Structured Data
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Priče sa Parketa',
+  url: baseURL,
+  logo: `${baseURL}/favicon.png`,
+  description: 'Najpopularniji košarkaški podcast u Srbiji i regionu',
+  sameAs: ['https://www.youtube.com/@Pričesaparketa1', 'https://www.instagram.com/pricesaparketa/'],
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Priče sa Parketa',
+  url: baseURL,
+  description: 'Najpopularniji košarkaški podcast u Srbiji i regionu',
+  inLanguage: [lang],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+    <!-- Google tag (gtag.js) - Load async -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYY5MK66MW"></script>
+    <script is:inline>
+      if (typeof window !== 'undefined') {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-FYY5MK66MW');
+      }
+    </script>
+
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="košarka, podcast, Evroliga, ABA liga, Crvena zvezda, Partizan, Aleksandar Babić, košarkaški podcast Srbija, košarkaški savez srbije, srbija, balkan, kls, košarkaška liga srbije, juniori, kadeti, pioniri, mlađe kategorije, košarkaški turniri, košarkaški kampovi, košarkaški treneri, košarkaški sudije, košarkaški savezi, košarkaški klubovi"
+    />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-icon-180x180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicons/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
+    <link rel="manifest" href="/favicons/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/favicons/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#0b0b0b" />
+    <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+    <!-- SEO Tags -->
+    <link rel="canonical" href={currentCanonicalURL} />
+    <link rel="alternate" hreflang="sr" href={srURL} />
+    {enURL && <link rel="alternate" hreflang="en" href={enURL} />}
+    <link rel="alternate" hreflang="x-default" href={srURL} />
+
+    <meta property="og:url" content={currentCanonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1080" />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="Priče sa Parketa" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:image:alt" content={title} />
+
+    <!-- Author -->
+    <meta name="author" content="Priče sa Parketa" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
+    <title>{title}</title>
+
+    <!-- Additional head content -->
+    <slot name="head" />
+  </head>
+  <body class={isErrorPage ? 'error-page-body' : ''}>
+    <Header lang={lang} />
+
+    <slot />
+
+    <Footer lang={lang} />
+
+    <script>
+      import '../main.ts';
+    </script>
+  </body>
+</html>

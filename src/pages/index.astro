@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/layout.astro';
+import Hero from '../components/hero.astro';
+import Info from '../components/info.astro';
+import { fetchRates } from '../ts/API/useRates';
+
+const pageData = {
+  title: 'Početna',
+  hero: {
+    title: 'Menjačnica Genes',
+    description: 'Vaš pouzdan partner za razmenu valuta i finansijske usluge.',
+    buttonText: 'Kursna lista',
+    buttonLink: '/kursna-lista',
+    buttonIcon: 'arrow-right',
+  },
+};
+
+// Fetch EUR rate
+const { rates, lastUpdate } = await fetchRates();
+const eurRate = rates.find((rate) => rate.currency === 'EUR');
+---
+
+<Layout
+  title={pageData.title + ' - Menjačnica Genes'}
+  description={pageData.hero.description}
+  ogImage="/images/HeroBanner.webp"
+>
+  <main class="homepage">
+    <Hero
+      title={pageData.hero.title}
+      description={pageData.hero.description}
+      buttonText={pageData.hero.buttonText}
+      buttonHref={pageData.hero.buttonLink}
+      buttonIcon={pageData.hero.buttonIcon}
+      eurRate={eurRate}
+      lastUpdate={lastUpdate}
+    />
+    <Info
+      title="Menjački poslovi"
+      description="Nudimo otkup, prodaju i konverziju efektivnog stranog novca, uz mogućnost ugovaranja stimulativnog kursa za veće transakcije."
+      imageSrc="/images/money-exchange.webp"
+      imageAlt="money-exchange"
+      reverse={false}
+    />
+    <Info
+      title="Platni promet"
+      description="Usluge platnog prometa (Uplata računa, komunalija, osiguranja, pazara...) vršimo u saradnji sa Payspot-om. A za precizne informacije o naknadama posetite Payspot web stranicu."
+      imageSrc="/images/payspot-invoices.webp"
+      imageAlt="payspot-invoices"
+      reverse={true}
+      buttons={[
+        {
+          text: 'Posetite Payspot',
+          href: 'https://www.payspot.rs/',
+          target: '_blank',
+          icon: 'arrow-right',
+        },
+        {
+          text: 'Kalkulator naknada',
+          href: 'https://www.payspot.rs/kalkulator',
+          target: '_blank',
+          icon: 'arrow-right',
+        },
+      ]}
+    />
+    <Info
+      title="Drzavna lutrija srbije"
+      description="Uplatite svoj listić za Loto ili Bingo, ogrebite srećku ili učestvujte u nekoj od igara Državne lutrije Srbije. Možda ste baš vi sledeći dobitnik! Samo za lica starija od 18 godina."
+      imageSrc="/images/lutrija.webp"
+      imageAlt="lutrija"
+      reverse={false}
+    />
+  </main>
+</Layout>

@@ -1,0 +1,88 @@
+@use '../base' as *;
+
+.info {
+
+    @include mq (1024) {
+        margin-bottom: 70px;
+    }
+
+    .info__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5% 5%;
+        color: $white;
+
+        &--reverse {
+            flex-direction: row-reverse;
+        }
+
+        @include mq (1024) {
+            flex-direction: column-reverse;
+            align-items: flex-start;
+        }
+    }
+
+    .info__content {
+        max-width: 700px;
+
+        .info__title {
+            margin-bottom: 50px;
+
+            @include mq (1024) {
+                margin-bottom: 35px;
+            }
+        }
+    }
+
+    .info__image {
+        max-width: 800px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba($gold, 0.8);
+
+        img {
+            border-radius: 12px;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+        }
+
+        @include mq (1024) {
+            margin-bottom: 50px;
+            max-width: 100%;
+        }
+    }
+
+    .info__buttons {
+        margin-top: 35px;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+
+        @include mq (640) {
+            gap: 15px;
+
+            .info__button {
+                font-size: 13px;
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+
+        @include mq (420) {
+            .info__button {
+                font-size: 11px;
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+        }
+    }
+}

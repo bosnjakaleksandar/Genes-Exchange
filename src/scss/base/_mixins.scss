@@ -1,0 +1,12 @@
+@mixin mq($value, $constraint: max, $feature: width) {
+    @media screen and (#{$constraint}-#{$feature}: #{$value}px) {
+        @content;
+    }
+}
+
+@mixin font-smoothing($val: antialiased) {
+    -webkit-font-smoothing: $val;
+    -moz-font-smoothing: $val;
+    -ms-font-smoothing: $val;
+    -o-font-smoothing: $val;
+}
