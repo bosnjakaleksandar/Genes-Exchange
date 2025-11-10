@@ -69,23 +69,6 @@ const websiteSchema = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Preload critical resources -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-
-    <!-- Google tag (gtag.js) - Load async -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYY5MK66MW"></script>
-    <script is:inline>
-      if (typeof window !== 'undefined') {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'G-FYY5MK66MW');
-      }
-    </script>
-
     <meta name="description" content={description} />
     <meta
       name="keywords"
