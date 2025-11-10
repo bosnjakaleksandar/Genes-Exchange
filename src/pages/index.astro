@@ -18,12 +18,15 @@ const pageData = {
 // Fetch EUR rate
 const { rates, lastUpdate } = await fetchRates();
 const eurRate = rates.find((rate) => rate.currency === 'EUR');
+
+const seoDescription =
+  'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno';
 ---
 
 <Layout
-  title={pageData.title + ' - Menjačnica Genes'}
-  description={pageData.hero.description}
-  ogImage="/images/HeroBanner.webp"
+  title={pageData.title + ' | Menjačnica Genes'}
+  description={seoDescription}
+  ogImage="/images/GenesLogoMeta.webp"
 >
   <main class="homepage">
     <Hero

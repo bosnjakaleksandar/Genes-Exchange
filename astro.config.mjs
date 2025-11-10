@@ -1,9 +1,25 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://menjacnicagenes.rs',
   output: 'server',
   adapter: netlify(),
+  integrations: [
+    sitemap({
+      changefreq: 'daily',
+      priority: 0.7,
+      lastmod: new Date(),
+      i18n: {
+        defaultLocale: 'sr',
+        locales: {
+          sr: 'sr-RS',
+          en: 'en-US',
+        },
+      },
+    }),
+  ],
 });

@@ -1,0 +1,11 @@
+# robots.txt for Menjačnica Genes
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://menjacnicagenes.rs/sitemap-index.xml
+
+# Crawl-delay
+Crawl-delay: 1

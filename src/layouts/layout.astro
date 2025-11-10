@@ -13,14 +13,14 @@ export interface Props {
 
 const {
   title,
-  description = 'Najpopularniji košarkaški podcast u Srbiji i regionu',
+  description = 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno',
   lang = 'sr',
   canonicalURL,
   ogImage,
   isErrorPage = false,
 } = Astro.props;
 
-const baseURL = 'https://pricesaparketa.netlify.app';
+const baseURL = 'https://menjacnicagenes.rs';
 const currentCanonicalURL = canonicalURL || new URL(Astro.url.pathname, baseURL).href;
 
 const currentPath = Astro.url.pathname;
@@ -29,37 +29,83 @@ const srURL = currentPath.startsWith('/en/')
   : new URL(currentPath, baseURL).href;
 
 const hasEnglishVersion =
-  currentPath === '/' || currentPath === '/evroliga' || currentPath.startsWith('/en/');
+  currentPath === '/' || currentPath === '/kursna-lista' || currentPath.startsWith('/en/');
 const enURL = currentPath.startsWith('/en/')
   ? new URL(currentPath, baseURL).href
   : hasEnglishVersion && currentPath === '/'
     ? new URL('/en/', baseURL).href
-    : hasEnglishVersion && currentPath === '/evroliga'
-      ? new URL('/en/euroleague', baseURL).href
+    : hasEnglishVersion && currentPath === '/kursna-lista'
+      ? new URL('/en/exchange-rates', baseURL).href
       : null;
 
 // Open Graph Image
-const defaultOgImage = `${baseURL}/images/HeroBanner.webp`;
+const defaultOgImage = `${baseURL}/images/GenesLogoMeta.webp`;
 const ogImageURL = ogImage ? `${baseURL}${ogImage}` : defaultOgImage;
 
 // Structured Data
 const organizationSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Priče sa Parketa',
+  '@type': 'FinancialService',
+  '@id': `${baseURL}/#organization`,
+  name: 'Menjačnica Genes',
+  alternateName: 'Genes Exchange Office',
   url: baseURL,
-  logo: `${baseURL}/favicon.png`,
-  description: 'Najpopularniji košarkaški podcast u Srbiji i regionu',
-  sameAs: ['https://www.youtube.com/@Pričesaparketa1', 'https://www.instagram.com/pricesaparketa/'],
+  logo: `${baseURL}/images/GenesLogo-white.png`,
+  image: `${baseURL}/images/GenesLogoMeta.webp`,
+  description:
+    'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Hajduk Veljkova 11',
+    addressLocality: 'Novi Sad',
+    postalCode: '21000',
+    addressCountry: 'RS',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 45.258443638398376,
+    longitude: 19.82320808465672,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:30',
+      closes: '17:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '08:30',
+      closes: '14:00',
+    },
+  ],
+  priceRange: '$$',
+  currenciesAccepted: 'EUR, USD, CHF, AUD, CAD, GBP, BAM, RSD',
+  paymentAccepted: 'Cash',
+  areaServed: {
+    '@type': 'City',
+    name: 'Novi Sad',
+  },
 };
 
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Priče sa Parketa',
+  '@id': `${baseURL}/#website`,
+  name: 'Menjačnica Genes',
   url: baseURL,
-  description: 'Najpopularniji košarkaški podcast u Srbiji i regionu',
-  inLanguage: [lang],
+  description:
+    'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno',
+  inLanguage: lang,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${baseURL}/kursna-lista?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
 };
 ---
 
@@ -72,9 +118,17 @@ const websiteSchema = {
     <meta name="description" content={description} />
     <meta
       name="keywords"
-      content="košarka, podcast, Evroliga, ABA liga, Crvena zvezda, Partizan, Aleksandar Babić, košarkaški podcast Srbija, košarkaški savez srbije, srbija, balkan, kls, košarkaška liga srbije, juniori, kadeti, pioniri, mlađe kategorije, košarkaški turniri, košarkaški kampovi, košarkaški treneri, košarkaški sudije, košarkaški savezi, košarkaški klubovi"
+      content="menjačnica, menjacnica genes, genes exchange, menjačnica novi sad, kursna lista, kurs evra, kurs dolara, zamena valute, razmena valute, devizna menjačnica, otkup valute, prodaja valute, eur rsd, usd rsd, chf rsd, gbp rsd, povoljni kursevi, najpovoljnija menjačnica, platni promet, payspot, uplata računa, menjačnica srbija, exchange office novi sad, novosadski sajam, sajam, sajmiste, komunalije"
     />
     <meta name="generator" content={Astro.generator} />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png" />
@@ -112,7 +166,8 @@ const websiteSchema = {
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="Priče sa Parketa" />
+    <meta property="og:site_name" content="Menjačnica Genes" />
+    <meta property="og:locale" content={lang === 'sr' ? 'sr_RS' : 'en_US'} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -122,7 +177,7 @@ const websiteSchema = {
     <meta name="twitter:image:alt" content={title} />
 
     <!-- Author -->
-    <meta name="author" content="Priče sa Parketa" />
+    <meta name="author" content="Menjačnica Genes" />
 
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
@@ -130,6 +185,16 @@ const websiteSchema = {
 
     <title>{title}</title>
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9N2QRN6XCT"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-9N2QRN6XCT');
+    </script>
     <!-- Additional head content -->
     <slot name="head" />
   </head>

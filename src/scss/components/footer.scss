@@ -61,6 +61,24 @@
         margin-bottom: 30px;
         color: $white;
 
+        .footer__contact {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+
+            svg {
+                width: 30px;
+                height: 30px;
+
+                path,
+                polyline,
+                line {
+                    stroke: $gold;
+                }
+            }
+        }
+
         .footer__email {
             color: $white;
             transition: all 0.3s ease;
@@ -83,6 +101,25 @@
 
                 &::after {
                     width: 100%;
+                }
+            }
+        }
+
+        .footer__address {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            font-style: normal;
+
+            svg {
+                width: 30px;
+                height: 30px;
+
+                path,
+                circle {
+                    stroke: $gold;
                 }
             }
         }
