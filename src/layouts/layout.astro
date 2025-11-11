@@ -138,7 +138,6 @@ const websiteSchema = {
     />
     <meta name="googlebot" content="index, follow" />
     <meta name="bingbot" content="index, follow" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
     <!-- Favicons -->
@@ -161,6 +160,15 @@ const websiteSchema = {
     <meta name="theme-color" content="#0b0b0b" />
     <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico" />
     <link rel="shortcut icon" href="/favicon.png" />
+
+    <!-- Preload critical font -->
+    <link
+      rel="preload"
+      href="/src/fonts/Raleway.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin="anonymous"
+    />
 
     <!-- Preload critical images for LCP optimization -->
     <link rel="preload" as="image" href="/images/GenesLogo-white.webp" fetchpriority="high" />

@@ -37,9 +37,14 @@ export default defineConfig({
           drop_console: true,
         },
       },
+      cssCodeSplit: false,
+      assetsInlineLimit: 4096,
     },
     ssr: {
       noExternal: ['chart.js'],
     },
+  },
+  experimental: {
+    clientPrerender: true,
   },
 });
