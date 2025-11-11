@@ -16,8 +16,8 @@ const { title, description, lang = 'sr', canonicalURL, ogImage, isErrorPage = fa
 const finalDescription =
   description ||
   (lang === 'en'
-    ? 'Genes Exchange Office – Your trusted partner for currency exchange, bill payments, insurance, utilities. Safe, fast and simple.'
-    : 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno');
+    ? 'Genes Exchange Office – Your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.'
+    : 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.');
 
 const baseURL = 'https://menjacnicagenes.rs';
 const currentCanonicalURL = canonicalURL || new URL(Astro.url.pathname, baseURL).href;
@@ -43,8 +43,8 @@ const ogImageURL = ogImage ? `${baseURL}${ogImage}` : defaultOgImage;
 
 // Structured Data
 const descriptions = {
-  sr: 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno',
-  en: 'Genes Exchange Office – Your trusted partner for currency exchange, bill payments, insurance, utilities. Safe, fast and simple.',
+  sr: 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.',
+  en: 'Genes Exchange Office – Your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.',
 };
 
 // SEO Keywords
@@ -65,7 +65,7 @@ const organizationSchema = {
   name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
   alternateName: 'Genes Exchange Office',
   url: baseURL,
-  logo: `${baseURL}/images/GenesLogo-white.png`,
+  logo: `${baseURL}/images/GenesLogo-white.webp`,
   image: `${baseURL}/images/GenesLogoMeta.webp`,
   description: descriptions[lang],
   inLanguage: lang,
@@ -163,11 +163,11 @@ const websiteSchema = {
     <link rel="shortcut icon" href="/favicon.png" />
 
     <!-- Preload critical images for LCP optimization -->
-    <link rel="preload" as="image" href="/images/GenesLogo-white.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/GenesLogo-white.webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/images/novosadski-sajam.webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/images/stock.webp" fetchpriority="high" />
-    <link rel="preload" as="image" href="/images/serbia.png" fetchpriority="high" />
-    <link rel="preload" as="image" href="/images/english.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/serbia.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/english.webp" fetchpriority="high" />
 
     <!-- SEO Tags -->
     <link rel="canonical" href={currentCanonicalURL} />

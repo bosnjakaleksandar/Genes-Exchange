@@ -1,0 +1,33 @@
+---
+export interface Props {
+  email: string;
+  text?: string;
+  class?: string;
+}
+
+const { email, text = email, class: className } = Astro.props;
+
+const encodedEmail = Buffer.from(email).toString('base64');
+const emailDomain = email.split('@')[1];
+---
+
+<a
+  href={`mailto:${email}`}
+  class={className}
+  data-email={encodedEmail}
+  data-protected="true"
+  title={`Send email to ${email}`}
+  aria-label={`Email: ${email}`}
+  rel="noopener noreferrer"
+  tabindex="0"
+  onclick="
+    if(this.getAttribute('data-protected') === 'true') {
+      event.preventDefault();
+      const encoded = this.getAttribute('data-email');
+      const email = atob(encoded);
+      window.location.href = 'mailto:' + email;
+    }
+  "
+>
+  {text}
+</a>
