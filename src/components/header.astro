@@ -22,7 +22,7 @@ const t = translations[lang];
 <header class="header">
   <div class="header__container">
     <a class="header__logo" href={lang === 'en' ? '/en' : '/'}
-      ><img src="/images/GenesLogo-white.png" alt="genesLogo" /></a
+      ><img src="/images/GenesLogo-white.png" alt="genesLogo" loading="eager" /></a
     >
     <nav class="header__nav">
       <ul class="header__list">
@@ -35,7 +35,7 @@ const t = translations[lang];
             class="header__link rw-24-500">{t.list}</a
           >
         </li>
-        <div class="header__lang">
+        <li class="header__lang">
           <div class="custom-select">
             <div class="custom-select__trigger">
               <img
@@ -58,7 +58,7 @@ const t = translations[lang];
               </div>
             </div>
           </div>
-        </div>
+        </li>
       </ul>
     </nav>
     <div class="burger" role="button" aria-label="Toggle navigation menu" tabindex="0">

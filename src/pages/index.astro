@@ -5,13 +5,15 @@ import Info from '../components/info.astro';
 import { fetchRates } from '../ts/API/useRates';
 
 const pageData = {
-  title: 'Početna',
+  title: 'Menjačnica Genes Novi Sad',
   hero: {
     title: 'Menjačnica Genes',
     description: 'Vaš pouzdan partner za razmenu valuta i finansijske usluge.',
     buttonText: 'Kursna lista',
     buttonLink: '/kursna-lista',
     buttonIcon: 'arrow-right',
+    currency: 'Kurs evra',
+    updateText: 'Poslednji put ažurirano',
   },
 };
 
@@ -24,7 +26,7 @@ const seoDescription =
 ---
 
 <Layout
-  title={pageData.title + ' | Menjačnica Genes'}
+  title={pageData.title}
   description={seoDescription}
   ogImage="/images/GenesLogoMeta.webp"
 >
@@ -35,6 +37,8 @@ const seoDescription =
       buttonText={pageData.hero.buttonText}
       buttonHref={pageData.hero.buttonLink}
       buttonIcon={pageData.hero.buttonIcon}
+      currency={pageData.hero.currency}
+      updateText={pageData.hero.updateText}
       eurRate={eurRate}
       lastUpdate={lastUpdate}
     />
@@ -67,7 +71,7 @@ const seoDescription =
       ]}
     />
     <Info
-      title="Drzavna lutrija srbije"
+      title="Državna Lutrija Srbije"
       description="Uplatite svoj listić za Loto ili Bingo, ogrebite srećku ili učestvujte u nekoj od igara Državne lutrije Srbije. Možda ste baš vi sledeći dobitnik! Samo za lica starija od 18 godina."
       imageSrc="/images/lutrija.webp"
       imageAlt="lutrija"

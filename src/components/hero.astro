@@ -9,6 +9,8 @@ export interface Props {
   buttonIcon?: string;
   eurRate?: CurrencyRate;
   lastUpdate?: string;
+  currency: string;
+  updateText: string;
 }
 
 const {
@@ -17,13 +19,15 @@ const {
   buttonText,
   buttonHref,
   buttonIcon = 'arrow-right',
+  currency,
+  updateText,
   eurRate,
   lastUpdate,
 } = Astro.props;
 ---
 
 <section class="hero">
-  <div class="hero__container">
+  <div class="hero__container container-secondary">
     <div class="hero__content">
       <h1 class="hero__title rw-78-600">
         {title}
@@ -41,10 +45,11 @@ const {
       </a>
     </div>
     <div class="hero__euro-rate">
-      <h2 class="hero__euro-title rw-32-500">Kurs evra</h2>
+      <h2 class="hero__euro-title rw-32-500">{currency}</h2>
       <p class="hero__euro-buy rw-54-500">{eurRate?.buyRate.toFixed(2) || 'loading...'}</p>
       <p class="hero__euro-day rw-16-500">
-        Poslednji put azurirano <br />{lastUpdate || 'loading...'}
+        {updateText}
+        <br />{lastUpdate || 'loading...'}
       </p>
       <p class="hero__euro-sell rw-54-500">{eurRate?.sellRate.toFixed(2) || 'loading...'}</p>
     </div>

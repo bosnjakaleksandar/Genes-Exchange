@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import GenesLogoWhite from '../../public/images/GenesLogo-white.png';
+
 export interface Props {
   lang?: 'sr' | 'en';
 }
@@ -30,7 +33,12 @@ const t = translations[lang];
     <div class="footer__top">
       <div class="footer__content">
         <a class="footer__logo" href={lang === 'en' ? '/en' : '/'}
-          ><img src="/images/GenesLogo-white.png" alt="GenesLogo" /></a
+          ><Image
+            src={GenesLogoWhite}
+            alt="Genes Exchange Office Logo"
+            loading="lazy"
+            decoding="async"
+          /></a
         >
         <div class="footer__info">
           <p class="footer__contact rw-32-500" data-svg="mailbox">{t.contactUs}</p>
@@ -40,6 +48,10 @@ const t = translations[lang];
           <address class="footer__address rw-32-500" data-svg="map-pin">
             Hajduk Veljkova 11, Novi Sad
           </address>
+          <p class="footer__time rw-32-500" data-svg="clock">Radno vreme</p>
+          <time class="rw-20-500">
+            Ponedeljak - Petak 08:30H do 17:00H<br />Subota 08:30H do 14:00H<br />Nedelja ne radna</time
+          >
         </div>
         <ul class="footer__list">
           <li class="footer__item">

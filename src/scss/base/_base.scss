@@ -17,20 +17,8 @@ body {
     }
 }
 
-.container11 {
-    margin: 0 11%;
-
-    @include mq (768) {
-        margin: 0 5%;
-    }
-}
-
-.container15 {
-    margin: 0 15%;
-
-    @include mq (768) {
-        margin: 0 5%;
-    }
+.container-secondary {
+    margin: 0 10%;
 }
 
 .btn-primary {
@@ -52,6 +40,7 @@ body {
     transform: translateY(60px);
     border: 1px solid transparent;
     animation: slideInLeft 1s ease-out 0.8s forwards;
+    text-shadow: 0 1px 3px rgba($black, 0.5);
 
     @keyframes slideInLeft {
         from {

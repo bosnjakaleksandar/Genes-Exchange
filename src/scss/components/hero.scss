@@ -5,10 +5,9 @@
     background-image: url('/images/novosadski-sajam.webp');
     background-size: cover;
     background-position: center;
-    height: 100vh;
-    height: 100dvh;
     width: 100%;
     overflow: hidden;
+    position: relative;
 
     &::before {
         content: '';
@@ -16,15 +15,13 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 100vh;
-        height: 100dvh;
+        height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 1;
     }
 
     .hero__container {
-        height: 100%;
-        margin: 0 10%;
+        padding: 23% 0;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -33,6 +30,10 @@
         @include mq (1024) {
             flex-direction: column;
             justify-content: center;
+        }
+
+        @include mq (640) {
+            padding: 30% 0;
         }
     }
 
@@ -141,26 +142,36 @@
     }
 }
 
-// 4k responsive
-
+// 4K responsive styles
 @media screen and (min-width: 1921px) {
+    .hero {
+        .hero__content {
+            max-width: 41.66667vw;
+        }
 
-    .hero__content {
-        .hero__button {
-            padding: 1.04167vw 1.5625vw;
+        .hero__title {
+            transform: translateX(-3.125vw);
+        }
+
+        .hero__description {
+            margin-top: 1.04167vw;
+            margin-bottom: 1.5625vw;
+            transform: translateX(3.125vw);
+        }
+
+        .hero__euro-rate {
+            padding: 2.08333vw 4.16667vw;
             border-radius: 0.625vw;
-            gap: 0.52083vw;
-            box-shadow: 0 0 0.78125vw rgba($orange, 0.5);
+            backdrop-filter: blur(0.26042vw);
+            transform: translateY(3.125vw);
+            box-shadow: 0 0 1.14583vw rgba($gold, 0.5);
 
-            svg {
-                width: 2.08333vw;
-                height: 2.08333vw;
+            .hero__euro-buy {
+                margin-top: 1.04167vw;
             }
 
-            &:hover {
-                svg {
-                    transform: translate(0.26042vw);
-                }
+            .hero__euro-day {
+                margin: 0.52083vw 0;
             }
         }
     }

@@ -55,7 +55,7 @@ $font-variants: (
 
     // Font Weight 600
     "rw-78-600": ("rw", 78, 600, 82, null, ($lap-small: 48, $tablet: 48, $phone: 32)),
-    "rw-48-600": ("rw", 48, 600, 56, null, ($lap-small: 36, $tablet: 36, $phone: 24)),
+    "rw-48-600": ("rw", 48, 600, 56, null, ($lap-large: 36, $lap-small: 30, $tablet: 30, $phone: 24)),
     "rw-36-600": ("rw", 36, 600, 44, null, ($lap-small: 28, $tablet: 28, $phone: 20)),
     "rw-24-600": ("rw", 24, 600, 32, null, ($lap-small: 20, $tablet: 20, $phone: 16)),
     "rw-20-600": ("rw", 20, 600, 28, null, ($lap-small: 18, $tablet: 18, $phone: 14)),
@@ -64,7 +64,7 @@ $font-variants: (
     // Font Weight 500
     "rw-54-500": ("rw", 54, 500, 56, null, ($lap-small: 36, $tablet: 36, $phone: 24)),
     "rw-32-500": ("rw", 32, 500, 40, null, ($lap-small: 28, $tablet: 28, $phone: 20)),
-    "rw-24-500": ("rw", 24, 500, 32, null, ($lap-small: 20, $tablet: 20, $phone: 16)),
+    "rw-24-500": ("rw", 24, 500, 32, null, ($lap-large: 20, $lap-small: 16, $tablet: 16, $phone: 16)),
     "rw-20-500": ("rw", 20, 500, 28, null, ($lap-small: 18, $tablet: 18, $phone: 14)),
     "rw-16-500": ("rw", 16, 500, 24, null, ($lap-small: 14, $tablet: 14, $phone: 12)),
     "rw-14-500": ("rw", 14, 500, 20, null, ($lap-small: 12, $tablet: 12, $phone: 10)),
