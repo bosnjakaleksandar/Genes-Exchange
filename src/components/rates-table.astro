@@ -52,6 +52,7 @@ const { rates, lastUpdate } = Astro.props;
                           alt={rate.currency}
                           class="rates__table-flag"
                           onerror="this.style.display='none'"
+                          loading="lazy"
                         />
                       )}
                       <span>{rate.currency}</span>
@@ -69,7 +70,13 @@ const { rates, lastUpdate } = Astro.props;
         </div>
 
         <div class="rates__columns-right">
-          <button class="rates__back-btn rw-20-600" id="back-btn" aria-label="Back" style="display: none;" data-svg="arrow-right">
+          <button
+            class="rates__back-btn rw-20-600"
+            id="back-btn"
+            aria-label="Back"
+            style="display: none;"
+            data-svg="arrow-right"
+          >
             Vrati se nazad
           </button>
 
