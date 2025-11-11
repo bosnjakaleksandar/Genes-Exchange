@@ -13,7 +13,6 @@
     backdrop-filter: blur(var(--header-blur));
     -webkit-backdrop-filter: blur(var(--header-blur));
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    contain: layout style paint;
 
     &.scrolled {
         padding: 5px 50px;

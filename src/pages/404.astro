@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/layout.astro';
+---
+
+<Layout
+  title="Stranica nije pronađena 404 - Menjačnica Genes"
+  description="Stranica koju tražite ne postoji ili je premeštena."
+  lang="sr"
+  isErrorPage={true}
+>
+  <section class="error">
+    <div class="error__container container">
+      <h1 class="error__code rw-200-800">404</h1>
+      <h2 class="error__title rw-48-600">Stranica nije pronađena</h2>
+      <p class="error__description rw-32-500">
+        Izgleda da stranica koju tražite ne postoji ili je premeštena.
+      </p>
+      <a href="/" class="error__back-link btn-primary rw-24-500" data-svg="arrow-right">Vrati se na početnu stranu</a>
+    </div>
+  </section>
+</Layout>
