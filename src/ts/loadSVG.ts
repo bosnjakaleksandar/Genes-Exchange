@@ -1,6 +1,7 @@
-const svgIconModules = import.meta.glob("/src/svg/*.svg", {
-  query: "?raw",
-  import: "default",
+const svgIconModules = import.meta.glob('/src/svg/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: false, // Load SVGs on demand, not upfront
 });
 
 async function loadSVG(element: HTMLElement, svgName: string) {
@@ -9,7 +10,7 @@ async function loadSVG(element: HTMLElement, svgName: string) {
   if (svgIconModules[path]) {
     try {
       const svgText = await svgIconModules[path]();
-      element.insertAdjacentHTML("afterbegin", svgText + " ");
+      element.insertAdjacentHTML('afterbegin', svgText + ' ');
     } catch (error) {
       console.error(`Error dynamically importing SVG "${svgName}.svg":`, error);
     }
@@ -19,17 +20,23 @@ async function loadSVG(element: HTMLElement, svgName: string) {
 }
 
 function initSVGLoader() {
-  document.addEventListener("DOMContentLoaded", () => {
-    const svgElements = document.querySelectorAll(
-      "[data-svg]"
-    ) as NodeListOf<HTMLElement>;
-
-    svgElements.forEach((element) => {
-      const svgName = element.getAttribute("data-svg");
-      if (svgName) {
-        loadSVG(element, svgName);
-      }
+  // Use requestIdleCallback if available, otherwise use DOMContentLoaded
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      loadSVGElements();
     });
+  } else {
+    document.addEventListener('DOMContentLoaded', loadSVGElements);
+  }
+}
+
+function loadSVGElements() {
+  const svgElements = document.querySelectorAll('[data-svg]') as NodeListOf<HTMLElement>;
+  svgElements.forEach((element) => {
+    const svgName = element.getAttribute('data-svg');
+    if (svgName) {
+      loadSVG(element, svgName);
+    }
   });
 }
 

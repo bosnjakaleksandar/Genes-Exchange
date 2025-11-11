@@ -22,4 +22,24 @@ export default defineConfig({
       },
     }),
   ],
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['chart.js'],
+          },
+        },
+      },
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+        },
+      },
+    },
+    ssr: {
+      noExternal: ['chart.js'],
+    },
+  },
 });

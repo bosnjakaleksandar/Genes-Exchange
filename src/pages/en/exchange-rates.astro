@@ -1,12 +1,12 @@
 ---
-import Layout from '../layouts/layout.astro';
-import RatesTable from '../components/rates-table.astro';
-import { fetchRates } from '../ts/API/useRates';
+import Layout from '../../layouts/layout.astro';
+import RatesTable from '../../components/rates-table.astro';
+import { fetchRates } from '../../ts/API/useRates';
 
 const pageData = {
-  title: 'Kursna Lista',
+  title: 'Exchange Rates',
   description:
-    'Trenutni kursevi valuta u menjačnici Genes Novi Sad. Kupovni i prodajni kursevi za EUR, USD, CHF, AUD, CAD, GBP i BAM.',
+    'Current currency exchange rates at Genes Exchange Novi Sad. Buy and sell rates for EUR, USD, CHF, AUD, CAD, GBP and BAM.',
 };
 
 // Fetch all rates
@@ -21,16 +21,16 @@ const ratesSchema = {
   lastReviewed: new Date().toISOString(),
   mainEntity: {
     '@type': 'Table',
-    about: 'Kursna lista valuta',
+    about: 'Currency exchange rates',
   },
 };
 ---
 
 <Layout
-  title={pageData.title + ' - Menjačnica Genes'}
+  title={pageData.title + ' - Genes Exchange Office'}
   description={pageData.description}
   ogImage="/images/HeroBanner.webp"
-  lang="sr"
+  lang="en"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(ratesSchema)} />

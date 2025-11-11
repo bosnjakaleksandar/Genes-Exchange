@@ -27,6 +27,8 @@ export function initCustomSelect() {
       '/en/euroleague': '/evroliga',
       '/blog': '/en/blog',
       '/en/blog': '/blog',
+      '/kursna-lista': '/en/exchange-rates',
+      '/en/exchange-rates': '/kursna-lista',
       '/': '/en',
       '/en': '/',
     };
