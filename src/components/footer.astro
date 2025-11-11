@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
 import GenesLogoWhite from '../../public/images/GenesLogo-white.png';
 
 export interface Props {
@@ -49,14 +50,14 @@ const t = translations[lang];
           /></a
         >
         <div class="footer__info">
-          <p class="footer__contact rw-32-500" data-svg="mailbox">{t.contactUs}</p>
+          <p class="footer__contact rw-32-500"><Icon name="mailbox" /> {t.contactUs}</p>
           <a href="mailto:menjacnicagenes@gmail.com" class="footer__email rw-32-500" rel="noopener"
             >menjacnicagenes@gmail.com</a
           >
-          <address class="footer__address rw-32-500" data-svg="map-pin">
-            Hajduk Veljkova 11, Novi Sad
+          <address class="footer__address rw-32-500">
+            <Icon name="map-pin" /> Hajduk Veljkova 11, Novi Sad
           </address>
-          <p class="footer__time rw-32-500" data-svg="clock">{t.timeText}</p>
+          <p class="footer__time rw-32-500"><Icon name="clock" /> {t.timeText}</p>
           <time class="rw-20-500"> {t.timeOne}<br />{t.timeTwo}<br />{t.timeThree}</time>
         </div>
         <ul class="footer__list">

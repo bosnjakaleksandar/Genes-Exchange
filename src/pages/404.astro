@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/layout.astro';
+import Icon from '../components/Icon.astro';
 
 const isEnglish = Astro.url.pathname.startsWith('/en');
 const homeLink = isEnglish ? '/en/' : '/';
@@ -41,8 +42,8 @@ const currentContent = isEnglish ? content.en : content.sr;
       <p class="error__description rw-32-500">
         {currentContent.message}
       </p>
-      <a href={homeLink} class="error__back-link btn-primary rw-24-500" data-svg="arrow-right"
-        >{currentContent.buttonText}</a
+      <a href={homeLink} class="error__back-link btn-primary rw-24-500"
+        >{currentContent.buttonText} <Icon name="arrow-right" /></a
       >
     </div>
   </section>

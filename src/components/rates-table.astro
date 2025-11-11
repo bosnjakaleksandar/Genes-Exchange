@@ -1,5 +1,6 @@
 ---
 import type { CurrencyRate } from '../ts/API/useRates';
+import Icon from './Icon.astro';
 
 export interface Props {
   rates: CurrencyRate[];
@@ -75,9 +76,8 @@ const { rates, lastUpdate } = Astro.props;
             id="back-btn"
             aria-label="Back"
             style="display: none;"
-            data-svg="arrow-right"
           >
-            Vrati se nazad
+            Vrati se nazad <Icon name="arrow-right" />
           </button>
 
           <!-- Chart column -->

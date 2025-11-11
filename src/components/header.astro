@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 export interface Props {
   lang?: 'sr' | 'en';
 }
@@ -51,7 +53,7 @@ const t = translations[lang];
                 loading="eager"
                 decoding="async"
               />
-              <span class="custom-select__arrow" data-svg="caret-down"></span>
+              <span class="custom-select__arrow"><Icon name="caret-down" /></span>
             </div>
             <div class="custom-select__options">
               <div class="custom-select__option" data-value="sr">

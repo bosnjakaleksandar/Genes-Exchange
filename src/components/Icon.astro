@@ -1,0 +1,24 @@
+---
+import arrowRightSvg from '../svg/arrow-right.svg?raw';
+import caretDownSvg from '../svg/caret-down.svg?raw';
+import clockSvg from '../svg/clock.svg?raw';
+import mailboxSvg from '../svg/mailbox.svg?raw';
+import mapPinSvg from '../svg/map-pin.svg?raw';
+
+export interface Props {
+  name: 'arrow-right' | 'caret-down' | 'clock' | 'mailbox' | 'map-pin';
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+
+const svgs = {
+  'arrow-right': arrowRightSvg,
+  'caret-down': caretDownSvg,
+  clock: clockSvg,
+  mailbox: mailboxSvg,
+  'map-pin': mapPinSvg,
+};
+---
+
+<span class={className} set:html={svgs[name]} />

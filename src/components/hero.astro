@@ -1,5 +1,6 @@
 ---
 import type { CurrencyRate } from '../ts/API/useRates';
+import Icon from './Icon.astro';
 
 export interface Props {
   title: string;
@@ -35,13 +36,9 @@ const {
       <p class="hero__description rw-32-500">
         {description}
       </p>
-      <a
-        class="hero__button btn-primary rw-24-500"
-        data-svg={buttonIcon}
-        href={buttonHref}
-        rel="noopener noreferrer"
-      >
+      <a class="hero__button btn-primary rw-24-500" href={buttonHref} rel="noopener noreferrer">
         {buttonText}
+        {buttonIcon && <Icon name={buttonIcon as any} />}
       </a>
     </div>
     <div class="hero__euro-rate">
