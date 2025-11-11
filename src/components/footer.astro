@@ -15,6 +15,10 @@ const translations = {
     contactUs: 'Kontaktirajte nas',
     home: 'Početna',
     list: 'Kursna lista',
+    timeText: 'Radno vreme',
+    timeOne: 'Ponedeljak - Petak 08:30H do 17:00H',
+    timeTwo: 'Subota 08:30H do 14:00H',
+    timeThree: 'Nedelja ne radna',
   },
   en: {
     copyright:
@@ -22,6 +26,10 @@ const translations = {
     contactUs: 'Contact us',
     home: 'Home',
     list: 'Exchange rates',
+    timeText: 'Working hours',
+    timeOne: 'Monday - Friday 08:30 AM to 5:00 PM',
+    timeTwo: 'Saturday 08:30 AM to 2:00 PM',
+    timeThree: 'Sunday closed',
   },
 };
 
@@ -48,10 +56,8 @@ const t = translations[lang];
           <address class="footer__address rw-32-500" data-svg="map-pin">
             Hajduk Veljkova 11, Novi Sad
           </address>
-          <p class="footer__time rw-32-500" data-svg="clock">Radno vreme</p>
-          <time class="rw-20-500">
-            Ponedeljak - Petak 08:30H do 17:00H<br />Subota 08:30H do 14:00H<br />Nedelja ne radna</time
-          >
+          <p class="footer__time rw-32-500" data-svg="clock">{t.timeText}</p>
+          <time class="rw-20-500"> {t.timeOne}<br />{t.timeTwo}<br />{t.timeThree}</time>
         </div>
         <ul class="footer__list">
           <li class="footer__item">

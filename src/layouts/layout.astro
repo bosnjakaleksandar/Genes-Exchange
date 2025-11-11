@@ -11,14 +11,13 @@ export interface Props {
   isErrorPage?: boolean;
 }
 
-const {
-  title,
-  description = 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno',
-  lang = 'sr',
-  canonicalURL,
-  ogImage,
-  isErrorPage = false,
-} = Astro.props;
+const { title, description, lang = 'sr', canonicalURL, ogImage, isErrorPage = false } = Astro.props;
+
+const finalDescription =
+  description ||
+  (lang === 'en'
+    ? 'Genes Exchange – Your trusted partner for currency exchange, bill payments, insurance, utilities. Safe, fast and simple.'
+    : 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno');
 
 const baseURL = 'https://menjacnicagenes.rs';
 const currentCanonicalURL = canonicalURL || new URL(Astro.url.pathname, baseURL).href;
@@ -43,17 +42,33 @@ const defaultOgImage = `${baseURL}/images/GenesLogoMeta.webp`;
 const ogImageURL = ogImage ? `${baseURL}${ogImage}` : defaultOgImage;
 
 // Structured Data
+const descriptions = {
+  sr: 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno',
+  en: 'Genes Exchange – Your trusted partner for currency exchange, bill payments, insurance, utilities. Safe, fast and simple.',
+};
+
+// SEO Keywords
+const keywords = {
+  sr: 'menjačnica, menjacnica genes, genes exchange, menjačnica novi sad, kursna lista, kurs evra, kurs dolara, zamena valute, razmena valute, devizna menjačnica, otkup valute, prodaja valute, eur rsd, usd rsd, chf rsd, gbp rsd, povoljni kursevi, najpovoljnija menjačnica, platni promet, payspot, uplata računa, menjačnica srbija, exchange office novi sad, novosadski sajam, sajam, sajmiste, komunalije',
+  en: 'exchange office, currency exchange, genes exchange, novi sad, exchange rates, euro rate, dollar rate, currency conversion, buy currency, sell currency, eur rsd, usd rsd, chf rsd, gbp rsd, favorable rates, payment transfer, payspot, bill payment, serbia, novosadski sajam, exchange',
+};
+
+const searchUrlTemplate =
+  lang === 'en'
+    ? `${baseURL}/en/exchange-rates?q={search_term_string}`
+    : `${baseURL}/kursna-lista?q={search_term_string}`;
+
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'FinancialService',
   '@id': `${baseURL}/#organization`,
-  name: 'Menjačnica Genes',
+  name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
   alternateName: 'Genes Exchange Office',
   url: baseURL,
   logo: `${baseURL}/images/GenesLogo-white.png`,
   image: `${baseURL}/images/GenesLogoMeta.webp`,
-  description:
-    'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno',
+  description: descriptions[lang],
+  inLanguage: lang,
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Hajduk Veljkova 11',
@@ -93,16 +108,15 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   '@id': `${baseURL}/#website`,
-  name: 'Menjačnica Genes',
+  name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
   url: baseURL,
-  description:
-    'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno',
+  description: descriptions[lang],
   inLanguage: lang,
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: `${baseURL}/kursna-lista?q={search_term_string}`,
+      urlTemplate: searchUrlTemplate,
     },
     'query-input': 'required name=search_term_string',
   },
@@ -115,11 +129,8 @@ const websiteSchema = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta name="description" content={description} />
-    <meta
-      name="keywords"
-      content="menjačnica, menjacnica genes, genes exchange, menjačnica novi sad, kursna lista, kurs evra, kurs dolara, zamena valute, razmena valute, devizna menjačnica, otkup valute, prodaja valute, eur rsd, usd rsd, chf rsd, gbp rsd, povoljni kursevi, najpovoljnija menjačnica, platni promet, payspot, uplata računa, menjačnica srbija, exchange office novi sad, novosadski sajam, sajam, sajmiste, komunalije"
-    />
+    <meta name="description" content={finalDescription} />
+    <meta name="keywords" content={keywords[lang]} />
     <meta name="generator" content={Astro.generator} />
     <meta
       name="robots"
@@ -172,19 +183,19 @@ const websiteSchema = {
     <meta property="og:image:alt" content={title} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="Menjačnica Genes" />
+    <meta property="og:description" content={finalDescription} />
+    <meta property="og:site_name" content={lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange'} />
     <meta property="og:locale" content={lang === 'sr' ? 'sr_RS' : 'en_US'} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={finalDescription} />
     <meta name="twitter:image" content={ogImageURL} />
     <meta name="twitter:image:alt" content={title} />
 
     <!-- Author -->
-    <meta name="author" content="Menjačnica Genes" />
+    <meta name="author" content={lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange'} />
 
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />

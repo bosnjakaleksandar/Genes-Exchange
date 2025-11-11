@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/layout.astro';
+import Hero from '../../components/hero.astro';
+import Info from '../../components/info.astro';
+import { fetchRates } from '../../ts/API/useRates';
+
+const pageData = {
+  title: 'Genes Exchange Office Novi Sad',
+  hero: {
+    title: 'Genes Exchange Office',
+    description: 'Your trusted partner for currency exchange and financial services.',
+    buttonText: 'Exchange Rates',
+    buttonLink: '/en/exchange-rates',
+    buttonIcon: 'arrow-right',
+    currency: 'Euro Rate',
+    updateText: 'Last updated',
+  },
+};
+
+// Fetch EUR rate
+const { rates, lastUpdate } = await fetchRates();
+const eurRate = rates.find((rate) => rate.currency === 'EUR');
+
+const seoDescription =
+  'Genes Exchange – Your trusted partner for currency exchange, bill payments, insurance, utilities. Safe, fast and simple.';
+---
+
+<Layout
+  title={pageData.title}
+  description={seoDescription}
+  ogImage="/images/GenesLogoMeta.webp"
+  lang="en"
+>
+  <main class="homepage">
+    <Hero
+      title={pageData.hero.title}
+      description={pageData.hero.description}
+      buttonText={pageData.hero.buttonText}
+      buttonHref={pageData.hero.buttonLink}
+      buttonIcon={pageData.hero.buttonIcon}
+      currency={pageData.hero.currency}
+      updateText={pageData.hero.updateText}
+      eurRate={eurRate}
+      lastUpdate={lastUpdate}
+    />
+    <Info
+      title="Currency Exchange Services"
+      description="We offer buying, selling and conversion of foreign currency, with the possibility of negotiating favorable rates for larger transactions."
+      imageSrc="/images/money-exchange.webp"
+      imageAlt="money-exchange"
+      reverse={false}
+    />
+    <Info
+      title="Payment Transfer Services"
+      description="We provide payment transfer services (bill payments, utilities, insurance, bills...) in cooperation with Payspot. For precise information about fees, visit the Payspot website."
+      imageSrc="/images/payspot-invoices.webp"
+      imageAlt="payspot-invoices"
+      reverse={true}
+      buttons={[
+        {
+          text: 'Visit Payspot',
+          href: 'https://www.payspot.rs/',
+          target: '_blank',
+          icon: 'arrow-right',
+        },
+        {
+          text: 'Fee Calculator',
+          href: 'https://www.payspot.rs/kalkulator',
+          target: '_blank',
+          icon: 'arrow-right',
+        },
+      ]}
+    />
+    <Info
+      title="Lottery"
+      description="Buy your lottery ticket for Loto or Bingo, scratch a ticket or participate in one of the games of the Serbian Lottery. Maybe you will be the next winner! Only for persons over 18 years of age."
+      imageSrc="/images/lutrija.webp"
+      imageAlt="lutrija"
+      reverse={false}
+    />
+  </main>
+</Layout>
