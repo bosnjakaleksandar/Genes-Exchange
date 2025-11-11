@@ -94,6 +94,11 @@ body {
     @include mq (768) {
         padding: 10px 20px;
 
+        span {
+            width: 25px;
+            height: 25px;
+        }
+
         svg {
             width: 25px;
             height: 25px;
