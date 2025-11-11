@@ -26,19 +26,8 @@ export default defineConfig({
     build: {
       rollupOptions: {
         output: {
-          manualChunks: (id) => {
-            if (id.includes('node_modules')) {
-              if (id.includes('chart.js')) {
-                return 'vendor-charts';
-              }
-              return 'vendor';
-            }
-            if (id.includes('/ts/components/customSelect')) {
-              return 'custom-select';
-            }
-            if (id.includes('/ts/components/ratesTable')) {
-              return 'rates-table';
-            }
+          manualChunks: {
+            vendor: ['chart.js'],
           },
         },
       },
@@ -46,14 +35,10 @@ export default defineConfig({
       terserOptions: {
         compress: {
           drop_console: true,
-          drop_debugger: true,
-          pure_funcs: ['console.log', 'console.info'],
         },
-        mangle: true,
       },
-      cssCodeSplit: true,
+      cssCodeSplit: false,
       assetsInlineLimit: 4096,
-      chunkSizeWarningLimit: 500,
     },
     ssr: {
       noExternal: ['chart.js'],

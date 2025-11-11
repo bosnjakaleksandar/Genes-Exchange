@@ -228,9 +228,7 @@ const websiteSchema = {
       import '../main.ts';
     </script>
 
-    <!-- Google tag (gtag.js) - Deferred loading -->
     <script is:inline>
-      // Defer Google Analytics until page is interactive
       window.addEventListener('load', function () {
         setTimeout(function () {
           var script = document.createElement('script');
@@ -244,7 +242,7 @@ const websiteSchema = {
           }
           gtag('js', new Date());
           gtag('config', 'G-9N2QRN6XCT');
-        }, 1000); // Delay by 1 second after page load
+        }, 1000);
       });
     </script>
   </body>
