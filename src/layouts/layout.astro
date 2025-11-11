@@ -151,6 +151,13 @@ const websiteSchema = {
     <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico" />
     <link rel="shortcut icon" href="/favicon.png" />
 
+    <!-- Preload critical images for LCP optimization -->
+    <link rel="preload" as="image" href="/images/GenesLogo-white.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/novosadski-sajam.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/stock.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/serbia.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/english.png" fetchpriority="high" />
+
     <!-- SEO Tags -->
     <link rel="canonical" href={currentCanonicalURL} />
     <link rel="alternate" hreflang="sr" href={srURL} />

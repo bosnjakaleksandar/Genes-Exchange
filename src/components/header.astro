@@ -22,7 +22,13 @@ const t = translations[lang];
 <header class="header">
   <div class="header__container">
     <a class="header__logo" href={lang === 'en' ? '/en' : '/'}
-      ><img src="/images/GenesLogo-white.png" alt="genesLogo" loading="eager" /></a
+      ><img
+        src="/images/GenesLogo-white.png"
+        alt="genesLogo"
+        loading="eager"
+        fetchpriority="high"
+        decoding="sync"
+      /></a
     >
     <nav class="header__nav">
       <ul class="header__list">
@@ -42,18 +48,20 @@ const t = translations[lang];
                 src={lang === 'en' ? '/images/english.png' : '/images/serbia.png'}
                 alt={lang === 'en' ? 'english' : 'serbia'}
                 class="custom-select__flag"
+                loading="eager"
+                decoding="async"
               />
               <span class="custom-select__arrow" data-svg="caret-down"></span>
             </div>
             <div class="custom-select__options">
               <div class="custom-select__option" data-value="sr">
                 <span class={lang === 'sr' ? 'rw-16-500 custom-select__disabled' : 'rw-16-500'}>
-                  <img src="/images/serbia.png" alt="serbia" /> SRB
+                  <img src="/images/serbia.png" alt="serbia" loading="eager" decoding="async" /> SRB
                 </span>
               </div>
               <div class="custom-select__option" data-value="en">
                 <span class={lang === 'en' ? 'rw-16-500 custom-select__disabled' : 'rw-16-500'}>
-                  <img src="/images/english.png" alt="english" /> ENG
+                  <img src="/images/english.png" alt="english" loading="eager" decoding="async" /> ENG
                 </span>
               </div>
             </div>
