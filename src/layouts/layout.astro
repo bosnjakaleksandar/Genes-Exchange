@@ -138,7 +138,10 @@ const websiteSchema = {
     />
     <meta name="googlebot" content="index, follow" />
     <meta name="bingbot" content="index, follow" />
-    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+    <!-- Resource hints -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png" />
@@ -211,16 +214,6 @@ const websiteSchema = {
 
     <title>{title}</title>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9N2QRN6XCT"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-9N2QRN6XCT');
-    </script>
     <!-- Additional head content -->
     <slot name="head" />
   </head>
@@ -233,6 +226,26 @@ const websiteSchema = {
 
     <script>
       import '../main.ts';
+    </script>
+
+    <!-- Google tag (gtag.js) - Deferred loading -->
+    <script is:inline>
+      // Defer Google Analytics until page is interactive
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-9N2QRN6XCT';
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-9N2QRN6XCT');
+        }, 1000); // Delay by 1 second after page load
+      });
     </script>
   </body>
 </html>
