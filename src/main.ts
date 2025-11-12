@@ -7,4 +7,9 @@ import { initRatesTable } from './ts/components/ratesTable';
 initBurgerMenu();
 initHeaderScrollAnimation();
 initCustomSelect();
-initRatesTable();
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initRatesTable);
+} else {
+  initRatesTable();
+}

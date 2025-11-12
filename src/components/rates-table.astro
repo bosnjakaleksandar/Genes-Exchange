@@ -5,9 +5,32 @@ import Icon from './Icon.astro';
 export interface Props {
   rates: CurrencyRate[];
   lastUpdate: string;
+  lastUpdateText: string;
+  disclaimer: string;
+  buyLabel: string;
+  sellLabel: string;
+  dayLabel: string;
+  weekLabel: string;
+  monthLabel: string;
+  yearLabel: string;
+  backButton: string;
+  currencyLabel: string;
 }
 
-const { rates, lastUpdate } = Astro.props;
+const {
+  rates,
+  lastUpdate,
+  lastUpdateText,
+  disclaimer,
+  buyLabel,
+  sellLabel,
+  dayLabel,
+  weekLabel,
+  monthLabel,
+  yearLabel,
+  backButton,
+  currencyLabel,
+} = Astro.props;
 ---
 
 <section class="rates">
@@ -17,23 +40,49 @@ const { rates, lastUpdate } = Astro.props;
         <h1 class="rates__title rw-48-600"><span>GENES</span>EXCHANGE</h1>
         <div class="rates__top-content">
           <p class="rates__time rw-16-400">
-            Poslednji put ažurirano: <span id="last-update">{lastUpdate || 'Error'}</span>
+            {lastUpdateText}
+            <span id="last-update">{lastUpdate || 'Error'}</span>
           </p>
           <p class="rates__description rw-16-400">
-            Kursevi su informativnog karaktera i podložni su promenama.
+            {disclaimer}
           </p>
         </div>
       </div>
 
       <div class="rates__columns">
         <div class="rates__columns-left">
+          <!-- Skeleton Loader za tabelu -->
+          <div class="rates__skeleton" id="table-skeleton">
+            <div class="rates__skeleton-header">
+              <div class="rates__skeleton-item"></div>
+              <div class="rates__skeleton-item"></div>
+              <div class="rates__skeleton-item"></div>
+            </div>
+            {
+              Array.from({ length: 7 }).map(() => (
+                <div class="rates__skeleton-row">
+                  <div class="rates__skeleton-cell">
+                    <div class="rates__skeleton-flag" />
+                    <div class="rates__skeleton-text" />
+                  </div>
+                  <div class="rates__skeleton-cell">
+                    <div class="rates__skeleton-text rates__skeleton-text--short" />
+                  </div>
+                  <div class="rates__skeleton-cell">
+                    <div class="rates__skeleton-text rates__skeleton-text--short" />
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+
           <!-- Rates table -->
-          <table class="rates__table">
+          <table class="rates__table" id="rates-table" style="display: none;">
             <thead>
               <tr>
-                <th class="rw-16-700">Valuta</th>
-                <th class="rw-16-700">Kupovni</th>
-                <th class="rw-16-700">Prodajni</th>
+                <th class="rw-16-700">{currencyLabel}</th>
+                <th class="rw-16-700">{buyLabel}</th>
+                <th class="rw-16-700">{sellLabel}</th>
               </tr>
             </thead>
             <tbody>
@@ -77,7 +126,7 @@ const { rates, lastUpdate } = Astro.props;
             aria-label="Back"
             style="display: none;"
           >
-            Vrati se nazad <Icon name="arrow-right" />
+            {backButton}<Icon name="arrow-right" />
           </button>
 
           <!-- Chart column -->
@@ -90,31 +139,37 @@ const { rates, lastUpdate } = Astro.props;
                 class="rates__table-flag"
                 style="width: 40px; height: 30px; display: none;"
                 onerror="this.style.display='none'"
+                loading="lazy"
               />
               <h2 class="rw-24-600" style="display: flex; align-items: center; gap: 10px">
-                <span id="selected-currency"></span> - <span id="selected-type-label">Kupovni</span>
+                <span id="selected-currency"></span> - <span id="selected-type-label">{buyLabel}</span>
               </h2>
             </div>
             <div class="rates__interval-buttons">
               <button class="rates__interval-button rates__interval-button--active" data-type="buy">
-                BUY
+                {buyLabel}
               </button>
-              <button class="rates__interval-button" data-type="sell"> SELL </button>
+              <button class="rates__interval-button" data-type="sell">{sellLabel}</button>
             </div>
-            <div class="rates__chart-loading" id="chart-loading" style="display: none;">
-              <div class="loader"></div>
+
+            <!-- Chart Loading -->
+            <div class="rates__chart-wrapper">
+              <div class="rates__chart-loading" id="chart-loading">
+                <div class="loader"></div>
+              </div>
+              <canvas id="rates-chart" class="rates__chart" style="display: none;"></canvas>
             </div>
-            <canvas id="rates-chart" class="rates__chart"></canvas>
+
             <div class="rates__interval-buttons">
               <button
                 class="rates__interval-button rates__interval-button--active"
                 data-interval="day"
               >
-                Day
+                {dayLabel}
               </button>
-              <button class="rates__interval-button" data-interval="week"> Week </button>
-              <button class="rates__interval-button" data-interval="month"> Month </button>
-              <button class="rates__interval-button" data-interval="year"> Year </button>
+              <button class="rates__interval-button" data-interval="week">{weekLabel}</button>
+              <button class="rates__interval-button" data-interval="month">{monthLabel}</button>
+              <button class="rates__interval-button" data-interval="year">{yearLabel}</button>
             </div>
           </div>
         </div>

@@ -10,8 +10,30 @@ let selectedInterval: 'day' | 'week' | 'month' | 'year' = 'day';
 let detailsOpen = false;
 let isMobile = false;
 
+// Skeleton loader state
+let dataLoaded = false;
+let minTimeElapsed = false;
+
 const updateIsMobile = () => {
   isMobile = window.innerWidth <= 1024;
+};
+
+const checkAndShowTable = () => {
+  const skeleton = document.getElementById('table-skeleton');
+  const table = document.getElementById('rates-table');
+
+  if (dataLoaded && minTimeElapsed) {
+    if (skeleton && table) {
+      skeleton.style.display = 'none';
+      table.style.display = 'table';
+    }
+  } else {
+    // Skeleton ostaje dok se podaci ne učitaju
+    if (skeleton && table) {
+      skeleton.style.display = '';
+      table.style.display = 'none';
+    }
+  }
 };
 
 const handleRowClick = (
@@ -91,15 +113,30 @@ const fetchAndRenderChart = async () => {
   if (!selectedCurrency) return;
 
   const loadingEl = document.getElementById('chart-loading');
+  const chartEl = document.getElementById('rates-chart');
+
   if (loadingEl) loadingEl.style.display = 'flex';
+  if (chartEl) chartEl.style.display = 'none';
+
+  const startTime = Date.now();
+  const minLoadingTime = 1500;
 
   try {
     const history = await fetchHistory(selectedCurrency, selectedInterval);
+
+    // Osiguraj minimalno vreme za loader
+    const elapsedTime = Date.now() - startTime;
+    const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
+
+    await new Promise((resolve) => setTimeout(resolve, remainingTime));
+
     renderChart(history);
   } catch (error) {
     console.error('Error fetching history:', error);
   } finally {
+    // Sakrij loader i prikaži chart
     if (loadingEl) loadingEl.style.display = 'none';
+    if (chartEl) chartEl.style.display = 'block';
   }
 };
 
@@ -177,6 +214,16 @@ const renderChart = (history: any[]) => {
 export const initRatesTable = () => {
   updateIsMobile();
   window.addEventListener('resize', updateIsMobile);
+
+  // Minimalno vreme za skeleton (1.5 sekunde)
+  setTimeout(() => {
+    minTimeElapsed = true;
+    checkAndShowTable();
+  }, 1500);
+
+  // Označi da su podaci učitani (podaci su već tu jer je Astro server-side renderovao stranicu)
+  dataLoaded = true;
+  checkAndShowTable();
 
   // Set first currency as selected (only on desktop)
   if (!isMobile) {

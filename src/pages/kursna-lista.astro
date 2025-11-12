@@ -36,6 +36,19 @@ const ratesSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(ratesSchema)} />
   </Fragment>
   <main class="exchange-rates">
-    <RatesTable rates={rates} lastUpdate={lastUpdate} />
+    <RatesTable
+      rates={rates}
+      lastUpdate={lastUpdate}
+      lastUpdateText="Poslednji put ažurirano:"
+      disclaimer="Kursevi su informativnog karaktera i podložni su promenama."
+      buyLabel="Kupovni"
+      sellLabel="Prodajni"
+      dayLabel="Danas"
+      weekLabel="Ove nedelje"
+      monthLabel="Ovog meseca"
+      yearLabel="Ove godine"
+      backButton="Vrati se nazad"
+      currencyLabel="Valuta"
+    />
   </main>
 </Layout>

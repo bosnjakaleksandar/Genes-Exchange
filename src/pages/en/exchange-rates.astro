@@ -36,6 +36,19 @@ const ratesSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(ratesSchema)} />
   </Fragment>
   <main class="exchange-rates">
-    <RatesTable rates={rates} lastUpdate={lastUpdate} />
+    <RatesTable
+      rates={rates}
+      lastUpdate={lastUpdate}
+      lastUpdateText="Last updated:"
+      disclaimer="Rates are for informational purposes only and are subject to change."
+      buyLabel="Buy"
+      sellLabel="Sell"
+      dayLabel="Today"
+      weekLabel="This week"
+      monthLabel="This month"
+      yearLabel="This year"
+      backButton="Go back"
+      currencyLabel="Currency"
+    />
   </main>
 </Layout>
