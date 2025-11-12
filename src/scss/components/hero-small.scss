@@ -1,0 +1,39 @@
+@use '../base' as *;
+
+.hero-small {
+    position: relative;
+
+    .hero-small__container {
+        padding: 250px 0;
+
+        @include mq (1024) {
+            padding: 150px 0;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+    }
+
+    .hero-small__background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hero-small__title {
+        color: $white;
+        position: relative;
+        z-index: 3;
+    }
+}

@@ -1,0 +1,16 @@
+---
+export interface Props {
+  title: string;
+  image: string;
+  imageAlt: string;
+}
+
+const { title, image, imageAlt } = Astro.props;
+---
+
+<section class="hero-small">
+  <div class="hero-small__container container-secondary">
+    <h1 class="hero-small__title rw-78-600">{title}</h1>
+    <img src={image} alt={imageAlt} class="hero-small__background" loading="lazy" />
+  </div>
+</section>

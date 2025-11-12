@@ -11,10 +11,12 @@ const translations = {
   sr: {
     home: 'Početna',
     list: 'Kursna lista',
+    faq: 'Česta pitanja',
   },
   en: {
     home: 'Home',
     list: 'Exchange rates',
+    faq: 'FAQ',
   },
 };
 
@@ -41,6 +43,11 @@ const t = translations[lang];
           <a
             href={lang === 'en' ? '/en/exchange-rates' : '/kursna-lista'}
             class="header__link rw-24-500">{t.list}</a
+          >
+        </li>
+        <li class="header__item">
+          <a href={lang === 'en' ? '/en/faq' : '/cesta-pitanja'} class="header__link rw-24-500"
+            >{t.faq}</a
           >
         </li>
         <li class="header__lang">

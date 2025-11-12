@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+
+export interface Props {
+  title: string;
+  questions?: Array<{
+    question: string;
+    answer: string;
+  }>;
+}
+
+const { title } = Astro.props;
+---
+
+<section class="accordion">
+  <div class="accordion__container container-secondary">
+    <h2 class="accordion__title rw-48-600">{title}</h2>
+    {
+      Astro.props.questions?.length ? (
+        <ul class="accordion__list">
+          {Astro.props.questions.map((item, index) => (
+            <li class="accordion__item | js-accordion">
+              <h3 class="accordion__question rw-32-500 | js-accordion-header">
+                {item.question} <Icon name={'plus' as any} />
+              </h3>
+              <div class="js-accordion-body">
+                <p
+                  class="accordion__answer rw-24-400 | js-accordion-body-inner"
+                  set:html={item.answer}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Nema dostupnih pitanja</p>
+      )
+    }
+  </div>
+</section>

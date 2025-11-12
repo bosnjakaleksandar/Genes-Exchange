@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/layout.astro';
+import HeroSmall from '../components/hero-small.astro';
+import Faq from '../components/accordion.astro';
+
+const pageData = {
+  title: 'Menjačnica Genes Novi Sad',
+};
+
+const seoDescription =
+  'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.';
+---
+
+<Layout
+  title={pageData.title}
+  description={seoDescription}
+  ogImage="/images/GenesLogoMeta.webp"
+  lang="sr"
+>
+  <main class="faq">
+    <HeroSmall title="Česta pitanja" image="/images/dollar.webp" imageAlt="Dollar Change" />
+    <Faq
+      title="Najčešće postavljana pitanja"
+      questions={[
+        {
+          question: 'Koje valute menjate?',
+          answer:
+            'Menjamo širok spektar valuta, uključujući EUR, USD, CHF i mnoge druge. Za kompletnu listu valuta i aktuelne kurseve, posetite našu stranicu <a href="/kursna-lista" class="accordion__link";>kursna lista</a>',
+        },
+        {
+          question: 'Koje je radno vreme menjačnice?',
+          answer:
+            'Naša menjačnica radi od ponedeljka do petka od 08:30 do 17:00, subotom od 08:30 do 14:00, dok je nedeljom zatvorena.',
+        },
+        {
+          question: 'Da li naplaćujete proviziju za razmenu valuta?',
+          answer:
+            'Ne, ne naplaćujemo proviziju za razmenu valuta. Naši kursevi su transparentni bez skrivenih troškova.',
+        },
+        {
+          question: 'Da li nudite posebne kurseve za veće iznose?',
+          answer:
+            'Nudimo mogućunost ugovaranja stimulativnih kurseva za veće iznose. Kontaktirajte nas direktno za više informacija.',
+        },
+        {
+          question: 'Da li mogu uplatiti račune ili komunalije kod vas?',
+          answer:
+            'Da, pored menjanja valuta, nudimo i usluge plaćanja računa i komunalija, u saradnji sa PaySpot platnom institucijom.',
+        },
+        {
+          question: 'Koliko traje obrada uplata ili transfera?',
+          answer:
+            'Uplate i transferi se obično obrađuju do sat vremena, ali u nekim slučajevima može potrajati duže u zavisnosti od banke ili platne institucije.',
+        },
+        {
+          question: 'Kolika je provizija za plaćanje računa?',
+          answer:
+            'Iznos provizije uređuje PaySpot platna institucija i može varirati u zavisnosti od iznosa uplate. Za preciznije informacije o proviziji posetite <a href="https://www.payspot.rs/" target="_blank" class="accordion__link"> PaySpot</a> zvanični sajt.',
+        },
+      ]}
+    />
+  </main>
+</Layout>

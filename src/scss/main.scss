@@ -1,10 +1,18 @@
 // BASE
 @use 'base' as *;
 
-// COMPONENTS
+// HEADER AND FOOTER
+
 @use 'components/header';
+@use 'components/footer';
+
+// HERO SECTIONS
 @use 'components/hero';
+@use 'components/hero-small';
+
+// COMPONENTS
+
 @use 'components/rates';
 @use 'components/info';
-@use 'components/footer';
 @use 'components/four-zero-four';
+@use 'components/accordion';
