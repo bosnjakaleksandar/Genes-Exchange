@@ -17,6 +17,7 @@ const translations = {
     contactUs: 'Kontaktirajte nas',
     home: 'Početna',
     list: 'Kursna lista',
+    faq: 'Česta pitanja',
     timeText: 'Radno vreme',
     timeOne: 'Ponedeljak - Petak 08:30H do 17:00H',
     timeTwo: 'Subota 08:30H do 14:00H',
@@ -28,6 +29,7 @@ const translations = {
     contactUs: 'Contact us',
     home: 'Home',
     list: 'Exchange rates',
+    faq: 'FAQ',
     timeText: 'Working hours',
     timeOne: 'Monday - Friday 08:30 AM to 5:00 PM',
     timeTwo: 'Saturday 08:30 AM to 2:00 PM',
@@ -67,6 +69,11 @@ const t = translations[lang];
             <a
               href={lang === 'en' ? '/en/exchange-rates' : '/kursna-lista'}
               class="footer__link rw-24-500">{t.list}</a
+            >
+          </li>
+          <li class="footer__item">
+            <a href={lang === 'en' ? '/en/faq' : '/cesta-pitanja'} class="footer__link rw-24-500"
+              >{t.faq}</a
             >
           </li>
         </ul>

@@ -4,16 +4,14 @@ import { initHeaderScrollAnimation } from './ts/components/header';
 import { initCustomSelect } from './ts/components/customSelect';
 import accordion from './ts/components/accordion';
 
+initCustomSelect();
+
 if (document.querySelector('header')) {
   initBurgerMenu();
 }
 
 if (document.querySelector('header')) {
   initHeaderScrollAnimation();
-}
-
-if (document.querySelector('select')) {
-  initCustomSelect();
 }
 
 if (document.querySelector('.accordion') || document.querySelector('.js-accordion')) {

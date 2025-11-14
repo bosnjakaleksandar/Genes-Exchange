@@ -23,10 +23,8 @@ export function initCustomSelect() {
     });
 
     const slugMap: Record<string, string> = {
-      '/evroliga': '/en/euroleague',
-      '/en/euroleague': '/evroliga',
-      '/blog': '/en/blog',
-      '/en/blog': '/blog',
+      '/cesta-pitanja': '/en/faq',
+      '/en/faq': '/cesta-pitanja',
       '/kursna-lista': '/en/exchange-rates',
       '/en/exchange-rates': '/kursna-lista',
       '/': '/en',

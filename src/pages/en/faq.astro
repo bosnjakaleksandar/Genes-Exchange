@@ -1,0 +1,114 @@
+---
+import Layout from '../../layouts/layout.astro';
+import HeroSmall from '../../components/hero-small.astro';
+import Accordion from '../../components/accordion.astro';
+
+const pageData = {
+  title: 'Frequently asked questions',
+};
+
+const seoDescription =
+  'Frequently asked questions about Genes Exchange Office. Find answers about currency exchange, exchange rates, working hours, and payment services.';
+
+const faqs = [
+  {
+    question: 'What currencies do you exchange?',
+    answer:
+      'We exchange a wide range of currencies, including EUR, USD, CHF and many others. For a complete list of currencies and current exchange rates, visit our exchange rates page.',
+  },
+  {
+    question: 'What are your working hours?',
+    answer:
+      'Our exchange office is open Monday to Friday from 08:30 to 17:00, Saturday from 08:30 to 14:00, and closed on Sundays.',
+  },
+  {
+    question: 'Do you charge a commission for currency exchange?',
+    answer:
+      'No, we do not charge any commission for currency exchange. Our rates are transparent with no hidden fees.',
+  },
+  {
+    question: 'Do you offer special rates for larger amounts?',
+    answer:
+      'Yes, we offer the possibility of negotiating favorable rates for larger amounts. Please contact us directly for more information.',
+  },
+  {
+    question: 'Do you offer bill payment services?',
+    answer:
+      'Yes, in addition to currency exchange, we also offer bill and utility payment services in cooperation with PaySpot payment institution.',
+  },
+  {
+    question: 'How long does it take to process a payment order?',
+    answer:
+      'Payment orders received on business days before 16:30 are processed the same day, while orders received after that time will be processed the next business day.',
+  },
+  {
+    question: 'What is the commission for bill payments?',
+    answer:
+      'The commission amount is determined by PaySpot payment institution and may vary depending on the payment amount. For more precise information about commissions, please visit the PaySpot official website.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+---
+
+<Layout
+  title={'Genes Exchange - ' + pageData.title}
+  description={seoDescription}
+  ogImage="/images/GenesLogoMeta.webp"
+  lang="en"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <main class="faq">
+    <HeroSmall
+      title="Frequently Asked Questions"
+      image="/images/dollar.webp"
+      imageAlt="Dollar Change"
+    />
+    <Accordion
+      title="Most Common Questions"
+      questions={[
+        {
+          question: faqs[0].question,
+          answer:
+            'We exchange a wide range of currencies, including EUR, USD, CHF and many others. For a complete list of currencies and current exchange rates, visit our <a href="/en/exchange-rates" class="accordion__link">exchange rates</a> page.',
+        },
+        {
+          question: faqs[1].question,
+          answer: faqs[1].answer,
+        },
+        {
+          question: faqs[2].question,
+          answer: faqs[2].answer,
+        },
+        {
+          question: faqs[3].question,
+          answer: faqs[3].answer,
+        },
+        {
+          question: faqs[4].question,
+          answer: faqs[4].answer,
+        },
+        {
+          question: faqs[5].question,
+          answer: faqs[5].answer,
+        },
+        {
+          question: faqs[6].question,
+          answer:
+            'The commission amount is determined by PaySpot payment institution and may vary depending on the payment amount. For more precise information about commissions, please visit the <a href="https://www.payspot.rs/" target="_blank" class="accordion__link">PaySpot official website</a>.',
+        },
+      ]}
+    />
+  </main>
+</Layout>
