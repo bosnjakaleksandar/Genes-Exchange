@@ -11,6 +11,9 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
     "astro": "^5.15.4",
+    "astro-compress": "^2.3.8",
+    "astro-compressor": "^1.2.0",
+    "astro-purgecss": "^5.3.0",
     "astro-robots": "^2.3.1",
     "chart.js": "^4.5.1",
     "sass": "^1.93.3"
