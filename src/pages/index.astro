@@ -3,6 +3,9 @@ import Layout from '../layouts/layout.astro';
 import Hero from '../components/hero.astro';
 import Info from '../components/info.astro';
 import { fetchRates } from '../ts/API/useRates';
+import moneyExchange from '../../public/images/money-exchange.webp';
+import payspotInvoices from '../../public/images/payspot-invoices.webp';
+import lutrija from '../../public/images/lutrija.webp';
 
 const pageData = {
   title: 'Menjačnica Genes Novi Sad',
@@ -46,14 +49,14 @@ const seoDescription =
     <Info
       title="Menjački poslovi"
       description="Nudimo otkup, prodaju i konverziju efektivnog stranog novca, uz mogućnost ugovaranja stimulativnog kursa za veće transakcije."
-      imageSrc="/images/money-exchange.webp"
+      imageSrc={moneyExchange}
       imageAlt="money-exchange"
       reverse={false}
     />
     <Info
       title="Platni promet"
       description="Usluge platnog prometa (Uplata računa, komunalija, osiguranja, pazara...) vršimo u saradnji sa Payspot-om. A za precizne informacije o naknadama posetite Payspot web stranicu."
-      imageSrc="/images/payspot-invoices.webp"
+      imageSrc={payspotInvoices}
       imageAlt="payspot-invoices"
       reverse={true}
       buttons={[
@@ -73,8 +76,8 @@ const seoDescription =
     />
     <Info
       title="Državna Lutrija Srbije"
-      description="Uplatite svoj listić za Loto ili Bingo, ogrebite srećku ili učestvujte u nekoj od igara Državne lutrije Srbije. Možda ste baš vi sledeći dobitnik! Samo za lica starija od 18 godina."
-      imageSrc="/images/lutrija.webp"
+      description="Uplatite svoj listić za Loto ili Bingo, ogrebite srećku ili učestvujte u nenoj od igara Državne lutrije Srbije. Možda ste baš vi sledeći dobitnik! Samo za lica starija od 18 godina."
+      imageSrc={lutrija}
       imageAlt="lutrija"
       reverse={false}
     />

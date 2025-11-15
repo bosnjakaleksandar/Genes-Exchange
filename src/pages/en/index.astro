@@ -3,6 +3,9 @@ import Layout from '../../layouts/layout.astro';
 import Hero from '../../components/hero.astro';
 import Info from '../../components/info.astro';
 import { fetchRates } from '../../ts/API/useRates';
+import moneyExchange from '../../../public/images/money-exchange.webp';
+import payspotInvoices from '../../../public/images/payspot-invoices.webp';
+import lutrija from '../../../public/images/lutrija.webp';
 
 const pageData = {
   title: 'Genes Exchange Office Novi Sad',
@@ -46,14 +49,14 @@ const seoDescription =
     <Info
       title="Currency Exchange Services"
       description="We offer buying, selling and conversion of foreign currency, with the possibility of negotiating favorable rates for larger transactions."
-      imageSrc="/images/money-exchange.webp"
+      imageSrc={moneyExchange}
       imageAlt="money-exchange"
       reverse={false}
     />
     <Info
       title="Payment Transfer Services"
       description="We provide payment transfer services (bill payments, utilities, insurance, bills...) in cooperation with Payspot. For precise information about fees, visit the Payspot website."
-      imageSrc="/images/payspot-invoices.webp"
+      imageSrc={payspotInvoices}
       imageAlt="payspot-invoices"
       reverse={true}
       buttons={[
@@ -74,7 +77,7 @@ const seoDescription =
     <Info
       title="Lottery"
       description="Buy your lottery ticket for Loto or Bingo, scratch a ticket or participate in one of the games of the Serbian Lottery. Maybe you will be the next winner! Only for persons over 18 years of age."
-      imageSrc="/images/lutrija.webp"
+      imageSrc={lutrija}
       imageAlt="lutrija"
       reverse={false}
     />
