@@ -5,7 +5,7 @@ import Icon from './Icon.astro';
 export interface Props {
   title: string;
   description: string;
-  imageSrc: string;
+  imageSrc: ImageMetadata;
   imageAlt: string;
   reverse: boolean;
   buttonHref?: string;
@@ -54,8 +54,8 @@ const { title, description, imageSrc, imageAlt } = Astro.props;
       <Image
         src={imageSrc}
         alt={imageAlt}
-        width={900}
-        height={600}
+        widths={[400, 600, 900]}
+        sizes="(max-width: 900px) 100vw, 900px"
         loading="lazy"
         decoding="async"
         quality={85}
