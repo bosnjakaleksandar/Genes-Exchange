@@ -33,6 +33,10 @@
 /_astro/*.woff2
   Cache-Control: public, max-age=31536000, immutable
 
+/_astro/*.css
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
 # No cache for API
 /api/*
   Cache-Control: no-store, no-cache, must-revalidate
