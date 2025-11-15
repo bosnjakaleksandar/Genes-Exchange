@@ -215,6 +215,11 @@ const websiteSchema = {
     <!-- Additional head content -->
     <slot name="head" />
 
+    <!--Styles -->
+    <style is:global>
+      @import '../scss/main.scss';
+    </style>
+
     <!-- Google Analytics - Optimized -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9N2QRN6XCT"></script>
     <script is:inline>
@@ -237,8 +242,6 @@ const websiteSchema = {
 
     <Footer lang={lang} />
 
-    <script>
-      import '../main.ts';
-    </script>
+    <script type="module" src="/src/main.ts" defer></script>
   </body>
 </html>
