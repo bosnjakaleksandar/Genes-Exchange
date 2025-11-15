@@ -215,22 +215,18 @@ const websiteSchema = {
     <!-- Additional head content -->
     <slot name="head" />
 
-    <!-- Google Analytics -->
+    <!-- Google Analytics - Optimized -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9N2QRN6XCT"></script>
     <script is:inline>
-      window.addEventListener('load', function () {
-        setTimeout(function () {
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-9N2QRN6XCT';
-          document.head.appendChild(script);
-
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag('js', new Date());
-          gtag('config', 'G-9N2QRN6XCT');
-        }, 1000);
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-9N2QRN6XCT', {
+        anonymize_ip: true,
+        allow_google_signals: true,
+        allow_ad_personalization_signals: false,
       });
     </script>
   </head>
