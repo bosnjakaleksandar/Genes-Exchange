@@ -178,10 +178,6 @@ const websiteSchema = {
     <link rel="preload" as="image" href="/images/serbia.webp" fetchpriority="high" />
     <link rel="preload" as="image" href="/images/english.webp" fetchpriority="high" />
 
-    <!-- Async CSS loading to prevent render blocking -->
-    <link rel="stylesheet" href="/_astro/styles.css" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="/_astro/styles.css" /></noscript>
-
     <!-- SEO Tags -->
     <link rel="canonical" href={currentCanonicalURL} />
     <link rel="alternate" hreflang="sr" href={srURL} />
