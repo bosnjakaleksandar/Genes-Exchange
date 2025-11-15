@@ -56,9 +56,17 @@ const t = translations[lang];
         <div class="footer__info">
           <p class="footer__contact rw-32-500"><Icon name="mailbox" /> {t.contactUs}</p>
           <ProtectedEmail email="menjacnicagenes@gmail.com" class="footer__email rw-32-500" />
-          <address class="footer__address rw-32-500">
-            <Icon name="map-pin" /> Hajduk Veljkova 11, Novi Sad
-          </address>
+          <a
+            href="https://maps.app.goo.gl/PqkcixPaiKDwYvA6A"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Menjačnica Genes lokacija na Google Maps"
+            class="footer__address-link rw-32-500"
+          >
+            <address class="footer__address rw-32-500">
+              <Icon name="map-pin" /> Hajduk Veljkova 11, Novi Sad
+            </address>
+          </a>
           <p class="footer__time rw-32-500"><Icon name="clock" /> {t.timeText}</p>
           <time class="rw-20-500"> {t.timeOne}<br />{t.timeTwo}<br />{t.timeThree}</time>
         </div>
@@ -79,7 +87,7 @@ const t = translations[lang];
           </li>
         </ul>
       </div>
-      <div class="footer__map">
+      <div class="footer__map" data-lang={lang}>
         <a
           href="https://maps.app.goo.gl/PqkcixPaiKDwYvA6A"
           target="_blank"
