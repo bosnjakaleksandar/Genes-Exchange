@@ -37,11 +37,12 @@ export default defineConfig({
           drop_console: true,
         },
       },
-      cssCodeSplit: false,
+      cssCodeSplit: true,
       assetsInlineLimit: 4096,
     },
     ssr: {
       noExternal: ['chart.js'],
+      external: ['chart.js'],
     },
   },
   experimental: {
