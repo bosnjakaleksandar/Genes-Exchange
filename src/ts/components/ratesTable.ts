@@ -118,6 +118,13 @@ const fetchAndRenderChart = async () => {
   if (loadingEl) loadingEl.style.display = 'flex';
   if (chartEl) chartEl.style.display = 'none';
 
+  // Resetuj skeleton timer jer se novi chart učitava
+  minTimeElapsed = false;
+  setTimeout(() => {
+    minTimeElapsed = true;
+    checkAndShowTable();
+  }, 1500);
+
   const startTime = Date.now();
   const minLoadingTime = 1500;
 
@@ -215,15 +222,17 @@ export const initRatesTable = () => {
   updateIsMobile();
   window.addEventListener('resize', updateIsMobile);
 
-  // Minimalno vreme za skeleton (1.5 sekunde)
-  setTimeout(() => {
-    minTimeElapsed = true;
-    checkAndShowTable();
-  }, 1500);
-
   // Označi da su podaci učitani (podaci su već tu jer je Astro server-side renderovao stranicu)
   dataLoaded = true;
   checkAndShowTable();
+
+  // Postavi minimalno vreme za skeleton - počni nakon što je prvi chart učitan
+  const startSkeletonTimer = () => {
+    setTimeout(() => {
+      minTimeElapsed = true;
+      checkAndShowTable();
+    }, 1500);
+  };
 
   // Set first currency as selected (only on desktop)
   if (!isMobile) {
@@ -233,8 +242,11 @@ export const initRatesTable = () => {
       const buyRate = parseFloat(firstRow.getAttribute('data-buy-rate') || '0');
       const sellRate = parseFloat(firstRow.getAttribute('data-sell-rate') || '0');
       const currencyImage = firstRow.getAttribute('data-currency-image') || '';
+      startSkeletonTimer();
       handleRowClick(currency, buyRate, sellRate, currencyImage);
     }
+  } else {
+    startSkeletonTimer();
   }
 
   // Add event listeners
