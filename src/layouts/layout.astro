@@ -214,18 +214,8 @@ const websiteSchema = {
 
     <!-- Additional head content -->
     <slot name="head" />
-  </head>
-  <body class={isErrorPage ? 'error-page-body' : ''}>
-    <Header lang={lang} />
 
-    <slot />
-
-    <Footer lang={lang} />
-
-    <script>
-      import '../main.ts';
-    </script>
-
+    <!-- Google Analytics -->
     <script is:inline>
       window.addEventListener('load', function () {
         setTimeout(function () {
@@ -242,6 +232,17 @@ const websiteSchema = {
           gtag('config', 'G-9N2QRN6XCT');
         }, 1000);
       });
+    </script>
+  </head>
+  <body class={isErrorPage ? 'error-page-body' : ''}>
+    <Header lang={lang} />
+
+    <slot />
+
+    <Footer lang={lang} />
+
+    <script>
+      import '../main.ts';
     </script>
   </body>
 </html>
