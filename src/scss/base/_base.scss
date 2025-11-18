@@ -119,17 +119,17 @@ body {
 
     .slider-content {
         display: flex;
-        gap: 50px; // razmak između duplikata teksta
+        gap: 50px;
         animation: slideAlt 20s linear infinite;
 
         .important-info {
             white-space: nowrap;
             flex-shrink: 0;
             color: $white;
-            background-color: transparent; // ne treba background jer ga ima wrapper
-            padding: 0; // padding je na wrapperu
-            position: static; // override fiksne pozicije
-            width: auto; // override width 100%
+            background-color: transparent;
+            padding: 0;
+            position: static;
+            width: auto;
             text-shadow:
                 0 1px 3px rgba($black, 0.8),
                 0 2px 6px rgba($black, 0.6),
@@ -148,14 +148,12 @@ body {
     }
 }
 
-// Pauza na hover (opciono)
 .slider-wrapper:hover .slider-content {
     animation-play-state: paused;
 }
 
-// Responsive brzina
 @media (max-width: 768px) {
     .slider-wrapper .slider-content {
-        animation-duration: 15s; // brže na mobilnim uređajima
+        animation-duration: 5s;
     }
 }
