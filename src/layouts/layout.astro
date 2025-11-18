@@ -16,8 +16,8 @@ const { title, description, lang = 'sr', canonicalURL, ogImage, isErrorPage = fa
 const finalDescription =
   description ||
   (lang === 'en'
-    ? 'Genes Exchange Office – Your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.'
-    : 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.');
+    ? 'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.'
+    : 'Menjačnica Genes, vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.');
 
 const baseURL = 'https://menjacnicagenes.rs';
 const currentCanonicalURL = canonicalURL || new URL(Astro.url.pathname, baseURL).href;
@@ -43,8 +43,8 @@ const ogImageURL = ogImage ? `${baseURL}${ogImage}` : defaultOgImage;
 
 // Structured Data
 const descriptions = {
-  sr: 'Menjačnica Genes – Vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.',
-  en: 'Genes Exchange Office – Your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.',
+  sr: 'Menjačnica Genes, vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.',
+  en: 'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.',
 };
 
 // SEO Keywords
@@ -131,6 +131,10 @@ const websiteSchema = {
 
     <meta name="description" content={finalDescription} />
     <meta name="keywords" content={keywords[lang]} />
+    <meta
+      name="search-queries"
+      content="menjacnica, menjačnica, menjacnica novi sad, exchange, menjacnice, placanje racuna, menjacnice novi sad, menjacnica near me, menjačnice, menjacnica rumenacka, mjenjačnica, мењачница, genes, currency exchange, sajam, novosadski sajam"
+    />
     <meta name="generator" content={Astro.generator} />
     <meta
       name="robots"

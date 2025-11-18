@@ -16,7 +16,7 @@ const pageData = {
     buttonLink: '/en/exchange-rates',
     buttonIcon: 'arrow-right',
     currency: 'Euro Rate',
-    updateText: 'Last updated',
+    updateText: 'Last update',
   },
 };
 
@@ -25,7 +25,7 @@ const { rates, lastUpdate } = await fetchRates();
 const eurRate = rates.find((rate) => rate.currency === 'EUR');
 
 const seoDescription =
-  'Genes Exchange Office – Your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.';
+  'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.';
 ---
 
 <Layout
@@ -76,7 +76,7 @@ const seoDescription =
     />
     <Info
       title="Lottery"
-      description="Buy your lottery ticket for Loto or Bingo, scratch a ticket or participate in one of the games of the Serbian Lottery. Maybe you will be the next winner! Only for persons over 18 years of age."
+      description="Buy your lottery ticket for Loto or Bingo, scratch a ticket or participate in one of the games of the Serbian Lottery. Maybe you will be the next winner! Only for persons over 18 years old."
       imageSrc={lutrija}
       imageAlt="lutrija"
       reverse={false}
