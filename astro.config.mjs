@@ -39,6 +39,9 @@ export default defineConfig({
         compress: {
           drop_console: true,
         },
+        format: {
+          comments: false,
+        },
       },
       cssCodeSplit: true,
       assetsInlineLimit: 0,
