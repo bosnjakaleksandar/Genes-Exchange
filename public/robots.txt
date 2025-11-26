@@ -3,9 +3,20 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /*.json$
+Disallow: /*?*sort=
 
 # Sitemap
+Sitemap: https://menjacnicagenes.rs/sitemap-0.xml
 Sitemap: https://menjacnicagenes.rs/sitemap-index.xml
 
-# Crawl-delay
+# Crawl-delay (opciono)
 Crawl-delay: 1
+
+# Specific bot rules
+User-agent: AhrefsBot
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 5
