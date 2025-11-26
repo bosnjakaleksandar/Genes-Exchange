@@ -8,7 +8,7 @@ import partytown from '@astrojs/partytown';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://menjacnicagenes.rs',
-  output: 'server',
+  output: 'static',
   adapter: netlify(),
   integrations: [sitemap({
     changefreq: 'daily',
