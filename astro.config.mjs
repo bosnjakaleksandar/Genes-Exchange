@@ -10,18 +10,21 @@ export default defineConfig({
   site: 'https://menjacnicagenes.rs',
   output: 'static',
   adapter: netlify(),
-  integrations: [sitemap({
-    changefreq: 'daily',
-    priority: 0.7,
-    lastmod: new Date(),
-    i18n: {
-      defaultLocale: 'sr',
-      locales: {
-        sr: 'sr-RS',
-        en: 'en-US',
+  integrations: [
+    sitemap({
+      changefreq: 'daily',
+      priority: 0.7,
+      lastmod: new Date(),
+      i18n: {
+        defaultLocale: 'sr',
+        locales: {
+          sr: 'sr-RS',
+          en: 'en-US',
+        },
       },
-    },
-  }), partytown()],
+    }),
+    partytown(),
+  ],
   vite: {
     build: {
       rollupOptions: {
@@ -38,7 +41,7 @@ export default defineConfig({
         },
       },
       cssCodeSplit: true,
-      assetsInlineLimit: 4096,
+      assetsInlineLimit: 0,
     },
     ssr: {
       noExternal: ['chart.js'],

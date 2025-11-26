@@ -14,10 +14,8 @@
   # Cache Control
   Cache-Control: public, max-age=31536000, immutable
 
-# Preload critical resources
-/
-  Link: </_astro/Raleway.Dmqa3xBm.ttf>; rel=preload; as=font; type=font/ttf; crossorigin=anonymous
-  Link: </_astro/layout.DjTP8ZEA.css>; rel=preload; as=style
+# Preload critical resources handled by Astro automatically
+# Removed hardcoded preload links as they reference stale hashes
 
 # Cache for images
 /images/*
@@ -28,9 +26,11 @@
   Cache-Control: public, max-age=31536000, immutable
   
 /_astro/*.ttf
+  Content-Type: font/ttf
   Cache-Control: public, max-age=31536000, immutable
   
 /_astro/*.woff2
+  Content-Type: font/woff2
   Cache-Control: public, max-age=31536000, immutable
 
 /_astro/*.css
