@@ -9,7 +9,9 @@ import partytown from '@astrojs/partytown';
 export default defineConfig({
   site: 'https://menjacnicagenes.rs',
   output: 'server',
-  adapter: netlify(),
+  adapter: netlify({
+    edgeMiddleware: true,
+  }),
   integrations: [
     sitemap({
       changefreq: 'daily',
