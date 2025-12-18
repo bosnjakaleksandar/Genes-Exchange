@@ -5,7 +5,7 @@
     padding: 5% 5% 0 5%;
 
     @include mq (768) {
-        padding: 10% 5%;
+        padding: 10% 5% 0 5%;
     }
 }
 
@@ -15,6 +15,10 @@
     .about__title {
         text-align: center;
         margin-bottom: 50px;
+
+        @include mq (768) {
+            margin-bottom: 30px;
+        }
     }
 
     .about__description {
@@ -55,6 +59,10 @@
 
     .about__link {
         margin: 80px auto;
+
+        @include mq (768) {
+            margin: 50px auto;
+        }
     }
 
     .about__infinity-slider {
@@ -74,6 +82,37 @@
                 max-width: 160px;
                 height: 100px;
                 margin-right: 20px;
+            }
+        }
+
+        @include mq (768) {
+            padding-bottom: 70px;
+        }
+    }
+}
+
+@media screen and (min-width: 1921px) {
+    .about {
+        .about__title {
+            margin-bottom: 2.60417vw;
+        }
+
+        .about__description {
+            max-width: 57.29167vw;
+        }
+
+        .about__link {
+            margin: 4.16667vw auto;
+        }
+
+        .about__infinity-slider {
+            padding-bottom: 5.20833vw;
+
+            img {
+                border-radius: 0.41667vw;
+                height: 8.75vw;
+                max-width: 16.66667vw;
+                margin-right: 2.08333vw;
             }
         }
     }
