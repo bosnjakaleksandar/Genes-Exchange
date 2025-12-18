@@ -1,0 +1,46 @@
+---
+import Icon from './Icon.astro';
+
+export interface Props {
+  title: string;
+  linkText: string;
+  strong: string;
+  description: string;
+}
+
+const { title, linkText, strong, description } = Astro.props;
+---
+
+<section class="about">
+  <div class="about__container container">
+    <h2 class="about__title rw-54-600">{title}</h2>
+    <p class="about__description rw-24-400">
+      <strong>{strong}</strong>
+      {description}
+    </p>
+    <a
+      href="https://maps.app.goo.gl/vVKm62mFN418jrLAA"
+      target="_blank"
+      class="about__link btn-secondary rw-24-600"
+    >
+      {linkText}
+      <Icon name="arrow-right" />
+    </a>
+  </div>
+  <div class="about__infinity-slider-wrapper">
+    <div class="about__infinity-slider">
+      <img src="/images/eur.webp" alt="flag of europe union" loading="lazy" decoding="async" />
+      <img src="/images/us.webp" alt="flag of united states" loading="lazy" decoding="async" />
+      <img src="/images/chf.webp" alt="flag of switzerland" loading="lazy" decoding="async" />
+      <img src="/images/uk.webp" alt="flag of great britain" loading="lazy" decoding="async" />
+      <img src="/images/cad.webp" alt="flag of canada" loading="lazy" decoding="async" />
+      <img src="/images/aud.webp" alt="flag of australia" loading="lazy" decoding="async" />
+      <img
+        src="/images/bam.webp"
+        alt="flag of bosnia and herzegovina"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  </div>
+</section>

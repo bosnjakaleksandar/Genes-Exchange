@@ -106,6 +106,86 @@ body {
     }
 }
 
+.btn-secondary {
+    padding: 12px 20px;
+    background-color: $dark-grey;
+    color: $white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    box-shadow: 0 0 15px rgba($dark-grey, 0.5);
+    opacity: 0;
+    transform: translateY(60px);
+    border: 1px solid transparent;
+    animation: slideInLeft 1s ease-out 0.8s forwards;
+
+    span {
+        width: 30px;
+        height: 30px;
+    }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    svg {
+        width: 30px;
+        height: 30px;
+        transition: all 0.3s ease;
+
+        circle,
+        polygon {
+            transition: all 0.3s ease;
+        }
+    }
+
+    &:hover {
+        background-color: $black;
+        transform: scale(1.05);
+        color: $white;
+        border: 1px solid $dark-grey;
+        box-shadow: 0 0 20px rgba($dark-grey, 0.8);
+
+        svg {
+            transform: translate(5px);
+
+            circle,
+            polygon {
+                stroke: $gold;
+            }
+        }
+    }
+
+    @include mq (768) {
+        padding: 10px 20px;
+
+        span {
+            width: 25px;
+            height: 25px;
+        }
+
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}
+
 // Important Info Marquee
 .slider-wrapper {
     position: fixed;

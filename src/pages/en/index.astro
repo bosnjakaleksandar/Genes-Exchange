@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/layout.astro';
 import Hero from '../../components/hero.astro';
+import About from '../../components/about.astro';
 import Info from '../../components/info.astro';
 import { fetchRates } from '../../ts/API/useRates';
 import moneyExchange from '../../../public/images/money-exchange.webp';
@@ -45,6 +46,12 @@ const seoDescription =
       updateText={pageData.hero.updateText}
       eurRate={eurRate}
       lastUpdate={lastUpdate}
+    />
+    <About
+      title="About Us"
+      linkText="Location on Map"
+      strong="Genes Exchange Office"
+      description="is located in Novi Sad, at Hajduk Veljkova 11, near the official entrance 2 of the Novi Sad Fair. We provide currency exchange services at favorable and transparent rates, payment transfer services in cooperation with the payment institution PaySpot, as well as games of luck from the State Lottery of Serbia. If you are looking for a reliable exchange office in Novi Sad, our team is at your disposal every working day."
     />
     <Info
       title="Currency Exchange Services"

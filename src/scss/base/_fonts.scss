@@ -56,6 +56,7 @@ $font-variants: (
 
     // Font Weight 600
     "rw-78-600": ("rw", 78, 600, 82, null, ($lap-small: 48, $tablet: 48, $phone: 32)),
+    "rw-54-600": ("rw", 54, 600, 56, null, ($lap-large: 36, $lap-small: 36, $tablet: 36, $phone: 24)),
     "rw-48-600": ("rw", 48, 600, 56, null, ($lap-large: 36, $lap-small: 30, $tablet: 30, $phone: 24)),
     "rw-36-600": ("rw", 36, 600, 44, null, ($lap-small: 28, $tablet: 28, $phone: 20)),
     "rw-24-600": ("rw", 24, 600, 32, null, ($lap-small: 20, $tablet: 20, $phone: 16)),
