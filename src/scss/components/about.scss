@@ -1,16 +1,16 @@
 @use '../base' as *;
 
-.container {
-    margin: 0;
-    padding: 5% 5% 0 5%;
-
-    @include mq (768) {
-        padding: 10% 5% 0 5%;
-    }
-}
-
 .about {
     background-color: $gold;
+
+    .container {
+        margin: 0;
+        padding: 5% 5% 0 5%;
+
+        @include mq (768) {
+            padding: 10% 5% 0 5%;
+        }
+    }
 
     .about__title {
         text-align: center;
