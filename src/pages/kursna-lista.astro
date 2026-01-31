@@ -3,16 +3,30 @@ import Layout from '../layouts/layout.astro';
 import RatesTable from '../components/rates-table.astro';
 import { fetchRates } from '../ts/API/useRates';
 
-const pageData = {
-  title: 'Kursna Lista',
-  description:
-    'Ažurirana kursna lista sa kupovnim i prodajnim kursevima za evro (EUR), dolar (USD), franak (CHF), funtu (GBP), australijski (AUD) i kanadski dolar (CAD), kao i konvertibilnu marku (BAM).',
-};
-
-// Fetch all rates
 const { rates, lastUpdate } = await fetchRates();
 
-// Structured data for exchange rates
+const pageData = {
+  title: 'Menjačnica Genes - Kursna Lista',
+  description:
+    'Ažurirana kursna lista sa kupovnim i prodajnim kursevima za evro (EUR), dolar (USD), franak (CHF), funtu (GBP), australijski (AUD) i kanadski dolar (CAD), kao i konvertibilnu marku (BAM).',
+  ogImage: '/images/kursna-lista-og-image.webp',
+  lang: 'sr',
+  ratesTable: {
+    rates: rates,
+    lastUpdate: lastUpdate,
+    lastUpdateText: 'Poslednji put ažurirano:',
+    disclaimer: 'Kursevi su informativnog karaktera i podložni su promenama.',
+    buyLabel: 'Kupovni',
+    sellLabel: 'Prodajni',
+    dayLabel: 'Danas',
+    weekLabel: 'Ove nedelje',
+    monthLabel: 'Ovog meseca',
+    yearLabel: 'Ove godine',
+    backButton: 'Vrati se nazad',
+    currencyLabel: 'Valuta',
+  },
+};
+
 const ratesSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
@@ -27,7 +41,7 @@ const ratesSchema = {
 ---
 
 <Layout
-  title={'Menjačnica Genes - ' + pageData.title}
+  title={pageData.title}
   description={pageData.description}
   ogImage="/images/HeroBanner.webp"
   lang="sr"
@@ -37,18 +51,18 @@ const ratesSchema = {
   </Fragment>
   <main class="exchange-rates">
     <RatesTable
-      rates={rates}
-      lastUpdate={lastUpdate}
-      lastUpdateText="Poslednji put ažurirano:"
-      disclaimer="Kursevi su informativnog karaktera i podložni su promenama."
-      buyLabel="Kupovni"
-      sellLabel="Prodajni"
-      dayLabel="Danas"
-      weekLabel="Ove nedelje"
-      monthLabel="Ovog meseca"
-      yearLabel="Ove godine"
-      backButton="Vrati se nazad"
-      currencyLabel="Valuta"
+      rates={pageData.ratesTable.rates}
+      lastUpdate={pageData.ratesTable.lastUpdate}
+      lastUpdateText={pageData.ratesTable.lastUpdateText}
+      disclaimer={pageData.ratesTable.disclaimer}
+      buyLabel={pageData.ratesTable.buyLabel}
+      sellLabel={pageData.ratesTable.sellLabel}
+      dayLabel={pageData.ratesTable.dayLabel}
+      weekLabel={pageData.ratesTable.weekLabel}
+      monthLabel={pageData.ratesTable.monthLabel}
+      yearLabel={pageData.ratesTable.yearLabel}
+      backButton={pageData.ratesTable.backButton}
+      currencyLabel={pageData.ratesTable.currencyLabel}
     />
   </main>
 </Layout>

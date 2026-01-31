@@ -2,11 +2,15 @@
 import Layout from '../layouts/layout.astro';
 import Hero from '../components/hero.astro';
 import Info from '../components/info.astro';
+import Calculator from '../components/calculator.astro';
 import { fetchRates } from '../ts/API/useRates';
 import moneyExchange from '../../public/images/money-exchange.webp';
 import payspotInvoices from '../../public/images/payspot-invoices.webp';
 import lutrija from '../../public/images/lutrija.webp';
 import About from '../components/about.astro';
+
+const { rates, lastUpdate } = await fetchRates();
+const eurRate = rates.find((rate) => rate.currency === 'EUR');
 
 const pageData = {
   title: 'Menjačnica Genes Novi Sad',
@@ -19,11 +23,54 @@ const pageData = {
     currency: 'Kurs evra',
     updateText: 'Poslednji put ažurirano',
   },
+  about: {
+    title: 'O nama',
+    linkText: 'Lokacija na mapi',
+    strong: 'Menjačnica Genes',
+    description:
+      'se nalazi u Novom Sadu, na adresi Hajduk Veljkova 11, u blizini službenog ulaza 2 Novosadskog sajma. Pružamo usluge zamene valuta po povoljnim i transparentnim kursnim uslovima, usluge platnog prometa u saradnji sa platnom institucijom PaySpot, kao i igre na sreću Državne lutrije Srbije. Ako tražite pouzdanu menjačnicu u Novom Sadu, naš tim vam stoji na raspolaganju svakog radnog dana.',
+  },
+  services: [
+    {
+      title: 'Menjački poslovi',
+      description:
+        'Nudimo otkup, prodaju i konverziju efektivnog stranog novca, uz mogućnost ugovaranja stimulativnog kursa za veće transakcije.',
+      imageAlt: 'money-exchange',
+      imageSrc: moneyExchange,
+      reverse: false,
+    },
+    {
+      title: 'Platni promet',
+      description:
+        'Usluge platnog prometa (Uplata računa, komunalija, osiguranja, pazara...) vršimo u saradnji sa Payspot-om. A za precizne informacije o naknadama posetite Payspot web stranicu.',
+      imageSrc: payspotInvoices,
+      imageAlt: 'payspot-invoices',
+      reverse: true,
+      buttons: [
+        {
+          text: 'Posetite Payspot',
+          href: 'https://www.payspot.rs/',
+          target: '_blank' as '_blank',
+          icon: 'arrow-right',
+        },
+        {
+          text: 'Kalkulator naknada',
+          href: 'https://www.payspot.rs/kalkulator',
+          target: '_blank' as '_blank',
+          icon: 'arrow-right',
+        },
+      ],
+    },
+    {
+      title: 'Državna Lutrija Srbije',
+      description:
+        'Uplatite svoj listić za Loto ili Bingo, ogrebite srećku ili učestvujte u nenoj od igara Državne lutrije Srbije. Možda ste baš vi sledeći dobitnik! Samo za lica starija od 18 godina.',
+      imageSrc: lutrija,
+      imageAlt: 'lutrija',
+      reverse: false,
+    },
+  ],
 };
-
-// Fetch EUR rate
-const { rates, lastUpdate } = await fetchRates();
-const eurRate = rates.find((rate) => rate.currency === 'EUR');
 
 const seoDescription =
   'Menjačnica Genes, vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.';
@@ -48,45 +95,23 @@ const seoDescription =
       lastUpdate={lastUpdate}
     />
     <About
-      title="O nama"
-      linkText="Lokacija na mapi"
-      strong="Menjačnica Genes"
-      description="se nalazi u Novom Sadu, na adresi Hajduk Veljkova 11, u blizini službenog ulaza 2 Novosadskog sajma. Pružamo usluge zamene valuta po povoljnim i transparentnim kursnim uslovima, usluge platnog prometa u saradnji sa platnom institucijom PaySpot, kao i igre na sreću Državne lutrije Srbije. Ako tražite pouzdanu menjačnicu u Novom Sadu, naš tim vam stoji na raspolaganju svakog radnog dana."
+      title={pageData.about.title}
+      linkText={pageData.about.linkText}
+      strong={pageData.about.strong}
+      description={pageData.about.description}
     />
-    <Info
-      title="Menjački poslovi"
-      description="Nudimo otkup, prodaju i konverziju efektivnog stranog novca, uz mogućnost ugovaranja stimulativnog kursa za veće transakcije."
-      imageSrc={moneyExchange}
-      imageAlt="money-exchange"
-      reverse={false}
-    />
-    <Info
-      title="Platni promet"
-      description="Usluge platnog prometa (Uplata računa, komunalija, osiguranja, pazara...) vršimo u saradnji sa Payspot-om. A za precizne informacije o naknadama posetite Payspot web stranicu."
-      imageSrc={payspotInvoices}
-      imageAlt="payspot-invoices"
-      reverse={true}
-      buttons={[
-        {
-          text: 'Posetite Payspot',
-          href: 'https://www.payspot.rs/',
-          target: '_blank',
-          icon: 'arrow-right',
-        },
-        {
-          text: 'Kalkulator naknada',
-          href: 'https://www.payspot.rs/kalkulator',
-          target: '_blank',
-          icon: 'arrow-right',
-        },
-      ]}
-    />
-    <Info
-      title="Državna Lutrija Srbije"
-      description="Uplatite svoj listić za Loto ili Bingo, ogrebite srećku ili učestvujte u nenoj od igara Državne lutrije Srbije. Možda ste baš vi sledeći dobitnik! Samo za lica starija od 18 godina."
-      imageSrc={lutrija}
-      imageAlt="lutrija"
-      reverse={false}
-    />
+    <Calculator lang="sr" />
+    {
+      pageData.services.map((service) => (
+        <Info
+          title={service.title}
+          description={service.description}
+          imageAlt={service.imageAlt}
+          imageSrc={service.imageSrc}
+          reverse={service.reverse}
+          buttons={service.buttons}
+        />
+      ))
+    }
   </main>
 </Layout>

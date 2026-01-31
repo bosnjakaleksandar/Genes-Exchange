@@ -1,0 +1,112 @@
+---
+import { fetchRates } from '../ts/API/useRates';
+import { currencyNames } from '../ts/data/currencyNames';
+
+const { rates } = await fetchRates();
+
+interface Props {
+  lang?: 'sr' | 'en';
+}
+
+const { lang = 'sr' } = Astro.props;
+
+const t = {
+  sr: {
+    title: 'Kalkulator',
+    buy: 'Kupujem',
+    sell: 'Prodajem',
+    amount: 'Iznos',
+    currency: 'Valuta',
+    result: 'Rezultat',
+    youGet: 'Dobijate',
+    youPay: 'Plaćate',
+    rsd: 'RSD',
+    selectCurrency: 'Izaberite valutu',
+  },
+  en: {
+    title: 'Calculator',
+    buy: 'Buy',
+    sell: 'Sell',
+    amount: 'Amount',
+    currency: 'Currency',
+    result: 'Result',
+    youGet: 'You get',
+    youPay: 'You pay',
+    rsd: 'RSD',
+    selectCurrency: 'Select currency',
+  },
+};
+
+const translations = t[lang];
+---
+
+<section class="calculator">
+  <div class="calculator__container container">
+    <div class="calculator__banknotes">
+      <div class="calculator__placeholder" id="banknote-placeholder">
+        <p>{lang === 'sr' ? 'Izaberite valutu' : 'Select currency'}</p>
+      </div>
+    </div>
+    <div class="calculator__wrapper">
+      <h2 class="calculator__title rw-24-600">{translations.title}</h2>
+
+      <div class="calculator__toggle">
+        <button
+          class="calculator__toggle-btn calculator__toggle-btn--active rw-16-600"
+          data-action="buy"
+        >
+          {translations.buy}
+        </button>
+        <button class="calculator__toggle-btn rw-16-600" data-action="sell">
+          {translations.sell}
+        </button>
+      </div>
+
+      <div class="calculator__form">
+        <div class="calculator__field">
+          <label for="currency-select" class="calculator__label rw-16-500">
+            {translations.currency}
+          </label>
+          <select id="currency-select" class="calculator__select rw-14-500">
+            <option value="">{translations.selectCurrency}</option>
+            {
+              rates.map((rate) => (
+                <option
+                  value={rate.currency}
+                  data-buy={rate.buyRate}
+                  data-sell={rate.sellRate}
+                  data-name={currencyNames[rate.currency]?.[lang] || rate.currency}
+                >
+                  {rate.currency}
+                </option>
+              ))
+            }
+          </select>
+        </div>
+
+        <div class="calculator__field">
+          <label for="amount-input" class="calculator__label rw-16-500">
+            {translations.amount}
+          </label>
+          <input
+            type="number"
+            id="amount-input"
+            class="calculator__input rw-14-500"
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+          />
+        </div>
+
+        <div class="calculator__result">
+          <div class="calculator__result-label rw-20-600" id="result-label">
+            {translations.youGet}
+          </div>
+          <div class="calculator__result-value rw-36-600" id="result-value">
+            0.00 {translations.rsd}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

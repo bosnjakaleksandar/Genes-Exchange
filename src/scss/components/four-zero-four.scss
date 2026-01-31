@@ -25,3 +25,19 @@
         transform: none;
     }
 }
+
+@media screen and (min-width: 1921px) {
+    .error {
+        .error__container {
+            gap: 1.04167vw;
+        }
+
+        .error__code {
+            text-shadow: 0 0 1.04167vw rgba($gold, 0.5);
+        }
+
+        .error__back-link {
+            margin-top: 1.04167vw;
+        }
+    }
+}

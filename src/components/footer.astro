@@ -3,7 +3,6 @@ import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import ProtectedEmail from './ProtectedEmail.astro';
 import GenesLogoWhite from '../../public/images/GenesLogo-white.webp';
-import GenesGoogleMap from '../../public/images/GenesGoogleMap.webp';
 
 export interface Props {
   lang?: 'sr' | 'en';
@@ -39,6 +38,7 @@ const translations = {
 };
 
 const t = translations[lang];
+const GOOGLE_API_KEY = import.meta.env.GOOGLE_API_KEY;
 ---
 
 <footer class="footer">
@@ -88,20 +88,12 @@ const t = translations[lang];
         </ul>
       </div>
       <div class="footer__map" data-lang={lang}>
-        <a
-          href="https://maps.app.goo.gl/PqkcixPaiKDwYvA6A"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Menjačnica Genes lokacija na Google Maps"
+        <div
+          id="google-map"
+          style="width: 100%; height: 100%; min-height: 400px; border-radius: 8px;"
+          data-api-key={GOOGLE_API_KEY}
         >
-          <Image
-            src={GenesGoogleMap}
-            widths={[400, 800, 1280]}
-            alt="Menjačnica Genes lokacija na Google Maps"
-            loading="lazy"
-            decoding="async"
-          />
-        </a>
+        </div>
       </div>
     </div>
     <hr class="footer__divider" />

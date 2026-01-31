@@ -193,6 +193,7 @@
 
         thead tr {
             cursor: default;
+
             @include mq (1024) {
                 background-color: transparent;
                 margin-bottom: 0;
@@ -438,4 +439,157 @@
     width: 100%;
     height: 300px;
     max-height: 400px;
+}
+
+@media screen and (min-width: 1921px) {
+    .rates {
+        .rates__card {
+            border-radius: 0.625vw;
+            backdrop-filter: blur(0.52083vw);
+            box-shadow: 0 0 1.14583vw rgba($gold, 0.5);
+        }
+
+        .rates__top {
+            padding: 1.04167vw 1.5625vw;
+        }
+
+        .rates__columns {
+            border-radius: 0.625vw;
+        }
+
+        .rates__columns-right {
+            backdrop-filter: blur(1.5625vw);
+            border-top-left-radius: 0.625vw;
+            border-bottom-right-radius: 0.625vw;
+        }
+
+        .rates__chart {
+            height: 15.625vw;
+            max-height: 20.83333vw;
+        }
+
+        .rates__chart-header {
+            gap: 0.52083vw;
+            padding: 0.83333vw;
+
+            img {
+                border-radius: 0.26042vw;
+            }
+        }
+
+        .rates__chart-loading {
+            min-height: 15.625vw;
+
+            .loader {
+                border: 0.26042vw solid rgba($gold, 0.1);
+                border-top: 0.26042vw solid $gold;
+                width: 3.64583vw;
+                height: 3.64583vw;
+            }
+        }
+
+        .rates__interval-buttons {
+            gap: 0.41667vw;
+            margin-top: 0.83333vw;
+
+            button {
+                padding: 0.3125vw 0.625vw;
+                border-radius: 0.41667vw;
+            }
+        }
+
+        .rates__table {
+            tr {
+                gap: 2.60417vw;
+                padding: 0.78125vw 3.125vw;
+            }
+
+            tbody tr {
+                &:nth-child(odd) {
+                    backdrop-filter: blur(1.5625vw);
+                }
+
+                &:last-child {
+                    border-bottom-left-radius: 0.625vw;
+                }
+            }
+        }
+
+        .rates__table-currency {
+            gap: 0.52083vw;
+        }
+
+        .rates__table-flag {
+            border-radius: 0.26042vw;
+            width: 2.08333vw;
+            height: 1.5625vw;
+        }
+
+        .rates__table-row--selected {
+            border-left: 0.20833vw solid $gold;
+        }
+
+        .rates__back-btn {
+            top: 0.52083vw;
+            left: 0.52083vw;
+
+            span {
+                width: 2.08333vw;
+                height: 1.5625vw;
+            }
+
+            svg {
+                width: 2.08333vw;
+                height: 1.5625vw;
+            }
+        }
+    }
+
+    .rates__skeleton-header {
+        gap: 2.60417vw;
+        padding: 0.88542vw 3.125vw;
+    }
+
+    .rates__skeleton-item {
+        height: 1.04167vw;
+        border-radius: 0.20833vw;
+    }
+
+    .rates__skeleton-row {
+        gap: 2.60417vw;
+        padding: 0.78125vw 3.125vw;
+    }
+
+    .rates__skeleton-cell {
+        gap: 0.52083vw;
+    }
+
+    .rates__skeleton-flag {
+        width: 2.08333vw;
+        height: 1.5625vw;
+        border-radius: 0.26042vw;
+    }
+
+    .rates__skeleton-text {
+        height: 1.04167vw;
+        max-width: 6.25vw;
+        border-radius: 0.20833vw;
+    }
+
+    .rates__skeleton-text--short {
+        max-width: 3.125vw;
+    }
+
+    .rates__chart-wrapper {
+        min-height: 15.625vw;
+    }
+
+    .rates__chart-loading {
+        min-height: 15.625vw;
+    }
+
+    .rates__chart {
+        height: 15.625vw;
+        max-height: 20.83333vw;
+    }
 }

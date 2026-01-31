@@ -3,10 +3,17 @@ import Layout from '../../layouts/layout.astro';
 import Hero from '../../components/hero.astro';
 import About from '../../components/about.astro';
 import Info from '../../components/info.astro';
+import Calculator from '../../components/calculator.astro';
 import { fetchRates } from '../../ts/API/useRates';
 import moneyExchange from '../../../public/images/money-exchange.webp';
 import payspotInvoices from '../../../public/images/payspot-invoices.webp';
 import lutrija from '../../../public/images/lutrija.webp';
+
+const { rates, lastUpdate } = await fetchRates();
+const eurRate = rates.find((rate) => rate.currency === 'EUR');
+
+const seoDescription =
+  'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.';
 
 const pageData = {
   title: 'Genes Exchange Office Novi Sad',
@@ -19,14 +26,54 @@ const pageData = {
     currency: 'Euro Rate',
     updateText: 'Last update',
   },
+  about: {
+    title: 'About Us',
+    linkText: 'Location on Map',
+    strong: 'Genes Exchange Office',
+    description:
+      'is located in Novi Sad, at Hajduk Veljkova 11, near the official entrance 2 of the Novi Sad Fair. We provide currency exchange services at favorable and transparent rates, payment transfer services in cooperation with the payment institution PaySpot, as well as games of luck from the State Lottery of Serbia. If you are looking for a reliable exchange office in Novi Sad, our team is at your disposal every working day.',
+  },
+  services: [
+    {
+      title: 'Currency Exchange Services',
+      description:
+        'We offer buying, selling and conversion of foreign currency, with the possibility of negotiating favorable rates for larger transactions.',
+      imageAlt: 'money-exchange',
+      imageSrc: moneyExchange,
+      reverse: false,
+    },
+    {
+      title: 'Payment Transfer Services',
+      description:
+        'We provide payment transfer services (bill payments, utilities, insurance, bills...) in cooperation with Payspot. For precise information about fees, visit the Payspot website.',
+      imageSrc: payspotInvoices,
+      imageAlt: 'payspot-invoices',
+      reverse: true,
+      buttons: [
+        {
+          text: 'Visit Payspot',
+          href: 'https://www.payspot.rs/',
+          target: '_blank' as '_blank',
+          icon: 'arrow-right',
+        },
+        {
+          text: 'Fee Calculator',
+          href: 'https://www.payspot.rs/kalkulator',
+          target: '_blank' as '_blank',
+          icon: 'arrow-right',
+        },
+      ],
+    },
+    {
+      title: 'Lottery',
+      description:
+        'Buy your lottery ticket for Loto or Bingo, scratch a ticket or participate in one of the games of the Serbian Lottery. Maybe you will be the next winner! Only for persons over 18 years old.',
+      imageSrc: lutrija,
+      imageAlt: 'lutrija',
+      reverse: false,
+    },
+  ],
 };
-
-// Fetch EUR rate
-const { rates, lastUpdate } = await fetchRates();
-const eurRate = rates.find((rate) => rate.currency === 'EUR');
-
-const seoDescription =
-  'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.';
 ---
 
 <Layout
@@ -48,45 +95,23 @@ const seoDescription =
       lastUpdate={lastUpdate}
     />
     <About
-      title="About Us"
-      linkText="Location on Map"
-      strong="Genes Exchange Office"
-      description="is located in Novi Sad, at Hajduk Veljkova 11, near the official entrance 2 of the Novi Sad Fair. We provide currency exchange services at favorable and transparent rates, payment transfer services in cooperation with the payment institution PaySpot, as well as games of luck from the State Lottery of Serbia. If you are looking for a reliable exchange office in Novi Sad, our team is at your disposal every working day."
+      title={pageData.about.title}
+      linkText={pageData.about.linkText}
+      strong={pageData.about.strong}
+      description={pageData.about.description}
     />
-    <Info
-      title="Currency Exchange Services"
-      description="We offer buying, selling and conversion of foreign currency, with the possibility of negotiating favorable rates for larger transactions."
-      imageSrc={moneyExchange}
-      imageAlt="money-exchange"
-      reverse={false}
-    />
-    <Info
-      title="Payment Transfer Services"
-      description="We provide payment transfer services (bill payments, utilities, insurance, bills...) in cooperation with Payspot. For precise information about fees, visit the Payspot website."
-      imageSrc={payspotInvoices}
-      imageAlt="payspot-invoices"
-      reverse={true}
-      buttons={[
-        {
-          text: 'Visit Payspot',
-          href: 'https://www.payspot.rs/',
-          target: '_blank',
-          icon: 'arrow-right',
-        },
-        {
-          text: 'Fee Calculator',
-          href: 'https://www.payspot.rs/kalkulator',
-          target: '_blank',
-          icon: 'arrow-right',
-        },
-      ]}
-    />
-    <Info
-      title="Lottery"
-      description="Buy your lottery ticket for Loto or Bingo, scratch a ticket or participate in one of the games of the Serbian Lottery. Maybe you will be the next winner! Only for persons over 18 years old."
-      imageSrc={lutrija}
-      imageAlt="lutrija"
-      reverse={false}
-    />
+    <Calculator lang="en" />
+    {
+      pageData.services.map((service) => (
+        <Info
+          title={service.title}
+          description={service.description}
+          imageSrc={service.imageSrc}
+          imageAlt={service.imageAlt}
+          reverse={service.reverse}
+          buttons={service.buttons}
+        />
+      ))
+    }
   </main>
 </Layout>

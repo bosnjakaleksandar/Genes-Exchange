@@ -3,16 +3,14 @@ import Layout from '../../layouts/layout.astro';
 import RatesTable from '../../components/rates-table.astro';
 import { fetchRates } from '../../ts/API/useRates';
 
+const { rates, lastUpdate } = await fetchRates();
+
 const pageData = {
   title: 'Exchange Rates',
   description:
     'Updated exchange rates with buying and selling prices for Euro (EUR), Dollar (USD), Franc (CHF), British Pound (GBP), Australian (AUD) and Canadian Dollar (CAD), as well as Convertible Mark (BAM).',
 };
 
-// Fetch all rates
-const { rates, lastUpdate } = await fetchRates();
-
-// Structured data for exchange rates
 const ratesSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',

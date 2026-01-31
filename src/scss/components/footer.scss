@@ -37,63 +37,10 @@
         overflow: hidden;
         border-radius: 12px;
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        @include mq (1350) {
-            max-width: 600px;
-        }
-
-        @include mq (1200) {
-            max-width: 490px;
-        }
-
-        @include mq (1024) {
-            margin-top: 50px;
+        @include mq (1320) {
+            margin-top: 30px;
             max-width: 100%;
-        }
-
-        @include mq (768) {
-            margin-top: 20px;
-        }
-
-        @include mq (480) {
-            height: 250px;
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0);
-            pointer-events: none;
-            opacity: 0;
-            transition: background-color 0.3s ease, opacity 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: $white;
-            font-size: 2rem;
-            z-index: 2;
-        }
-
-        &:hover::after {
-            background-color: rgba(0, 0, 0, 0.9);
-            opacity: 1;
-        }
-
-        &[data-lang="en"]:hover::after {
-            content: 'Open map';
-        }
-
-        &[data-lang="sr"]:hover::after {
-            content: 'Otvorite mapu';
+            height: 400px;
         }
     }
 
@@ -282,6 +229,11 @@
             .footer__contact {
                 gap: 0.52083vw;
 
+                span {
+                    width: 1.5625vw;
+                    height: 1.5625vw;
+                }
+
                 svg {
                     width: 1.5625vw;
                     height: 1.5625vw;
@@ -299,6 +251,11 @@
                 margin-top: 0.52083vw;
                 gap: 0.52083vw;
 
+                span {
+                    width: 1.5625vw;
+                    height: 1.5625vw;
+                }
+
                 svg {
                     width: 1.5625vw;
                     height: 1.5625vw;
@@ -309,6 +266,11 @@
                 margin-top: 0.52083vw;
                 margin-bottom: 0.26042vw;
                 gap: 0.52083vw;
+
+                span {
+                    width: 1.5625vw;
+                    height: 1.5625vw;
+                }
 
                 svg {
                     width: 1.5625vw;

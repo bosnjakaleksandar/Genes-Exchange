@@ -5,9 +5,9 @@
 @use "sass:list";
 @use "sass:meta";
 
-// --------------------------------------------
-// FONT FACE
-// --------------------------------------------
+// -------------------------------------------- //
+// FONT FACE                                    //
+// -------------------------------------------- //
 
 @font-face {
     font-family: "Raleway";
@@ -18,9 +18,9 @@
     font-display: swap;
 }
 
-// --------------------------------------------
-// MIXIN
-// --------------------------------------------
+// -------------------------------------------- //
+// MIXIN                                        //
+// -------------------------------------------- //
 
 @mixin font-style($family, $size, $weight, $line-height, $letter-spacing: null) {
     $font-families: (
@@ -43,9 +43,9 @@ line-height: calc(#{$line-height} / #{$size});
 }
 }
 
-// --------------------------------------------
-// FONT STYLES MAP
-// --------------------------------------------
+// -------------------------------------------- //
+// FONT STYLES MAP                              //
+// -------------------------------------------- //
 
 $font-variants: (
     // Font Weight 800
@@ -77,17 +77,26 @@ $font-variants: (
     "rw-16-400": ("rw", 16, 400, 24, null, ($lap-small: 14, $tablet: 14, $phone: 12)),
 );
 
-// --------------------------------------------
-// CLASS GENERATOR
-// --------------------------------------------
+// -------------------------------------------- //
+// CLASS GENERATOR                              //
+// -------------------------------------------- //
 
 @each $class, $vals in $font-variants {
     $family: list.nth($vals, 1);
     $size: list.nth($vals, 2);
     $weight: list.nth($vals, 3);
     $line-height: list.nth($vals, 4);
-    $letter-spacing: if(list.length($vals) >=5 and list.nth($vals, 5) !=null, list.nth($vals, 5), null);
-    $responsive-map: if(list.length($vals) >=6, list.nth($vals, 6), null);
+    $letter-spacing: null;
+
+    @if list.length($vals)>=5 and list.nth($vals, 5) !=null {
+        $letter-spacing: list.nth($vals, 5);
+    }
+
+    $responsive-map: null;
+
+    @if list.length($vals)>=6 {
+        $responsive-map: list.nth($vals, 6);
+    }
 
     .#{$class} {
         @include font-style($family, $size, $weight, $line-height, $letter-spacing);
