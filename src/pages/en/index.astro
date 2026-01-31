@@ -8,6 +8,8 @@ import { fetchRates } from '../../ts/API/useRates';
 import moneyExchange from '../../../public/images/money-exchange.webp';
 import payspotInvoices from '../../../public/images/payspot-invoices.webp';
 import lutrija from '../../../public/images/lutrija.webp';
+import Accordion from '../../components/accordion.astro';
+import { Schema } from 'astro-seo-schema';
 
 const { rates, lastUpdate } = await fetchRates();
 const eurRate = rates.find((rate) => rate.currency === 'EUR');
@@ -73,6 +75,28 @@ const pageData = {
       reverse: false,
     },
   ],
+  accordion: {
+    title: 'Frequently Asked Questions',
+    buttonText: 'View all FAQs',
+    buttonLink: '/en/faq',
+    faqs: [
+      {
+        question: 'What are your working hours?',
+        answer:
+          'Our exchange office is open Monday to Friday from 08:30 to 17:00, Saturday from 08:30 to 14:00, and closed on Sundays.',
+      },
+      {
+        question: 'Do you charge a commission for currency exchange?',
+        answer:
+          'No, we do not charge any commission for currency exchange. Our rates are transparent with no hidden fees.',
+      },
+      {
+        question: 'How long does it take to process a payment order?',
+        answer:
+          'Payment orders received on business days before 16:30 are processed the same day, while orders received after that time will be processed the next business day.',
+      },
+    ],
+  },
 };
 ---
 
@@ -82,6 +106,15 @@ const pageData = {
   ogImage="/images/GenesLogoMeta.webp"
   lang="en"
 >
+  <Schema
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: pageData.title,
+      description: seoDescription,
+      url: 'https://menjacnicagenes.rs/en/',
+    }}
+  />
   <main class="homepage">
     <Hero
       title={pageData.hero.title}
@@ -113,5 +146,11 @@ const pageData = {
         />
       ))
     }
+    <Accordion
+      title={pageData.accordion.title}
+      questions={pageData.accordion.faqs}
+      buttonLink={pageData.accordion.buttonLink}
+      buttonText={pageData.accordion.buttonText}
+    />
   </main>
 </Layout>

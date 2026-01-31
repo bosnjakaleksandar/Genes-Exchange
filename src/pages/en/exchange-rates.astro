@@ -2,6 +2,7 @@
 import Layout from '../../layouts/layout.astro';
 import RatesTable from '../../components/rates-table.astro';
 import { fetchRates } from '../../ts/API/useRates';
+import { Schema } from 'astro-seo-schema';
 
 const { rates, lastUpdate } = await fetchRates();
 
@@ -9,18 +10,6 @@ const pageData = {
   title: 'Exchange Rates',
   description:
     'Updated exchange rates with buying and selling prices for Euro (EUR), Dollar (USD), Franc (CHF), British Pound (GBP), Australian (AUD) and Canadian Dollar (CAD), as well as Convertible Mark (BAM).',
-};
-
-const ratesSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: pageData.title,
-  description: pageData.description,
-  lastReviewed: new Date().toISOString(),
-  mainEntity: {
-    '@type': 'Table',
-    about: 'Currency exchange rates',
-  },
 };
 ---
 
@@ -30,9 +19,15 @@ const ratesSchema = {
   ogImage="/images/HeroBanner.webp"
   lang="en"
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(ratesSchema)} />
-  </Fragment>
+  <Schema
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: pageData.title,
+      description: pageData.description,
+      url: 'https://menjacnicagenes.rs/en/exchange-rates',
+    }}
+  />
   <main class="exchange-rates">
     <RatesTable
       rates={rates}

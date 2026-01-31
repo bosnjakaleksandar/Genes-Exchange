@@ -24,14 +24,18 @@
     margin: auto;
 }
 
-.accordion__title {
-    margin-bottom: 40px;
+.accordion__top-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .accordion__list {
+    margin-top: 40px;
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .accordion__item {

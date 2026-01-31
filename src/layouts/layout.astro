@@ -1,6 +1,7 @@
 ---
 import Header from '../components/header.astro';
 import Footer from '../components/footer.astro';
+import { Schema } from 'astro-seo-schema';
 
 export interface Props {
   title: string;
@@ -57,70 +58,6 @@ const searchUrlTemplate =
   lang === 'en'
     ? `${baseURL}/en/exchange-rates?q={search_term_string}`
     : `${baseURL}/kursna-lista?q={search_term_string}`;
-
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FinancialService',
-  '@id': `${baseURL}/#organization`,
-  name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
-  alternateName: 'Genes Exchange Office',
-  url: baseURL,
-  logo: `${baseURL}/images/GenesLogo-white.webp`,
-  image: `${baseURL}/images/GenesLogoMeta.webp`,
-  description: descriptions[lang],
-  inLanguage: lang,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Hajduk Veljkova 11',
-    addressLocality: 'Novi Sad',
-    postalCode: '21000',
-    addressCountry: 'RS',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 45.258443638398376,
-    longitude: 19.82320808465672,
-  },
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '08:30',
-      closes: '17:00',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Saturday',
-      opens: '08:30',
-      closes: '14:00',
-    },
-  ],
-  priceRange: '$$',
-  currenciesAccepted: 'EUR, USD, CHF, AUD, CAD, GBP, BAM, RSD',
-  paymentAccepted: 'Cash',
-  areaServed: {
-    '@type': 'City',
-    name: 'Novi Sad',
-  },
-};
-
-const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  '@id': `${baseURL}/#website`,
-  name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
-  url: baseURL,
-  description: descriptions[lang],
-  inLanguage: lang,
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: searchUrlTemplate,
-    },
-    'query-input': 'required name=search_term_string',
-  },
-};
 ---
 
 <!doctype html>
@@ -210,10 +147,6 @@ const websiteSchema = {
     <!-- Author -->
     <meta name="author" content={lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange'} />
 
-    <!-- Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-
     <title>{title}</title>
 
     <!-- Additional head content -->
@@ -239,6 +172,74 @@ const websiteSchema = {
     </script>
   </head>
   <body class={isErrorPage ? 'error-page-body' : ''}>
+    <!-- Schema Markup -->
+    <Schema
+      item={{
+        '@context': 'https://schema.org',
+        '@type': 'FinancialService',
+        '@id': `${baseURL}/#organization`,
+        name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
+        alternateName: 'Genes Exchange Office',
+        url: baseURL,
+        logo: `${baseURL}/images/GenesLogo-white.webp`,
+        image: `${baseURL}/images/GenesLogoMeta.webp`,
+        description: descriptions[lang],
+        telephone: '+381 21 520 295',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Hajduk Veljkova 11',
+          addressLocality: 'Novi Sad',
+          postalCode: '21000',
+          addressCountry: 'RS',
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 45.258443638398376,
+          longitude: 19.82320808465672,
+        },
+        openingHoursSpecification: [
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            opens: '08:30',
+            closes: '17:00',
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'Saturday',
+            opens: '08:30',
+            closes: '14:00',
+          },
+        ],
+        priceRange: '$$',
+        currenciesAccepted: 'EUR, USD, CHF, AUD, CAD, GBP, BAM, RSD',
+        paymentAccepted: 'Cash',
+        areaServed: {
+          '@type': 'City',
+          name: 'Novi Sad',
+        },
+      }}
+    />
+
+    <Schema
+      item={{
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        '@id': `${baseURL}/#website`,
+        name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
+        url: baseURL,
+        description: descriptions[lang],
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: searchUrlTemplate,
+          },
+          'query-input': 'required name=search_term_string',
+        },
+      }}
+    />
+
     <Header lang={lang} />
 
     <slot />

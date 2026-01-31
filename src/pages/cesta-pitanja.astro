@@ -2,6 +2,7 @@
 import Layout from '../layouts/layout.astro';
 import HeroSmall from '../components/hero-small.astro';
 import Faq from '../components/accordion.astro';
+import { Schema } from 'astro-seo-schema';
 
 const pageData = {
   title: 'Česta pitanja',
@@ -47,19 +48,6 @@ const faqs = [
       'Iznos provizije određuje PaySpot platna institucija i može varirati u zavisnosti od iznosa uplate. Za preciznije informacije o proviziji posetite PaySpot zvanični sajt.',
   },
 ];
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer,
-    },
-  })),
-};
 ---
 
 <Layout
@@ -68,7 +56,20 @@ const faqSchema = {
   ogImage="/images/GenesLogoMeta.webp"
   lang="sr"
 >
-  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Schema
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    }}
+  />
   <main class="faq">
     <HeroSmall title="Česta pitanja" image="/images/dollar.webp" imageAlt="Dollar Change" />
     <Faq

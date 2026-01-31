@@ -2,6 +2,7 @@
 import Layout from '../layouts/layout.astro';
 import RatesTable from '../components/rates-table.astro';
 import { fetchRates } from '../ts/API/useRates';
+import { Schema } from 'astro-seo-schema';
 
 const { rates, lastUpdate } = await fetchRates();
 
@@ -26,18 +27,6 @@ const pageData = {
     currencyLabel: 'Valuta',
   },
 };
-
-const ratesSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: pageData.title,
-  description: pageData.description,
-  lastReviewed: new Date().toISOString(),
-  mainEntity: {
-    '@type': 'Table',
-    about: 'Kursna lista valuta',
-  },
-};
 ---
 
 <Layout
@@ -46,9 +35,15 @@ const ratesSchema = {
   ogImage="/images/HeroBanner.webp"
   lang="sr"
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(ratesSchema)} />
-  </Fragment>
+  <Schema
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: pageData.title,
+      description: pageData.description,
+      url: 'https://menjacnicagenes.rs/kursna-lista',
+    }}
+  />
   <main class="exchange-rates">
     <RatesTable
       rates={pageData.ratesTable.rates}

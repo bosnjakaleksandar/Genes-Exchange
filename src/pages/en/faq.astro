@@ -2,6 +2,7 @@
 import Layout from '../../layouts/layout.astro';
 import HeroSmall from '../../components/hero-small.astro';
 import Accordion from '../../components/accordion.astro';
+import { Schema } from 'astro-seo-schema';
 
 const pageData = {
   title: 'Frequently asked questions',
@@ -47,19 +48,6 @@ const faqs = [
       'The commission amount is determined by PaySpot payment institution and may vary depending on the payment amount. For more precise information about commissions, please visit the PaySpot official website.',
   },
 ];
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer,
-    },
-  })),
-};
 ---
 
 <Layout
@@ -68,7 +56,20 @@ const faqSchema = {
   ogImage="/images/GenesLogoMeta.webp"
   lang="en"
 >
-  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Schema
+    item={{
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    }}
+  />
   <main class="faq">
     <HeroSmall
       title="Frequently Asked Questions"
