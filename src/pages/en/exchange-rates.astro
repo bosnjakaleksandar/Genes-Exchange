@@ -7,16 +7,16 @@ import { Schema } from 'astro-seo-schema';
 const { rates, lastUpdate } = await fetchRates();
 
 const pageData = {
-  title: 'Exchange Rates',
+  title: 'Genes Exchange Office Novi Sad | Exchange Rates',
   description:
     'Updated exchange rates with buying and selling prices for Euro (EUR), Dollar (USD), Franc (CHF), British Pound (GBP), Australian (AUD) and Canadian Dollar (CAD), as well as Convertible Mark (BAM).',
 };
 ---
 
 <Layout
-  title={pageData.title + ' - Genes Exchange Office Novi Sad'}
+  title={pageData.title}
   description={pageData.description}
-  ogImage="/images/HeroBanner.webp"
+  ogImage="/images/GenesLogoMeta.webp"
   lang="en"
 >
   <Schema

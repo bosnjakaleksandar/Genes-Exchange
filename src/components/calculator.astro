@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { fetchRates } from '../ts/API/useRates';
 import { currencyNames } from '../ts/data/currencyNames';
+import CalculatorBg from '../assets/calculator.webp';
 
 const { rates } = await fetchRates();
 
@@ -41,6 +43,12 @@ const translations = t[lang];
 ---
 
 <section class="calculator">
+  <Image
+    src={CalculatorBg}
+    alt="Calculator Background"
+    class="calculator__background"
+    loading="lazy"
+  />
   <div class="calculator__container container">
     <div class="calculator__banknotes">
       <div class="calculator__placeholder rw-24-500" id="banknote-placeholder">

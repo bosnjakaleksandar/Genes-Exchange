@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import type { CurrencyRate } from '../ts/API/useRates';
 import Icon from './Icon.astro';
+import NovosadskiSajam from '../assets/novosadski-sajam.webp';
 
 export interface Props {
   title: string;
@@ -28,6 +30,13 @@ const {
 ---
 
 <section class="hero">
+  <Image
+    src={NovosadskiSajam}
+    alt="Novosadski Sajam"
+    class="hero__background"
+    loading="eager"
+    fetchpriority="high"
+  />
   <div class="hero__container container-secondary">
     <div class="hero__content">
       <h1 class="hero__title rw-78-600">

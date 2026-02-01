@@ -2,10 +2,11 @@
 import Layout from '../layouts/layout.astro';
 import HeroSmall from '../components/hero-small.astro';
 import Faq from '../components/accordion.astro';
+import Dollar from '../assets/dollar.webp';
 import { Schema } from 'astro-seo-schema';
 
 const pageData = {
-  title: 'Česta pitanja',
+  title: 'Menjačnica Genes Novi Sad | Česta pitanja',
 };
 
 const seoDescription =
@@ -51,7 +52,7 @@ const faqs = [
 ---
 
 <Layout
-  title={'Menjačnica Genes - ' + pageData.title}
+  title={pageData.title}
   description={seoDescription}
   ogImage="/images/GenesLogoMeta.webp"
   lang="sr"
@@ -71,7 +72,7 @@ const faqs = [
     }}
   />
   <main class="faq">
-    <HeroSmall title="Česta pitanja" image="/images/dollar.webp" imageAlt="Dollar Change" />
+    <HeroSmall title="Česta pitanja" image={Dollar} imageAlt="Dollar Change" />
     <Faq
       title="Najčešće postavljana pitanja"
       questions={[

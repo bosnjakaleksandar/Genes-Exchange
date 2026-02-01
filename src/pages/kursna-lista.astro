@@ -7,10 +7,10 @@ import { Schema } from 'astro-seo-schema';
 const { rates, lastUpdate } = await fetchRates();
 
 const pageData = {
-  title: 'Menjačnica Genes - Kursna Lista',
+  title: 'Menjačnica Genes Novi Sad | Kursna Lista',
   description:
     'Ažurirana kursna lista sa kupovnim i prodajnim kursevima za evro (EUR), dolar (USD), franak (CHF), funtu (GBP), australijski (AUD) i kanadski dolar (CAD), kao i konvertibilnu marku (BAM).',
-  ogImage: '/images/kursna-lista-og-image.webp',
+  ogImage: '/images/GenesLogoMeta.webp',
   lang: 'sr',
   ratesTable: {
     rates: rates,
@@ -32,7 +32,7 @@ const pageData = {
 <Layout
   title={pageData.title}
   description={pageData.description}
-  ogImage="/images/HeroBanner.webp"
+  ogImage="/images/GenesLogoMeta.webp"
   lang="sr"
 >
   <Schema

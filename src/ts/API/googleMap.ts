@@ -30,98 +30,99 @@ export const initGoogleMap = async (): Promise<void> => {
   const apiKey = mapElement.getAttribute('data-api-key');
   if (!apiKey) return;
 
-  mapElement.setAttribute('role', 'region');
-  mapElement.setAttribute('aria-label', 'Google Map showing Menjačnica Genes location');
+  const startMap = async () => {
+    mapElement.setAttribute('role', 'region');
+    mapElement.setAttribute('aria-label', 'Google Map showing Menjačnica Genes location');
 
-  const fixIframeAccessibility = () => {
-    const iframes = mapElement.querySelectorAll('iframe');
-    iframes.forEach((iframe, index) => {
-      if (!iframe.hasAttribute('title')) {
-        iframe.setAttribute(
-          'title',
-          `Google Map - Menjačnica Genes${index > 0 ? ` ${index + 1}` : ''}`
-        );
-      }
-      if (!iframe.hasAttribute('aria-label')) {
-        iframe.setAttribute('aria-label', 'Interactive map showing business location');
-      }
-      if (!iframe.hasAttribute('loading')) {
-        iframe.setAttribute('loading', 'lazy');
-      }
-    });
-  };
-
-  const fixAriaRoles = () => {
-    const elements = mapElement.querySelectorAll('[role="button"], [role="link"]');
-    elements.forEach((el) => {
-      const tagName = el.tagName.toLowerCase();
-      if (tagName !== 'button' && tagName !== 'a' && tagName !== 'input') {
-        el.removeAttribute('role');
-      }
-
-      if (
-        tagName.startsWith('gmp-') ||
-        (tagName !== 'button' && tagName !== 'a' && tagName !== 'input')
-      ) {
-        if (el.hasAttribute('tabindex')) {
-          el.removeAttribute('tabindex');
+    const fixIframeAccessibility = () => {
+      const iframes = mapElement.querySelectorAll('iframe');
+      iframes.forEach((iframe, index) => {
+        if (!iframe.hasAttribute('title')) {
+          iframe.setAttribute(
+            'title',
+            `Google Map - Menjačnica Genes${index > 0 ? ` ${index + 1}` : ''}`
+          );
         }
-      }
-    });
-  };
-
-  const observer = new MutationObserver(() => {
-    fixIframeAccessibility();
-    fixAriaRoles();
-  });
-
-  observer.observe(mapElement, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['role'],
-  });
-
-  try {
-    await loadGoogleMapsAPI(apiKey);
-
-    const center = { lat: 45.258359263048064, lng: 19.823252542084486 };
-
-    const mapOptions: google.maps.MapOptions = {
-      center,
-      zoom: 15,
-      mapId: '68a115ad7d04103ce4117501',
-      mapTypeControl: false,
-      streetViewControl: false,
-      fullscreenControl: true,
-      zoomControl: true,
-      colorScheme: 'DARK',
+        if (!iframe.hasAttribute('aria-label')) {
+          iframe.setAttribute('aria-label', 'Interactive map showing business location');
+        }
+        if (!iframe.hasAttribute('loading')) {
+          iframe.setAttribute('loading', 'lazy');
+        }
+      });
     };
 
-    const map = new window.google!.maps.Map(mapElement, mapOptions);
+    const fixAriaRoles = () => {
+      const elements = mapElement.querySelectorAll('[role="button"], [role="link"]');
+      elements.forEach((el) => {
+        const tagName = el.tagName.toLowerCase();
+        if (tagName !== 'button' && tagName !== 'a' && tagName !== 'input') {
+          el.removeAttribute('role');
+        }
 
-    setTimeout(() => {
+        if (
+          tagName.startsWith('gmp-') ||
+          (tagName !== 'button' && tagName !== 'a' && tagName !== 'input')
+        ) {
+          if (el.hasAttribute('tabindex')) {
+            el.removeAttribute('tabindex');
+          }
+        }
+      });
+    };
+
+    const observer = new MutationObserver(() => {
       fixIframeAccessibility();
       fixAriaRoles();
-    }, 500);
-
-    setTimeout(() => {
-      fixIframeAccessibility();
-      fixAriaRoles();
-    }, 2000);
-
-    const { AdvancedMarkerElement } = (await window.google!.maps.importLibrary(
-      'marker'
-    )) as google.maps.MarkerLibrary;
-
-    const marker = new AdvancedMarkerElement({
-      map,
-      position: center,
-      title: 'Menjačnica Genes',
     });
 
-    const infoWindow = new window.google!.maps.InfoWindow({
-      content: `
+    observer.observe(mapElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['role'],
+    });
+
+    try {
+      await loadGoogleMapsAPI(apiKey);
+
+      const center = { lat: 45.258359263048064, lng: 19.823252542084486 };
+
+      const mapOptions: google.maps.MapOptions = {
+        center,
+        zoom: 15,
+        mapId: '68a115ad7d04103ce4117501',
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+        zoomControl: true,
+        colorScheme: 'DARK',
+      };
+
+      const map = new window.google!.maps.Map(mapElement, mapOptions);
+
+      setTimeout(() => {
+        fixIframeAccessibility();
+        fixAriaRoles();
+      }, 500);
+
+      setTimeout(() => {
+        fixIframeAccessibility();
+        fixAriaRoles();
+      }, 2000);
+
+      const { AdvancedMarkerElement } = (await window.google!.maps.importLibrary(
+        'marker'
+      )) as google.maps.MarkerLibrary;
+
+      const marker = new AdvancedMarkerElement({
+        map,
+        position: center,
+        title: 'Menjačnica Genes',
+      });
+
+      const infoWindow = new window.google!.maps.InfoWindow({
+        content: `
         <div style="max-width: 250px;">
           <h3 style="font-size: 16px; font-weight: 600;">Menjačnica Genes</h3>
           <p style="margin-top: 10px; font-size: 14px; color: #666;">
@@ -134,14 +135,29 @@ export const initGoogleMap = async (): Promise<void> => {
           </a>
         </div>
       `,
-    });
+      });
 
-    infoWindow.open(map, marker);
-
-    marker.addListener('gmp-click', () => {
       infoWindow.open(map, marker);
-    });
-  } catch (error) {
-    console.error('Google Maps error:', error);
-  }
+
+      marker.addListener('gmp-click', () => {
+        infoWindow.open(map, marker);
+      });
+    } catch (error) {
+      console.error('Google Maps error:', error);
+    }
+  };
+
+  const intersectionObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          startMap();
+          observer.disconnect();
+        }
+      });
+    },
+    { rootMargin: '200px' }
+  );
+
+  intersectionObserver.observe(mapElement);
 };

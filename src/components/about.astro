@@ -1,5 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import EurFlag from '../assets/eur.webp';
+import UsFlag from '../assets/us.webp';
+import ChfFlag from '../assets/chf.webp';
+import UkFlag from '../assets/uk.webp';
+import CadFlag from '../assets/cad.webp';
+import AudFlag from '../assets/aud.webp';
+import BamFlag from '../assets/bam.webp';
 
 export interface Props {
   title: string;
@@ -29,18 +37,13 @@ const { title, linkText, strong, description } = Astro.props;
   </div>
   <div class="about__infinity-slider-wrapper">
     <div class="about__infinity-slider">
-      <img src="/images/eur.webp" alt="flag of europe union" loading="lazy" decoding="async" />
-      <img src="/images/us.webp" alt="flag of united states" loading="lazy" decoding="async" />
-      <img src="/images/chf.webp" alt="flag of switzerland" loading="lazy" decoding="async" />
-      <img src="/images/uk.webp" alt="flag of great britain" loading="lazy" decoding="async" />
-      <img src="/images/cad.webp" alt="flag of canada" loading="lazy" decoding="async" />
-      <img src="/images/aud.webp" alt="flag of australia" loading="lazy" decoding="async" />
-      <img
-        src="/images/bam.webp"
-        alt="flag of bosnia and herzegovina"
-        loading="lazy"
-        decoding="async"
-      />
+      <Image src={EurFlag} alt="flag of europe union" loading="lazy" decoding="async" />
+      <Image src={UsFlag} alt="flag of united states" loading="lazy" decoding="async" />
+      <Image src={ChfFlag} alt="flag of switzerland" loading="lazy" decoding="async" />
+      <Image src={UkFlag} alt="flag of great britain" loading="lazy" decoding="async" />
+      <Image src={CadFlag} alt="flag of canada" loading="lazy" decoding="async" />
+      <Image src={AudFlag} alt="flag of australia" loading="lazy" decoding="async" />
+      <Image src={BamFlag} alt="flag of bosnia and herzegovina" loading="lazy" decoding="async" />
     </div>
   </div>
 </section>

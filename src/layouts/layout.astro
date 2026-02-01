@@ -4,7 +4,7 @@ import Footer from '../components/footer.astro';
 import { Schema } from 'astro-seo-schema';
 
 export interface Props {
-  title: string;
+  title?: string;
   description?: string;
   lang?: 'sr' | 'en';
   canonicalURL?: string;
@@ -12,13 +12,30 @@ export interface Props {
   isErrorPage?: boolean;
 }
 
-const { title, description, lang = 'sr', canonicalURL, ogImage, isErrorPage = false } = Astro.props;
+const {
+  title: propTitle,
+  description,
+  lang = 'sr',
+  canonicalURL,
+  ogImage,
+  isErrorPage = false,
+} = Astro.props;
 
-const finalDescription =
-  description ||
-  (lang === 'en'
-    ? 'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.'
-    : 'Menjačnica Genes, vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.');
+const siteData = {
+  sr: {
+    title: 'Menjačnica Genes Novi Sad',
+    description:
+      'Menjačnica Genes, vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.',
+  },
+  en: {
+    title: 'Genes Exchange Office Novi Sad',
+    description:
+      'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.',
+  },
+};
+
+const title = propTitle || siteData[lang].title;
+const finalDescription = description || siteData[lang].description;
 
 const baseURL = 'https://menjacnicagenes.rs';
 const currentCanonicalURL = canonicalURL || new URL(Astro.url.pathname, baseURL).href;
@@ -38,17 +55,9 @@ const enURL = currentPath.startsWith('/en/')
       ? new URL('/en/exchange-rates', baseURL).href
       : null;
 
-// Open Graph Image
 const defaultOgImage = `${baseURL}/images/GenesLogoMeta.webp`;
 const ogImageURL = ogImage ? `${baseURL}${ogImage}` : defaultOgImage;
 
-// Structured Data
-const descriptions = {
-  sr: 'Menjačnica Genes, vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.',
-  en: 'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.',
-};
-
-// SEO Keywords
 const keywords = {
   sr: 'menjačnica, menjacnica genes, genes exchange, menjačnica novi sad, kursna lista, kurs evra, kurs dolara, zamena valute, razmena valute, devizna menjačnica, otkup valute, prodaja valute, eur rsd, usd rsd, chf rsd, gbp rsd, povoljni kursevi, najpovoljnija menjačnica, platni promet, payspot, uplata računa, menjačnica srbija, exchange office novi sad, novosadski sajam, sajam, sajmiste, komunalije',
   en: 'exchange office, currency exchange, genes exchange, novi sad, exchange rates, euro rate, dollar rate, currency conversion, buy currency, sell currency, eur rsd, usd rsd, chf rsd, gbp rsd, favorable rates, payment transfer, payspot, bill payment, serbia, novosadski sajam, exchange',
@@ -80,11 +89,9 @@ const searchUrlTemplate =
     <meta name="googlebot" content="index, follow" />
     <meta name="bingbot" content="index, follow" />
 
-    <!-- Resource hints -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
 
-    <!-- Favicons -->
     <link rel="apple-touch-icon-precomposed" href="/favicons/apple-icon-precomposed.png" />
     <link rel="apple-touch-icon" href="/favicons/apple-icon.png" />
     <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png" />
@@ -113,13 +120,6 @@ const searchUrlTemplate =
     <meta name="theme-color" content="#0b0b0b" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <!-- Preload critical images for LCP optimization -->
-    <link rel="preload" as="image" href="/images/GenesLogo-white.webp" fetchpriority="high" />
-    <link rel="preload" as="image" href="/images/novosadski-sajam.webp" fetchpriority="high" />
-    <link rel="preload" as="image" href="/images/serbia.webp" fetchpriority="high" />
-    <link rel="preload" as="image" href="/images/english.webp" fetchpriority="high" />
-
-    <!-- SEO Tags -->
     <link rel="canonical" href={currentCanonicalURL} />
     <link rel="alternate" hreflang="sr" href={srURL} />
     {enURL && <link rel="alternate" hreflang="en" href={enURL} />}
@@ -137,27 +137,22 @@ const searchUrlTemplate =
     <meta property="og:site_name" content={lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange'} />
     <meta property="og:locale" content={lang === 'sr' ? 'sr_RS' : 'en_US'} />
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={finalDescription} />
     <meta name="twitter:image" content={ogImageURL} />
     <meta name="twitter:image:alt" content={title} />
 
-    <!-- Author -->
     <meta name="author" content={lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange'} />
 
     <title>{title}</title>
 
-    <!-- Additional head content -->
     <slot name="head" />
 
-    <!--Styles -->
     <style is:global>
       @import '../scss/main.scss';
     </style>
 
-    <!-- Google tag (gtag.js) -->
     <script
       type="text/partytown"
       async
@@ -172,7 +167,6 @@ const searchUrlTemplate =
     </script>
   </head>
   <body class={isErrorPage ? 'error-page-body' : ''}>
-    <!-- Schema Markup -->
     <Schema
       item={{
         '@context': 'https://schema.org',
@@ -181,9 +175,10 @@ const searchUrlTemplate =
         name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
         alternateName: 'Genes Exchange Office',
         url: baseURL,
-        logo: `${baseURL}/images/GenesLogo-white.webp`,
+        logo: `${baseURL}/images/GenesLogoMeta.webp`,
         image: `${baseURL}/images/GenesLogoMeta.webp`,
-        description: descriptions[lang],
+        email: 'menjacnicagenes@gmail.com',
+        description: siteData[lang].description,
         address: {
           '@type': 'PostalAddress',
           streetAddress: 'Hajduk Veljkova 11',
@@ -227,7 +222,7 @@ const searchUrlTemplate =
         '@id': `${baseURL}/#website`,
         name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
         url: baseURL,
-        description: descriptions[lang],
+        description: siteData[lang].description,
         potentialAction: {
           '@type': 'SearchAction',
           target: {
