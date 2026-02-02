@@ -145,13 +145,13 @@ const pageData = {
               closes: '14:00',
             },
           ],
+          priceRange: '$$',
+          currenciesAccepted: 'EUR, USD, CHF, AUD, CAD, GBP, BAM, RSD',
+          paymentAccepted: 'Cash',
           areaServed: {
             '@type': 'City',
             name: 'Novi Sad',
           },
-          priceRange: '$$',
-          currenciesAccepted: 'EUR, USD, CHF, AUD, CAD, GBP, BAM, RSD',
-          paymentAccepted: 'Cash',
         },
         {
           '@type': 'WebSite',
@@ -176,22 +176,9 @@ const pageData = {
           url: 'https://menjacnicagenes.rs',
           name: pageData.title,
           isPartOf: { '@id': 'https://menjacnicagenes.rs/#website' },
-          about: { '@id': 'https://menjacnicagenes.rs/#organization' },
+          mainEntity: { '@id': 'https://menjacnicagenes.rs/#organization' },
           description: pageData.description,
           inLanguage: 'sr-RS',
-        },
-        {
-          '@type': 'FAQPage',
-          '@id': 'https://menjacnicagenes.rs/#faq',
-          isPartOf: { '@id': 'https://menjacnicagenes.rs/#webpage' },
-          mainEntity: pageData.accordion.faqs.map((faq) => ({
-            '@type': 'Question',
-            name: faq.question,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: faq.answer,
-            },
-          })),
         },
       ],
     }}
