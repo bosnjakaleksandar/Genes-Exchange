@@ -6,11 +6,10 @@ import Dollar from '../assets/dollar.webp';
 import { Schema } from 'astro-seo-schema';
 
 const pageData = {
-  title: 'Menjačnica Genes Novi Sad | Česta pitanja',
+  title: 'Česta pitanja | Menjačnica Genes Novi Sad',
+  description:
+    'Česta pitanja o Menjačnici Genes. Saznajte sve o razmeni valuta, kuršnoj listi, radnom vremenu, proviziji i uslugama plaćanja računa i komunalija.',
 };
-
-const seoDescription =
-  'Česta pitanja o Menjačnici Genes. Saznajte sve o razmeni valuta, kuršnoj listi, radnom vremenu, proviziji i uslugama plaćanja računa i komunalija.';
 
 const faqs = [
   {
@@ -53,22 +52,55 @@ const faqs = [
 
 <Layout
   title={pageData.title}
-  description={seoDescription}
+  description={pageData.description}
   ogImage="/images/GenesLogoMeta.webp"
   lang="sr"
 >
   <Schema
     item={{
       '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: faq.answer,
+      '@graph': [
+        {
+          '@type': 'WebPage',
+          '@id': 'https://menjacnicagenes.rs/cesta-pitanja/#webpage',
+          url: 'https://menjacnicagenes.rs/cesta-pitanja',
+          name: pageData.title,
+          description: pageData.description,
+          inLanguage: 'sr-RS',
+          isPartOf: { '@id': 'https://menjacnicagenes.rs/#website' },
         },
-      })),
+        {
+          '@type': 'BreadcrumbList',
+          '@id': 'https://menjacnicagenes.rs/cesta-pitanja/#breadcrumb',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Početna',
+              item: 'https://menjacnicagenes.rs',
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: 'Česta Pitanja',
+              item: 'https://menjacnicagenes.rs/cesta-pitanja',
+            },
+          ],
+        },
+        {
+          '@type': 'FAQPage',
+          '@id': 'https://menjacnicagenes.rs/cesta-pitanja/#faq',
+          isPartOf: { '@id': 'https://menjacnicagenes.rs/cesta-pitanja/#webpage' },
+          mainEntity: faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        },
+      ],
     }}
   />
   <main class="faq">

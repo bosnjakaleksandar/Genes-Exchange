@@ -7,7 +7,7 @@ import { Schema } from 'astro-seo-schema';
 const { rates, lastUpdate } = await fetchRates();
 
 const pageData = {
-  title: 'Menjačnica Genes Novi Sad | Kursna Lista',
+  title: 'Kursna Lista | Menjačnica Genes Novi Sad',
   description:
     'Ažurirana kursna lista sa kupovnim i prodajnim kursevima za evro (EUR), dolar (USD), franak (CHF), funtu (GBP), australijski (AUD) i kanadski dolar (CAD), kao i konvertibilnu marku (BAM).',
   ogImage: '/images/GenesLogoMeta.webp',
@@ -38,10 +38,35 @@ const pageData = {
   <Schema
     item={{
       '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: pageData.title,
-      description: pageData.description,
-      url: 'https://menjacnicagenes.rs/kursna-lista',
+      '@graph': [
+        {
+          '@type': 'WebPage',
+          '@id': 'https://menjacnicagenes.rs/kursna-lista/#webpage',
+          url: 'https://menjacnicagenes.rs/kursna-lista',
+          name: pageData.title,
+          description: pageData.description,
+          inLanguage: 'sr-RS',
+          isPartOf: { '@id': 'https://menjacnicagenes.rs/#website' },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          '@id': 'https://menjacnicagenes.rs/kursna-lista/#breadcrumb',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Početna',
+              item: 'https://menjacnicagenes.rs',
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: 'Kursna Lista',
+              item: 'https://menjacnicagenes.rs/kursna-lista',
+            },
+          ],
+        },
+      ],
     }}
   />
   <main class="exchange-rates">

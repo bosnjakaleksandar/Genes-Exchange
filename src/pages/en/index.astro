@@ -14,13 +14,12 @@ import { Schema } from 'astro-seo-schema';
 const { rates, lastUpdate } = await fetchRates();
 const eurRate = rates.find((rate) => rate.currency === 'EUR');
 
-const seoDescription =
-  'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.';
-
 const pageData = {
   title: 'Genes Exchange Office Novi Sad',
+  description:
+    'Genes Exchange Office Novi Sad is your trusted exchange office for currency exchange, bill payments, insurance, and utilities. Safe, fast, and simple. Over 10 years with you. Visit us at Hajduk Veljkova 11, Novi Sad at the Novi Sad Fair.',
   hero: {
-    title: 'Genes Exchange Office',
+    title: 'Genes Exchange Office Novi Sad',
     description: 'Your trusted partner for currency exchange and financial services.',
     buttonText: 'Exchange Rates',
     buttonLink: '/en/exchange-rates',
@@ -102,17 +101,82 @@ const pageData = {
 
 <Layout
   title={pageData.title}
-  description={seoDescription}
+  description={pageData.description}
   ogImage="/images/GenesLogoMeta.webp"
   lang="en"
 >
   <Schema
     item={{
       '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: pageData.title,
-      description: seoDescription,
-      url: 'https://menjacnicagenes.rs/en/',
+      '@graph': [
+        {
+          '@type': 'LocalBusiness',
+          '@id': 'https://menjacnicagenes.rs/#organization',
+          name: 'Genes Exchange Office',
+          alternateName: 'Menjačnica Genes',
+          url: 'https://menjacnicagenes.rs/en/',
+          logo: 'https://menjacnicagenes.rs/images/GenesLogoMeta.webp',
+          image: 'https://menjacnicagenes.rs/images/GenesLogoMeta.webp',
+          description: pageData.description,
+          email: 'menjacnicagenes@gmail.com',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Hajduk Veljkova 11',
+            addressLocality: 'Novi Sad',
+            postalCode: '21000',
+            addressCountry: 'RS',
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: 45.258443638398376,
+            longitude: 19.82320808465672,
+          },
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+              opens: '08:30',
+              closes: '17:00',
+            },
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: 'Saturday',
+              opens: '08:30',
+              closes: '14:00',
+            },
+          ],
+          areaServed: {
+            '@type': 'City',
+            name: 'Novi Sad',
+          },
+          priceRange: '$$',
+          currenciesAccepted: 'EUR, USD, CHF, AUD, CAD, GBP, BAM, RSD',
+          paymentAccepted: 'Cash',
+        },
+        {
+          '@type': 'WebPage',
+          '@id': 'https://menjacnicagenes.rs/en/#webpage',
+          url: 'https://menjacnicagenes.rs/en/',
+          name: pageData.title,
+          about: { '@id': 'https://menjacnicagenes.rs/#organization' },
+          description: pageData.description,
+          inLanguage: 'en-US',
+          isPartOf: { '@id': 'https://menjacnicagenes.rs/#website' },
+        },
+        {
+          '@type': 'FAQPage',
+          '@id': 'https://menjacnicagenes.rs/en/#faq',
+          isPartOf: { '@id': 'https://menjacnicagenes.rs/en/#webpage' },
+          mainEntity: pageData.accordion.faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        },
+      ],
     }}
   />
   <main class="homepage">

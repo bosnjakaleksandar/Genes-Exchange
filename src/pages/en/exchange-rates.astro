@@ -7,7 +7,7 @@ import { Schema } from 'astro-seo-schema';
 const { rates, lastUpdate } = await fetchRates();
 
 const pageData = {
-  title: 'Genes Exchange Office Novi Sad | Exchange Rates',
+  title: 'Exchange Rates | Genes Exchange Office Novi Sad',
   description:
     'Updated exchange rates with buying and selling prices for Euro (EUR), Dollar (USD), Franc (CHF), British Pound (GBP), Australian (AUD) and Canadian Dollar (CAD), as well as Convertible Mark (BAM).',
 };
@@ -22,10 +22,35 @@ const pageData = {
   <Schema
     item={{
       '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: pageData.title,
-      description: pageData.description,
-      url: 'https://menjacnicagenes.rs/en/exchange-rates',
+      '@graph': [
+        {
+          '@type': 'WebPage',
+          '@id': 'https://menjacnicagenes.rs/en/exchange-rates/#webpage',
+          url: 'https://menjacnicagenes.rs/en/exchange-rates',
+          name: pageData.title,
+          description: pageData.description,
+          inLanguage: 'en-US',
+          isPartOf: { '@id': 'https://menjacnicagenes.rs/#website' },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          '@id': 'https://menjacnicagenes.rs/en/exchange-rates/#breadcrumb',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Home',
+              item: 'https://menjacnicagenes.rs/en',
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: 'Exchange Rates',
+              item: 'https://menjacnicagenes.rs/en/exchange-rates',
+            },
+          ],
+        },
+      ],
     }}
   />
   <main class="exchange-rates">

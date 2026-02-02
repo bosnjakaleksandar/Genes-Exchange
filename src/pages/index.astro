@@ -16,8 +16,10 @@ const eurRate = rates.find((rate) => rate.currency === 'EUR');
 
 const pageData = {
   title: 'Menjačnica Genes Novi Sad',
+  description:
+    'Menjačnica Genes Novi Sad je Vaša pouzdana menjačnica za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa Vama. Posetite nas na adresi Hajduk Veljkova 11, Novi Sad na novosadskom sajmu.',
   hero: {
-    title: 'Menjačnica Genes',
+    title: 'Menjačnica Genes Novi Sad',
     description: 'Vaš pouzdan partner za razmenu valuta i finansijske usluge.',
     buttonText: 'Kursna lista',
     buttonLink: '/kursna-lista',
@@ -95,26 +97,106 @@ const pageData = {
     ],
   },
 };
-
-const seoDescription =
-  'Menjačnica Genes, vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.';
 ---
 
 <Layout
   title={pageData.title}
-  description={seoDescription}
+  description={pageData.description}
   ogImage="/images/GenesLogoMeta.webp"
   lang="sr"
 >
   <Schema
     item={{
       '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: pageData.title,
-      description: seoDescription,
-      url: 'https://menjacnicagenes.rs/',
+      '@graph': [
+        {
+          '@type': 'LocalBusiness',
+          '@id': 'https://menjacnicagenes.rs/#organization',
+          name: 'Menjačnica Genes',
+          alternateName: 'Genes Exchange Office',
+          url: 'https://menjacnicagenes.rs',
+          logo: 'https://menjacnicagenes.rs/images/GenesLogoMeta.webp',
+          image: 'https://menjacnicagenes.rs/images/GenesLogoMeta.webp',
+          description: pageData.description,
+          email: 'menjacnicagenes@gmail.com',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Hajduk Veljkova 11',
+            addressLocality: 'Novi Sad',
+            postalCode: '21000',
+            addressCountry: 'RS',
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: 45.258443638398376,
+            longitude: 19.82320808465672,
+          },
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+              opens: '08:30',
+              closes: '17:00',
+            },
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: 'Saturday',
+              opens: '08:30',
+              closes: '14:00',
+            },
+          ],
+          areaServed: {
+            '@type': 'City',
+            name: 'Novi Sad',
+          },
+          priceRange: '$$',
+          currenciesAccepted: 'EUR, USD, CHF, AUD, CAD, GBP, BAM, RSD',
+          paymentAccepted: 'Cash',
+        },
+        {
+          '@type': 'WebSite',
+          '@id': 'https://menjacnicagenes.rs/#website',
+          url: 'https://menjacnicagenes.rs',
+          name: 'Menjačnica Genes',
+          publisher: { '@id': 'https://menjacnicagenes.rs/#organization' },
+          inLanguage: 'sr-RS',
+          potentialAction: {
+            '@type': 'SearchAction',
+            target: {
+              '@type': 'EntryPoint',
+              urlTemplate: 'https://menjacnicagenes.rs/kursna-lista?q={search_term_string}',
+            },
+            // @ts-ignore
+            'query-input': 'required name=search_term_string',
+          },
+        },
+        {
+          '@type': 'WebPage',
+          '@id': 'https://menjacnicagenes.rs/#webpage',
+          url: 'https://menjacnicagenes.rs',
+          name: pageData.title,
+          isPartOf: { '@id': 'https://menjacnicagenes.rs/#website' },
+          about: { '@id': 'https://menjacnicagenes.rs/#organization' },
+          description: pageData.description,
+          inLanguage: 'sr-RS',
+        },
+        {
+          '@type': 'FAQPage',
+          '@id': 'https://menjacnicagenes.rs/#faq',
+          isPartOf: { '@id': 'https://menjacnicagenes.rs/#webpage' },
+          mainEntity: pageData.accordion.faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        },
+      ],
     }}
   />
+
   <main class="homepage">
     <Hero
       title={pageData.hero.title}

@@ -1,7 +1,6 @@
 ---
 import Header from '../components/header.astro';
 import Footer from '../components/footer.astro';
-import { Schema } from 'astro-seo-schema';
 
 export interface Props {
   title?: string;
@@ -25,12 +24,12 @@ const siteData = {
   sr: {
     title: 'Menjačnica Genes Novi Sad',
     description:
-      'Menjačnica Genes, vaš pouzdan partner za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa vama.',
+      'Menjačnica Genes Novi Sad je Vaša pouzdana menjačnica za razmenu valuta, uplatu računa, osiguranja, komunalija. Sigurno, brzo i jednostavno. Već više od 10 godina sa Vama. Posetite nas na adresi Hajduk Veljkova 11, Novi Sad na novosadskom sajmu.',
   },
   en: {
     title: 'Genes Exchange Office Novi Sad',
     description:
-      'Genes Exchange Office, your reliable partner for currency exchange, bill payments, insurance, and financial services. For more than 10 years, we’ve been providing secure, fast, and simple financial solutions.',
+      'Genes Exchange Office Novi Sad is your trusted exchange office for currency exchange, bill payments, insurance, and utilities. Safe, fast, and simple. Over 10 years with you. Visit us at Hajduk Veljkova 11, Novi Sad at the Novi Sad Fair.',
   },
 };
 
@@ -62,11 +61,6 @@ const keywords = {
   sr: 'menjačnica, menjacnica genes, genes exchange, menjačnica novi sad, kursna lista, kurs evra, kurs dolara, zamena valute, razmena valute, devizna menjačnica, otkup valute, prodaja valute, eur rsd, usd rsd, chf rsd, gbp rsd, povoljni kursevi, najpovoljnija menjačnica, platni promet, payspot, uplata računa, menjačnica srbija, exchange office novi sad, novosadski sajam, sajam, sajmiste, komunalije',
   en: 'exchange office, currency exchange, genes exchange, novi sad, exchange rates, euro rate, dollar rate, currency conversion, buy currency, sell currency, eur rsd, usd rsd, chf rsd, gbp rsd, favorable rates, payment transfer, payspot, bill payment, serbia, novosadski sajam, exchange',
 };
-
-const searchUrlTemplate =
-  lang === 'en'
-    ? `${baseURL}/en/exchange-rates?q={search_term_string}`
-    : `${baseURL}/kursna-lista?q={search_term_string}`;
 ---
 
 <!doctype html>
@@ -77,10 +71,6 @@ const searchUrlTemplate =
 
     <meta name="description" content={finalDescription} />
     <meta name="keywords" content={keywords[lang]} />
-    <meta
-      name="search-queries"
-      content="menjacnica, menjačnica, menjacnica novi sad, exchange, menjacnice, placanje racuna, menjacnice novi sad, menjacnica near me, menjačnice, menjacnica rumenacka, mjenjačnica, мењачница, genes, currency exchange, sajam, novosadski sajam"
-    />
     <meta name="generator" content={Astro.generator} />
     <meta
       name="robots"
@@ -167,73 +157,6 @@ const searchUrlTemplate =
     </script>
   </head>
   <body class={isErrorPage ? 'error-page-body' : ''}>
-    <Schema
-      item={{
-        '@context': 'https://schema.org',
-        '@type': 'FinancialService',
-        '@id': `${baseURL}/#organization`,
-        name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
-        alternateName: 'Genes Exchange Office',
-        url: baseURL,
-        logo: `${baseURL}/images/GenesLogoMeta.webp`,
-        image: `${baseURL}/images/GenesLogoMeta.webp`,
-        email: 'menjacnicagenes@gmail.com',
-        description: siteData[lang].description,
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: 'Hajduk Veljkova 11',
-          addressLocality: 'Novi Sad',
-          postalCode: '21000',
-          addressCountry: 'RS',
-        },
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: 45.258443638398376,
-          longitude: 19.82320808465672,
-        },
-        openingHoursSpecification: [
-          {
-            '@type': 'OpeningHoursSpecification',
-            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-            opens: '08:30',
-            closes: '17:00',
-          },
-          {
-            '@type': 'OpeningHoursSpecification',
-            dayOfWeek: 'Saturday',
-            opens: '08:30',
-            closes: '14:00',
-          },
-        ],
-        priceRange: '$$',
-        currenciesAccepted: 'EUR, USD, CHF, AUD, CAD, GBP, BAM, RSD',
-        paymentAccepted: 'Cash',
-        areaServed: {
-          '@type': 'City',
-          name: 'Novi Sad',
-        },
-      }}
-    />
-
-    <Schema
-      item={{
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        '@id': `${baseURL}/#website`,
-        name: lang === 'sr' ? 'Menjačnica Genes' : 'Genes Exchange',
-        url: baseURL,
-        description: siteData[lang].description,
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: {
-            '@type': 'EntryPoint',
-            urlTemplate: searchUrlTemplate,
-          },
-          'query-input': 'required name=search_term_string',
-        },
-      }}
-    />
-
     <Header lang={lang} />
 
     <slot />
