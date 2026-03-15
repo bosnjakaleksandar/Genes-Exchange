@@ -89,3 +89,19 @@ const t = translations[lang];
     </div>
   </div>
 </header>
+
+<style lang="scss" is:global>
+  @use '../scss/components/header';
+</style>
+
+<script>
+  import { initBurgerMenu } from '../ts/components/hamburger';
+  import { initHeaderScrollAnimation } from '../ts/components/header';
+  import { initCustomSelect } from '../ts/components/customSelect';
+
+  if (document.querySelector('header')) {
+    initBurgerMenu();
+    initHeaderScrollAnimation();
+    initCustomSelect();
+  }
+</script>

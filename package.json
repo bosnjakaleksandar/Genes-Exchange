@@ -9,17 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/partytown": "^2.1.4",
-    "@astrojs/sitemap": "^3.7.0",
-    "astro": "^5.17.1",
+    "@astrojs/sitemap": "^3.7.1",
+    "astro": "^6.0.4",
     "astro-robots": "^2.3.1",
-    "astro-seo-schema": "^5.1.0",
+    "astro-seo-schema": "^6.0.0",
     "chart.js": "^4.5.1",
     "sass": "^1.93.3",
     "schema-dts": "^1.1.5"
   },
   "devDependencies": {
-    "@astrojs/netlify": "^6.6.4",
+    "@astrojs/netlify": "^7.0.2",
     "@types/google.maps": "^3.58.1",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",

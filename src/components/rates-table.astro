@@ -182,3 +182,13 @@ const {
     </div>
   </div>
 </section>
+
+<style lang="scss" is:global>
+  @use '../scss/components/rates';
+</style>
+
+<script>
+  if (document.getElementById('rates-table')) {
+    import('../ts/components/ratesTable').then((m) => m.initRatesTable());
+  }
+</script>

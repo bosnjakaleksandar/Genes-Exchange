@@ -104,3 +104,16 @@ const GOOGLE_API_KEY = import.meta.env.GOOGLE_API_KEY;
     </div>
   </div>
 </footer>
+
+<style lang="scss" is:global>
+  @use '../scss/components/footer';
+</style>
+
+<script>
+  import { initGoogleMap } from '../ts/API/googleMap';
+
+  if (document.getElementById('google-map')) {
+    initGoogleMap();
+  }
+</script>
+

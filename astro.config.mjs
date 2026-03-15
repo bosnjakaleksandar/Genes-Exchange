@@ -1,8 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+// @ts-ignore
 import netlify from '@astrojs/netlify';
 import sitemap from '@astrojs/sitemap';
-import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,21 +24,9 @@ export default defineConfig({
         },
       },
     }),
-    partytown({
-      config: {
-        forward: ['dataLayer.push'],
-      },
-    }),
   ],
   vite: {
     build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['chart.js'],
-          },
-        },
-      },
       minify: 'terser',
       terserOptions: {
         compress: {

@@ -47,3 +47,12 @@ const { title, linkText, strong, description } = Astro.props;
     </div>
   </div>
 </section>
+
+<style lang="scss" is:global>
+  @use '../scss/components/about';
+</style>
+
+<script>
+  import infinitySlider from '../ts/animations/infinitySlider';
+  if (document.querySelector('.about__infinity-slider')) infinitySlider();
+</script>

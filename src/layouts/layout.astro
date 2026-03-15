@@ -143,17 +143,33 @@ const keywords = {
       @import '../scss/main.scss';
     </style>
 
-    <script
-      type="text/partytown"
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-9N2QRN6XCT"></script>
-    <script type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-9N2QRN6XCT');
+    <script is:inline>
+      const initAnalytics = () => {
+        if (window.analyticsInitialized) return;
+        window.analyticsInitialized = true;
+
+        const script1 = document.createElement('script');
+        script1.async = true;
+        script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-9N2QRN6XCT';
+        document.head.appendChild(script1);
+
+        const script2 = document.createElement('script');
+        script2.innerHTML = `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-9N2QRN6XCT');
+        `;
+        document.head.appendChild(script2);
+
+        ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach((event) => {
+          window.removeEventListener(event, initAnalytics);
+        });
+      };
+
+      ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach((event) => {
+        window.addEventListener(event, initAnalytics, { once: true, passive: true });
+      });
     </script>
   </head>
   <body class={isErrorPage ? 'error-page-body' : ''}>
