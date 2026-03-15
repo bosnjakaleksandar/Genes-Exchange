@@ -54,11 +54,11 @@ const { title, description, imageSrc, imageAlt } = Astro.props;
       <Image
         src={imageSrc}
         alt={imageAlt}
-        widths={[400, 600, 900]}
-        sizes="(max-width: 900px) 100vw, 900px"
+        widths={[400, 650, 900, 1280, 1920]}
+        sizes="(max-width: 1024px) 100vw, (max-width: 1920px) 900px, 47vw"
         loading="lazy"
         decoding="async"
-        quality={85}
+        quality={80}
       />
     </div>
   </div>

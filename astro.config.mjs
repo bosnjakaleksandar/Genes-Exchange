@@ -47,4 +47,7 @@ export default defineConfig({
   experimental: {
     clientPrerender: true,
   },
+  build: {
+    inlineStylesheets: 'always',
+  },
 });
