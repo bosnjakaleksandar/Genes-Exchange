@@ -27,20 +27,20 @@
         "rw": "Raleway"
     );
 
-$font-family: map.get($font-families, $family);
+    $font-family: map.get($font-families, $family);
 
-font-family: $font-family;
-font-size: #{$size}px;
-font-weight: $weight;
-line-height: calc(#{$line-height} / #{$size});
+    font-family: $font-family;
+    font-size: #{$size}px;
+    font-weight: $weight;
+    line-height: calc(#{$line-height} / #{$size});
 
-@if $letter-spacing !=null {
-    letter-spacing: $letter-spacing;
-}
+    @if $letter-spacing != null {
+        letter-spacing: $letter-spacing;
+    }
 
-@include mq(1921, min) {
-    font-size: calc(#{$size} * 100 / 1920 * 1vw);
-}
+    @include mq(1921, min) {
+        font-size: calc(#{$size} * 100 / 1920 * 1vw);
+    }
 }
 
 // -------------------------------------------- //
@@ -88,24 +88,29 @@ $font-variants: (
     $line-height: list.nth($vals, 4);
     $letter-spacing: null;
 
-    @if list.length($vals)>=5 and list.nth($vals, 5) !=null {
+    @if list.length($vals) >= 5 and list.nth($vals, 5) != null {
         $letter-spacing: list.nth($vals, 5);
-    }
-
-    $responsive-map: null;
-
-    @if list.length($vals)>=6 {
-        $responsive-map: list.nth($vals, 6);
     }
 
     .#{$class} {
         @include font-style($family, $size, $weight, $line-height, $letter-spacing);
+    }
+}
 
-        @if $responsive-map !=null and meta.type-of($responsive-map)=="map" {
-            @each $breakpoint-var, $responsive-font-size in $responsive-map {
+$breakpoints-in-use: ($lap-large, $lap-small, $tablet, $phone);
 
-                @include mq($breakpoint-var) {
-                    font-size: #{$responsive-font-size}px;
+@each $bp in $breakpoints-in-use {
+    @include mq($bp) {
+        @each $class, $vals in $font-variants {
+            $responsive-map: null;
+
+            @if list.length($vals) >= 6 {
+                $responsive-map: list.nth($vals, 6);
+            }
+
+            @if $responsive-map != null and map.has-key($responsive-map, $bp) {
+                .#{$class} {
+                    font-size: #{map.get($responsive-map, $bp)}px;
                 }
             }
         }

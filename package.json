@@ -14,6 +14,7 @@
     "astro-robots": "^2.3.1",
     "astro-seo-schema": "^6.0.0",
     "chart.js": "^4.5.1",
+    "gsap": "^3.14.2",
     "sass": "^1.93.3",
     "schema-dts": "^1.1.5"
   },

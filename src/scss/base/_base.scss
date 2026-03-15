@@ -3,6 +3,7 @@
 
 body {
     background-color: $black;
+    overflow-x: hidden;
 }
 
 // * {
@@ -36,10 +37,7 @@ body {
     gap: 10px;
     width: fit-content;
     box-shadow: 0 0 15px rgba($gold, 0.5);
-    opacity: 0;
-    transform: translateY(60px);
     border: 1px solid transparent;
-    animation: slideInLeft 1s ease-out 0.8s forwards;
     font-weight: 600;
     text-shadow:
         0 1px 3px rgba($black, 0.8),
@@ -49,18 +47,6 @@ body {
     span {
         width: 30px;
         height: 30px;
-    }
-
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-60px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
     }
 
     svg {
@@ -121,26 +107,11 @@ body {
     gap: 10px;
     width: fit-content;
     box-shadow: 0 0 15px rgba($dark-grey, 0.5);
-    opacity: 0;
-    transform: translateY(60px);
     border: 1px solid transparent;
-    animation: slideInLeft 1s ease-out 0.8s forwards;
 
     span {
         width: 30px;
         height: 30px;
-    }
-
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-60px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
     }
 
     svg {

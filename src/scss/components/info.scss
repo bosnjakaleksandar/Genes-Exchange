@@ -1,6 +1,7 @@
 @use '../base' as *;
 
 .info {
+    overflow-x: hidden;
 
     @include mq (1024) {
         margin-bottom: 70px;
@@ -27,6 +28,7 @@
 
     .info__content {
         max-width: 700px;
+        visibility: hidden;
 
         .info__title {
             margin-bottom: 50px;
@@ -41,6 +43,7 @@
         max-width: 900px;
         border-radius: 12px;
         box-shadow: 0 0 20px rgba($gold, 0.8);
+        visibility: hidden;
 
         img {
             border-radius: 12px;

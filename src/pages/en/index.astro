@@ -214,11 +214,16 @@ const pageData = {
         />
       ))
     }
-    <Accordion
+  <Accordion
       title={pageData.accordion.title}
       questions={pageData.accordion.faqs}
       buttonLink={pageData.accordion.buttonLink}
       buttonText={pageData.accordion.buttonText}
     />
   </main>
+
+  <script>
+    import initHomepageAnimations from '../../ts/animations/homepage';
+    initHomepageAnimations();
+  </script>
 </Layout>

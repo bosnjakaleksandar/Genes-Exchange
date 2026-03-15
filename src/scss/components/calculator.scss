@@ -13,6 +13,7 @@
         height: 100%;
         object-fit: cover;
         z-index: 0;
+        visibility: hidden;
     }
 
     &::before {
@@ -41,6 +42,7 @@
 
     .calculator__banknotes {
         margin-right: 10%;
+        visibility: hidden;
 
         @include mq(1024) {
             margin-right: 0;
@@ -107,6 +109,7 @@
         backdrop-filter: blur(5px);
         text-align: center;
         box-shadow: 0 0 22px rgba($gold, 0.5);
+        visibility: hidden;
     }
 
     .calculator__title {

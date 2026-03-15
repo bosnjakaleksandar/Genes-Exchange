@@ -39,7 +39,8 @@
 }
 
 .accordion__item {
-    border-bottom: 1px solid $white
+    border-bottom: 1px solid $white;
+    visibility: hidden;
 }
 
 .accordion__link {
