@@ -4,6 +4,7 @@
 @use "sass:map";
 @use "sass:list";
 @use "sass:meta";
+@use "sass:string";
 
 // -------------------------------------------- //
 // FONT FACE                                    //
@@ -22,11 +23,11 @@
 // MIXIN                                        //
 // -------------------------------------------- //
 
-@mixin font-style($family, $size, $weight, $line-height, $letter-spacing: null) {
-    $font-families: (
-        "rw": "Raleway"
-    );
+$font-families: (
+    "rw": "Raleway"
+);
 
+@mixin font-style($family, $size, $weight, $line-height, $letter-spacing: null) {
     $font-family: map.get($font-families, $family);
 
     font-family: $font-family;
@@ -81,10 +82,55 @@ $font-variants: (
 // CLASS GENERATOR                              //
 // -------------------------------------------- //
 
+// Grouping by Font Family
+$used-families: ();
 @each $class, $vals in $font-variants {
     $family: list.nth($vals, 1);
-    $size: list.nth($vals, 2);
+    @if not list.index($used-families, $family) {
+        $used-families: list.append($used-families, $family);
+    }
+}
+
+@each $family in $used-families {
+    $classes-for-family: ();
+    @each $class, $vals in $font-variants {
+        @if list.nth($vals, 1) == $family {
+            $classes-for-family: list.append($classes-for-family, string.unquote(".#{$class}"), comma);
+        }
+    }
+    
+    $family-name: map.get($font-families, $family);
+    
+    #{$classes-for-family} {
+        font-family: $family-name;
+    }
+}
+
+// Grouping by Font Weight
+$used-weights: ();
+@each $class, $vals in $font-variants {
     $weight: list.nth($vals, 3);
+    @if not list.index($used-weights, $weight) {
+        $used-weights: list.append($used-weights, $weight);
+    }
+}
+
+@each $weight in $used-weights {
+    $classes-for-weight: ();
+    @each $class, $vals in $font-variants {
+        @if list.nth($vals, 3) == $weight {
+            $classes-for-weight: list.append($classes-for-weight, string.unquote(".#{$class}"), comma);
+        }
+    }
+    
+    #{$classes-for-weight} {
+        font-weight: $weight;
+    }
+}
+
+// Individual Properties (Size, Line Height, Letter Spacing)
+@each $class, $vals in $font-variants {
+    $size: list.nth($vals, 2);
     $line-height: list.nth($vals, 4);
     $letter-spacing: null;
 
@@ -93,7 +139,16 @@ $font-variants: (
     }
 
     .#{$class} {
-        @include font-style($family, $size, $weight, $line-height, $letter-spacing);
+        font-size: #{$size}px;
+        line-height: calc(#{$line-height} / #{$size});
+
+        @if $letter-spacing != null {
+            letter-spacing: $letter-spacing;
+        }
+
+        @include mq(1921, min) {
+            font-size: calc(#{$size} * 100 / 1920 * 1vw);
+        }
     }
 }
 

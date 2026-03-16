@@ -27,6 +27,17 @@ export default defineConfig({
   ],
   vite: {
     build: {
+      rollupOptions: {
+        onwarn(warning, warn) {
+          if (
+            warning.message.includes('are imported from external module "@astrojs/internal-helpers/remote"') ||
+            warning.message.includes('Generated an empty chunk: "layout')
+          ) {
+            return;
+          }
+          warn(warning);
+        },
+      },
       minify: 'terser',
       terserOptions: {
         compress: {
@@ -46,8 +57,5 @@ export default defineConfig({
   },
   experimental: {
     clientPrerender: true,
-  },
-  build: {
-    inlineStylesheets: 'always',
   },
 });
