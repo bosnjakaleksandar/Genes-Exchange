@@ -35,7 +35,7 @@ $font-families: (
     font-weight: $weight;
     line-height: calc(#{$line-height} / #{$size});
 
-    @if $letter-spacing != null {
+    @if $letter-spacing !=null {
         letter-spacing: $letter-spacing;
     }
 
@@ -82,59 +82,66 @@ $font-variants: (
 // CLASS GENERATOR                              //
 // -------------------------------------------- //
 
-// Grouping by Font Family
-$used-families: ();
+$used-families: (
+);
+
 @each $class, $vals in $font-variants {
     $family: list.nth($vals, 1);
+
     @if not list.index($used-families, $family) {
         $used-families: list.append($used-families, $family);
     }
 }
 
 @each $family in $used-families {
-    $classes-for-family: ();
-    @each $class, $vals in $font-variants {
-        @if list.nth($vals, 1) == $family {
-            $classes-for-family: list.append($classes-for-family, string.unquote(".#{$class}"), comma);
-        }
-    }
-    
-    $family-name: map.get($font-families, $family);
-    
-    #{$classes-for-family} {
-        font-family: $family-name;
+    $classes-for-family: (
+    );
+
+@each $class, $vals in $font-variants {
+    @if list.nth($vals, 1)==$family {
+        $classes-for-family: list.append($classes-for-family, string.unquote(".#{$class}"), comma);
     }
 }
 
-// Grouping by Font Weight
-$used-weights: ();
+$family-name: map.get($font-families, $family);
+
+#{$classes-for-family} {
+    font-family: $family-name;
+}
+}
+
+$used-weights: (
+);
+
 @each $class, $vals in $font-variants {
     $weight: list.nth($vals, 3);
+
     @if not list.index($used-weights, $weight) {
         $used-weights: list.append($used-weights, $weight);
     }
 }
 
 @each $weight in $used-weights {
-    $classes-for-weight: ();
-    @each $class, $vals in $font-variants {
-        @if list.nth($vals, 3) == $weight {
-            $classes-for-weight: list.append($classes-for-weight, string.unquote(".#{$class}"), comma);
-        }
-    }
-    
-    #{$classes-for-weight} {
-        font-weight: $weight;
+    $classes-for-weight: (
+    );
+
+@each $class, $vals in $font-variants {
+    @if list.nth($vals, 3)==$weight {
+        $classes-for-weight: list.append($classes-for-weight, string.unquote(".#{$class}"), comma);
     }
 }
 
-// Individual Properties (Size, Line Height, Letter Spacing)
+#{$classes-for-weight} {
+    font-weight: $weight;
+}
+}
+
 @each $class, $vals in $font-variants {
     $size: list.nth($vals, 2);
     $line-height: list.nth($vals, 4);
     $letter-spacing: null;
 
-    @if list.length($vals) >= 5 and list.nth($vals, 5) != null {
+    @if list.length($vals)>=5 and list.nth($vals, 5) !=null {
         $letter-spacing: list.nth($vals, 5);
     }
 
@@ -142,34 +149,87 @@ $used-weights: ();
         font-size: #{$size}px;
         line-height: calc(#{$line-height} / #{$size});
 
-        @if $letter-spacing != null {
+        @if $letter-spacing !=null {
             letter-spacing: $letter-spacing;
-        }
-
-        @include mq(1921, min) {
-            font-size: calc(#{$size} * 100 / 1920 * 1vw);
         }
     }
 }
 
-$breakpoints-in-use: ($lap-large, $lap-small, $tablet, $phone);
+$used-sizes: (
+);
+
+@each $class, $vals in $font-variants {
+    $size: list.nth($vals, 2);
+
+    @if not list.index($used-sizes, $size) {
+        $used-sizes: list.append($used-sizes, $size);
+    }
+}
+
+@include mq(1921, min) {
+    @each $size in $used-sizes {
+        $classes-for-size: (
+        );
+
+    @each $class, $vals in $font-variants {
+        @if list.nth($vals, 2)==$size {
+            $classes-for-size: list.append($classes-for-size, string.unquote(".#{$class}"), comma);
+        }
+    }
+
+    #{$classes-for-size} {
+        font-size: calc(#{$size} * 100 / 1920 * 1vw);
+    }
+}
+}
+
+$breakpoints-in-use: (
+    $lap-large,
+    $lap-small,
+    $tablet,
+    $phone
+);
 
 @each $bp in $breakpoints-in-use {
-    @include mq($bp) {
-        @each $class, $vals in $font-variants {
-            $responsive-map: null;
+    $bp-used-sizes: (
+    );
 
-            @if list.length($vals) >= 6 {
-                $responsive-map: list.nth($vals, 6);
-            }
+@each $class, $vals in $font-variants {
+    @if list.length($vals)>=6 {
+        $responsive-map: list.nth($vals, 6);
 
-            @if $responsive-map != null and map.has-key($responsive-map, $bp) {
-                .#{$class} {
-                    font-size: #{map.get($responsive-map, $bp)}px;
-                }
+        @if map.has-key($responsive-map, $bp) {
+            $size-val: map.get($responsive-map, $bp);
+
+            @if not list.index($bp-used-sizes, $size-val) {
+                $bp-used-sizes: list.append($bp-used-sizes, $size-val);
             }
         }
     }
+}
+
+@if list.length($bp-used-sizes)>0 {
+    @include mq($bp) {
+        @each $size in $bp-used-sizes {
+            $classes-for-size: (
+            );
+
+        @each $class, $vals in $font-variants {
+            @if list.length($vals)>=6 {
+                $responsive-map: list.nth($vals, 6);
+
+                @if map.has-key($responsive-map, $bp) and map.get($responsive-map, $bp)==$size {
+                    $classes-for-size: list.append($classes-for-size, string.unquote(".#{$class}"), comma);
+                }
+            }
+        }
+
+        #{$classes-for-size} {
+            font-size: #{$size}px;
+        }
+    }
+}
+}
 }
 
 section h1,
