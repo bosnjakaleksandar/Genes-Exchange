@@ -5,6 +5,8 @@ import Faq from '../components/accordion.astro';
 import Dollar from '../assets/dollar.webp';
 import { Schema } from 'astro-seo-schema';
 
+Astro.response.headers.set('Cache-Control', 'public, max-age=86400, s-maxage=31536000');
+
 const pageData = {
   title: 'Česta pitanja | Menjačnica Genes Novi Sad',
   description:

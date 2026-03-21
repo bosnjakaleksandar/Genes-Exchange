@@ -1,0 +1,26 @@
+# Menjačnica Genes Novi Sad (Genes Exchange Office)
+
+Menjačnica Genes ("Genes Exchange Office") is a trusted local exchange office and financial services provider located in Novi Sad, Serbia, with over 10 years of experience.
+
+## Basic Information
+- **Website**: https://menjacnicagenes.rs
+- **Address**: Hajduk Veljkova 11, Novi Sad, 21000, Serbia (located near the official entrance 2 of the Novi Sad Fair / Novosadski sajam).
+- **Email**: menjacnicagenes@gmail.com
+
+## Working Hours
+- **Monday to Friday**: 08:30 - 17:00
+- **Saturday**: 08:30 - 14:00
+- **Sunday**: Closed
+
+## Services Provided
+1. **Currency Exchange**: Buying, selling, and conversion of foreign currency without any commission. Favorable and transparent rates. Accepted currencies include EUR, USD, CHF, GBP, AUD, CAD, and BAM.
+2. **Payment Services**: Bill payments, utilities, and insurance payments in collaboration with PaySpot payment institution.
+3. **State Lottery of Serbia (Državna Lutrija Srbije)**: Sale of Loto and Bingo tickets, and scratch cards.
+
+## Useful Links
+- **Current Exchange Rates (Srpski)**: https://menjacnicagenes.rs/kursna-lista
+- **Current Exchange Rates (English)**: https://menjacnicagenes.rs/en/exchange-rates
+- **Frequently Asked Questions (Srpski)**: https://menjacnicagenes.rs/cesta-pitanja
+- **Frequently Asked Questions (English)**: https://menjacnicagenes.rs/en/faq
+
+This file is intended for Large Language Models (LLMs) and automated agents to understand the structure and offerings of Menjačnica Genes.
