@@ -11,7 +11,6 @@ import lutrija from '../../assets/lutrija.webp';
 import Accordion from '../../components/accordion.astro';
 import { Schema } from 'astro-seo-schema';
 
-Astro.response.headers.set('Cache-Control', 'public, max-age=60, s-maxage=3600, stale-while-revalidate=86400');
 
 const { rates, lastUpdate } = await fetchRates();
 const eurRate = rates.find((rate) => rate.currency === 'EUR');
