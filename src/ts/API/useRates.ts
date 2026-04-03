@@ -10,13 +10,32 @@ const SUPABASE_URL = import.meta.env.SUPABASE_DATABASE_URL as string;
 const SUPABASE_KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY as string;
 
 const formatDateTime = (dateString?: string): string => {
-  const date = dateString ? new Date(dateString) : new Date();
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const year = date.getFullYear();
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${day}.${month}.${year} ${hours}:${minutes}`;
+  let dateStr = dateString;
+  if (dateStr && !dateStr.includes('Z') && !dateStr.includes('+')) {
+    dateStr += 'Z';
+  }
+  const date = dateStr ? new Date(dateStr) : new Date();
+
+  const options: Intl.DateTimeFormatOptions = {
+    timeZone: 'Europe/Belgrade',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  };
+
+  const formatter = new Intl.DateTimeFormat('en-GB', options);
+  const parts = formatter.formatToParts(date);
+
+  const day = parts.find((p) => p.type === 'day')?.value;
+  const month = parts.find((p) => p.type === 'month')?.value;
+  const year = parts.find((p) => p.type === 'year')?.value;
+  const hour = parts.find((p) => p.type === 'hour')?.value;
+  const minute = parts.find((p) => p.type === 'minute')?.value;
+
+  return `${day}.${month}.${year} ${hour}:${minute}`;
 };
 
 export async function fetchRates(): Promise<{ rates: CurrencyRate[]; lastUpdate: string }> {
