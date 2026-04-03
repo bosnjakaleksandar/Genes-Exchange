@@ -8,7 +8,6 @@ export interface Props {
 const { email, text = email, class: className } = Astro.props;
 
 const encodedEmail = Buffer.from(email).toString('base64');
-const emailDomain = email.split('@')[1];
 ---
 
 <a

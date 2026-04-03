@@ -1,11 +1,10 @@
 ---
 import Layout from '../layouts/layout.astro';
-import RatesTable from '../components/rates-table.astro';
-import { fetchRates } from '../ts/API/useRates';
+import RatesTable from '../blocks/rates-table/rates-table.astro';
+import { RatesService } from '../ts/services/RatesService';
 import { Schema } from 'astro-seo-schema';
 
-
-const { rates, lastUpdate } = await fetchRates();
+const { rates, lastUpdate } = await RatesService.fetchRates();
 
 const pageData = {
   title: 'Kursna Lista | Menjačnica Genes Novi Sad',

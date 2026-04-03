@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/layout.astro';
-import HeroSmall from '../../components/hero-small.astro';
-import Accordion from '../../components/accordion.astro';
+import HeroSmall from '../../blocks/hero-small/hero-small.astro';
+import Accordion from '../../blocks/accordion/accordion.astro';
 import Dollar from '../../assets/dollar.webp';
 import { Schema } from 'astro-seo-schema';
 
@@ -144,7 +144,8 @@ const faqs = [
   </main>
   
   <script>
-    import initHomepageAnimations from '../../ts/animations/homepage';
-    initHomepageAnimations();
+    import { AccordionAnimations } from '../../ts/animations/AccordionAnimations';
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    AccordionAnimations.init(isReducedMotion);
   </script>
 </Layout>

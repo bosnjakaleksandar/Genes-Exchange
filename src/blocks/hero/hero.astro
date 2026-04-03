@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import type { CurrencyRate } from '../../ts/services/RatesService';
+import Icon from '../../components/Icon.astro';
+// import NovosadskiSajam from '../../assets/novosadski-sajam.webp';
+import MoneyExchange from '../../assets/money-exchange.webp';
+
+export interface Props {
+  title: string;
+  description: string;
+  buttonText: string;
+  buttonHref: string;
+  buttonIcon?: string;
+  eurRate?: CurrencyRate;
+  lastUpdate?: string;
+  currency: string;
+  updateText: string;
+}
+
+const {
+  title,
+  description,
+  buttonText,
+  buttonHref,
+  buttonIcon = 'arrow-right',
+  currency,
+  updateText,
+  eurRate,
+  lastUpdate,
+} = Astro.props;
+---
+
+<section class="hero">
+  <Image
+    src={MoneyExchange}
+    alt="Novosadski Sajam"
+    class="hero__background"
+    loading="eager"
+    fetchpriority="high"
+    widths={[640, 768, 1024, 1280, 1920, 2560]}
+    sizes="100vw"
+    quality={80}
+  />
+  <div class="hero__container container-secondary">
+    <div class="hero__content">
+      <h1 class="hero__title rw-78-600">
+        {title}
+      </h1>
+      <p class="hero__description rw-32-500">
+        {description}
+      </p>
+      <a class="hero__button btn-primary rw-24-500" href={buttonHref} rel="noopener noreferrer">
+        {buttonText}
+        {buttonIcon && <Icon name={buttonIcon as any} />}
+      </a>
+    </div>
+    <div class="hero__euro-rate">
+      <h2 class="hero__euro-title rw-32-500">{currency}</h2>
+      <p class="hero__euro-buy rw-54-500">{eurRate?.buyRate.toFixed(2) || 'loading...'}</p>
+      <p class="hero__euro-day rw-16-500">
+        {updateText}
+        <br />{lastUpdate || 'loading...'}
+      </p>
+      <p class="hero__euro-sell rw-54-500">{eurRate?.sellRate.toFixed(2) || 'loading...'}</p>
+    </div>
+  </div>
+</section>
+
+<style lang="scss" is:global>
+  @use './hero';
+</style>

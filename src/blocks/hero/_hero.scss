@@ -1,0 +1,158 @@
+@use '../../scss/base' as *;
+@use 'sass:color';
+
+.hero {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    /* Prevent huge heights forcing scrolling on mobile landscape */
+    @media (orientation: landscape) and (max-height: 600px) {
+        min-height: auto;
+    }
+
+    .hero__background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    .hero__container {
+        position: relative;
+        z-index: 2;
+        padding: 100px 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        /* Landscape orientation safety padding */
+        @media (orientation: landscape) and (max-height: 600px) {
+            padding: 15% 0;
+        }
+
+        @include mq (1024) {
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @include mq (640) {
+            padding: 120px 0;
+        }
+    }
+
+    .hero__content {
+        color: $white;
+        z-index: 1;
+        position: relative;
+        max-width: 800px;
+        visibility: hidden;
+        /* For GSAP to cleanly reveal */
+
+        @include mq (1024) {
+            margin-bottom: 50px;
+        }
+    }
+
+    .hero__description {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        /* GSAP targets these */
+    }
+
+    .hero__euro-rate {
+        color: $white;
+        padding: 40px 80px;
+        background-color: rgba($dark-grey, 0.3);
+        border-radius: 12px;
+        backdrop-filter: blur(5px);
+        z-index: 2;
+        text-align: center;
+        box-shadow: 0 0 22px rgba($gold, 0.5);
+        visibility: hidden;
+        /* For GSAP */
+
+        .hero__euro-buy {
+            margin-top: 20px;
+        }
+
+        .hero__euro-day {
+            margin: 10px 0;
+        }
+
+        @include mq (1024) {
+            .hero__euro-title {
+                font-size: 28px;
+            }
+
+            .hero__euro-buy,
+            .hero__euro-sell {
+                font-size: 45px;
+            }
+
+            .hero__euro-day {
+                font-size: 14px;
+            }
+        }
+
+        @include mq (640) {
+            width: 100%;
+            padding: 40px 0;
+        }
+    }
+}
+
+// 4K responsive styles
+@media screen and (min-width: 1921px) {
+    .hero {
+        .hero__content {
+            max-width: 41.66667vw;
+        }
+
+        .hero__title {
+            transform: translateX(-3.125vw);
+        }
+
+        .hero__description {
+            margin-top: 1.04167vw;
+            margin-bottom: 1.5625vw;
+            transform: translateX(3.125vw);
+        }
+
+        .hero__euro-rate {
+            padding: 2.08333vw 4.16667vw;
+            border-radius: 0.625vw;
+            backdrop-filter: blur(0.26042vw);
+            transform: translateY(3.125vw);
+            box-shadow: 0 0 1.14583vw rgba($gold, 0.5);
+
+            .hero__euro-buy {
+                margin-top: 1.04167vw;
+            }
+
+            .hero__euro-day {
+                margin: 0.52083vw 0;
+            }
+        }
+    }
+}

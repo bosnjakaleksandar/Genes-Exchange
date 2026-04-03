@@ -30,7 +30,9 @@ export default defineConfig({
       rollupOptions: {
         onwarn(warning, warn) {
           if (
-            warning.message.includes('are imported from external module "@astrojs/internal-helpers/remote"') ||
+            warning.message.includes(
+              'are imported from external module "@astrojs/internal-helpers/remote"'
+            ) ||
             warning.message.includes('Generated an empty chunk: "layout')
           ) {
             return;
@@ -49,10 +51,6 @@ export default defineConfig({
       },
       cssCodeSplit: true,
       assetsInlineLimit: 0,
-    },
-    ssr: {
-      noExternal: ['chart.js'],
-      external: ['chart.js'],
     },
   },
   experimental: {

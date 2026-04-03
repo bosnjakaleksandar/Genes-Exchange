@@ -2,109 +2,116 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
+type HistoryInterval = 'day' | 'week' | 'month' | 'year';
+
+const VALID_INTERVALS: ReadonlySet<string> = new Set(['day', 'week', 'month', 'year']);
+
+const CACHE_DURATIONS: Record<HistoryInterval, number> = {
+  day: 300,     // 5 min
+  week: 600,    // 10 min
+  month: 1800,  // 30 min
+  year: 3600,   // 1 hour
+};
+
+function jsonResponse(data: unknown, status: number, cacheMaxAge = 0): Response {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(cacheMaxAge > 0 && {
+        'Cache-Control': `public, max-age=${cacheMaxAge}, s-maxage=${cacheMaxAge}`,
+      }),
+    },
+  });
+}
+
+function getDateFrom(interval: HistoryInterval): Date {
+  const from = new Date();
+
+  switch (interval) {
+    case 'day':
+      from.setDate(from.getDate() - 1);
+      break;
+    case 'week':
+      from.setDate(from.getDate() - 7);
+      break;
+    case 'month':
+      from.setMonth(from.getMonth() - 1);
+      break;
+    case 'year':
+      from.setFullYear(from.getFullYear() - 1);
+      break;
+  }
+
+  return from;
+}
+
 export const GET: APIRoute = async (context) => {
   const SUPABASE_URL = import.meta.env.SUPABASE_DATABASE_URL as string;
   const SUPABASE_KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY as string;
 
   const currency = context.url.searchParams.get('currency');
-  const interval = context.url.searchParams.get('interval') as 'day' | 'week' | 'month' | 'year';
+  const intervalParam = context.url.searchParams.get('interval');
 
-  if (!currency || !interval) {
-    return new Response(JSON.stringify({ error: 'Missing currency or interval' }), {
-      status: 400,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  if (!currency || !intervalParam || !VALID_INTERVALS.has(intervalParam)) {
+    return jsonResponse({ error: 'Missing or invalid currency/interval' }, 400);
   }
+
+  const interval = intervalParam as HistoryInterval;
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
-    return new Response(JSON.stringify({ error: 'Server configuration error' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return jsonResponse({ error: 'Server configuration error' }, 500);
   }
 
-  let fromDate = new Date();
-  switch (interval) {
-    case 'day':
-      fromDate.setDate(fromDate.getDate() - 1);
-      break;
-    case 'week':
-      fromDate.setDate(fromDate.getDate() - 7);
-      break;
-    case 'month':
-      fromDate.setMonth(fromDate.getMonth() - 1);
-      break;
-    case 'year':
-      fromDate.setFullYear(fromDate.getFullYear() - 1);
-      break;
-  }
+  const supabaseHeaders = {
+    apikey: SUPABASE_KEY,
+    Authorization: `Bearer ${SUPABASE_KEY}`,
+  };
 
-  const fromISO = fromDate.toISOString();
-  const supabaseUrl = `${SUPABASE_URL}/rest/v1/rate_history?currency=eq.${currency}&recorded_at=gte.${fromISO}&order=recorded_at.asc`;
+  const fromISO = getDateFrom(interval).toISOString();
+  const supabaseUrl = `${SUPABASE_URL}/rest/v1/rate_history?currency=eq.${encodeURIComponent(currency)}&recorded_at=gte.${fromISO}&order=recorded_at.asc`;
+  const cacheAge = CACHE_DURATIONS[interval];
 
   try {
-    const response = await fetch(supabaseUrl, {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-      },
-    });
-
+    const response = await fetch(supabaseUrl, { headers: supabaseHeaders });
     const data = await response.json();
 
-    // If no data, return last available rate duplicated
     if (Array.isArray(data) && data.length === 0) {
-      const lastRateUrl = `${SUPABASE_URL}/rest/v1/rate_history?currency=eq.${currency}&order=recorded_at.desc&limit=1`;
-      const lastRateResponse = await fetch(lastRateUrl, {
-        headers: {
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-        },
-      });
-      const lastRateData = await lastRateResponse.json();
-
-      if (Array.isArray(lastRateData) && lastRateData.length > 0) {
-        const lastRate = lastRateData[0];
-        const now = new Date().toISOString();
-        return new Response(
-          JSON.stringify([
-            { ...lastRate, recorded_at: fromISO },
-            { ...lastRate, recorded_at: now },
-          ]),
-          {
-            status: 200,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-      } else {
-        return new Response(JSON.stringify([]), {
-          status: 200,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-      }
+      return await fetchFallbackRate(SUPABASE_URL, supabaseHeaders, currency, fromISO, cacheAge);
     }
 
-    return new Response(JSON.stringify(Array.isArray(data) ? data : []), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return jsonResponse(Array.isArray(data) ? data : [], 200, cacheAge);
   } catch (error) {
     console.error('Error fetching rate history:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch rate history' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return jsonResponse({ error: 'Failed to fetch rate history' }, 500);
   }
 };
+
+async function fetchFallbackRate(
+  supabaseUrl: string,
+  headers: Record<string, string>,
+  currency: string,
+  fromISO: string,
+  cacheAge: number
+): Promise<Response> {
+  const lastRateUrl = `${supabaseUrl}/rest/v1/rate_history?currency=eq.${encodeURIComponent(currency)}&order=recorded_at.desc&limit=1`;
+
+  const lastRateResponse = await fetch(lastRateUrl, { headers });
+  const lastRateData = await lastRateResponse.json();
+
+  if (Array.isArray(lastRateData) && lastRateData.length > 0) {
+    const lastRate = lastRateData[0];
+    const now = new Date().toISOString();
+
+    return jsonResponse(
+      [
+        { ...lastRate, recorded_at: fromISO },
+        { ...lastRate, recorded_at: now },
+      ],
+      200,
+      cacheAge
+    );
+  }
+
+  return jsonResponse([], 200, cacheAge);
+}

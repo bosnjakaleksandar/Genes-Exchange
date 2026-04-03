@@ -1,18 +1,18 @@
 ---
 import Layout from '../../layouts/layout.astro';
-import Hero from '../../components/hero.astro';
-import About from '../../components/about.astro';
-import Info from '../../components/info.astro';
-import Calculator from '../../components/calculator.astro';
-import { fetchRates } from '../../ts/API/useRates';
+import Hero from '../../blocks/hero/hero.astro';
+import About from '../../blocks/about/about.astro';
+import Info from '../../blocks/info/info.astro';
+import Calculator from '../../blocks/calculator/calculator.astro';
+import { RatesService } from '../../ts/services/RatesService';
 import moneyExchange from '../../assets/money-exchange.webp';
 import payspotInvoices from '../../assets/payspot-invoices.webp';
 import lutrija from '../../assets/lutrija.webp';
-import Accordion from '../../components/accordion.astro';
+import Accordion from '../../blocks/accordion/accordion.astro';
 import { Schema } from 'astro-seo-schema';
 
 
-const { rates, lastUpdate } = await fetchRates();
+const { rates, lastUpdate } = await RatesService.fetchRates();
 const eurRate = rates.find((rate) => rate.currency === 'EUR');
 
 const pageData = {
@@ -224,7 +224,17 @@ const pageData = {
   </main>
 
   <script>
-    import initHomepageAnimations from '../../ts/animations/homepage';
-    initHomepageAnimations();
+    import { HeroAnimations } from '../../ts/animations/HeroAnimations';
+    import { InfoAnimations } from '../../ts/animations/InfoAnimations';
+    import { CalculatorAnimations } from '../../ts/animations/CalculatorAnimations';
+    import { AboutAnimations } from '../../ts/animations/AboutAnimations';
+    import { AccordionAnimations } from '../../ts/animations/AccordionAnimations';
+
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    HeroAnimations.init(isReducedMotion);
+    AboutAnimations.init(isReducedMotion);
+    CalculatorAnimations.init(isReducedMotion);
+    InfoAnimations.init(isReducedMotion);
+    AccordionAnimations.init(isReducedMotion);
   </script>
 </Layout>

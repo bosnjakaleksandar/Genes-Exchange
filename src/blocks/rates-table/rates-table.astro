@@ -1,0 +1,194 @@
+---
+import { Image } from 'astro:assets';
+import type { CurrencyRate } from '../../ts/services/RatesService';
+import Icon from '../../components/Icon.astro';
+import StockBg from '../../assets/stock.webp';
+
+export interface Props {
+  rates: CurrencyRate[];
+  lastUpdate: string;
+  lastUpdateText: string;
+  disclaimer: string;
+  buyLabel: string;
+  sellLabel: string;
+  dayLabel: string;
+  weekLabel: string;
+  monthLabel: string;
+  yearLabel: string;
+  backButton: string;
+  currencyLabel: string;
+}
+
+const {
+  rates,
+  lastUpdate,
+  lastUpdateText,
+  disclaimer,
+  buyLabel,
+  sellLabel,
+  dayLabel,
+  weekLabel,
+  monthLabel,
+  yearLabel,
+  backButton,
+  currencyLabel,
+} = Astro.props;
+---
+
+<section class="rates">
+  <Image src={StockBg} alt="Stock Market Background" class="rates__background" loading="lazy" />
+  <div class="rates__container">
+    <div class="rates__card">
+      <div class="rates__top js-from-down">
+        <h1 class="rates__title rw-48-600"><span>GENES</span>EXCHANGE</h1>
+        <div class="rates__top-content">
+          <p class="rates__time rw-16-400">
+            {lastUpdateText}
+            <span id="last-update">{lastUpdate || 'Error'}</span>
+          </p>
+          <p class="rates__description rw-16-400">
+            {disclaimer}
+          </p>
+        </div>
+      </div>
+
+      <div class="rates__columns">
+        <div class="rates__columns-left">
+          <!-- Skeleton Loader za tabelu -->
+          <div class="rates__skeleton" id="table-skeleton">
+            <div class="rates__skeleton-header">
+              <div class="rates__skeleton-item"></div>
+              <div class="rates__skeleton-item"></div>
+              <div class="rates__skeleton-item"></div>
+            </div>
+            {
+              Array.from({ length: 7 }).map(() => (
+                <div class="rates__skeleton-row">
+                  <div class="rates__skeleton-cell">
+                    <div class="rates__skeleton-flag" />
+                    <div class="rates__skeleton-text" />
+                  </div>
+                  <div class="rates__skeleton-cell">
+                    <div class="rates__skeleton-text rates__skeleton-text--short" />
+                  </div>
+                  <div class="rates__skeleton-cell">
+                    <div class="rates__skeleton-text rates__skeleton-text--short" />
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+
+          <!-- Rates table -->
+          <table class="rates__table" id="rates-table" style="display: none;">
+            <thead>
+              <tr>
+                <th class="rw-16-700">{currencyLabel}</th>
+                <th class="rw-16-700">{buyLabel}</th>
+                <th class="rw-16-700">{sellLabel}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                rates.map((rate) => (
+                  <tr
+                    class="rates__table-row"
+                    data-currency={rate.currency}
+                    data-buy-rate={rate.buyRate}
+                    data-sell-rate={rate.sellRate}
+                    data-currency-image={rate.currencyImage}
+                  >
+                    <td class="rw-16-400 rates__table-currency">
+                      {rate.currencyImage && (
+                        <img
+                          src={rate.currencyImage}
+                          alt={rate.currency}
+                          class="rates__table-flag"
+                          onerror="this.style.display='none'"
+                          loading="lazy"
+                        />
+                      )}
+                      <span>{rate.currency}</span>
+                    </td>
+                    <td class="rw-16-400">{rate.buyRate.toFixed(2)}</td>
+                    <td class="rw-16-400">{rate.sellRate.toFixed(2)}</td>
+                    <td class="rates__table-more">
+                      <span>⋮</span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rates__columns-right">
+          <button
+            class="rates__back-btn rw-20-600"
+            id="back-btn"
+            aria-label="Back"
+            style="display: none;"
+          >
+            {backButton}<Icon name="arrow-right" />
+          </button>
+
+          <!-- Chart column -->
+          <div class="rates__right-content">
+            <div class="rates__chart-header">
+              <img
+                id="selected-flag"
+                src=""
+                alt=""
+                class="rates__table-flag"
+                style="width: 40px; height: 30px; display: none;"
+                onerror="this.style.display='none'"
+                loading="lazy"
+              />
+              <h2 class="rw-24-600" style="display: flex; align-items: center; gap: 10px">
+                <span id="selected-currency"></span> - <span id="selected-type-label"
+                  >{buyLabel}</span
+                >
+              </h2>
+            </div>
+            <div class="rates__interval-buttons">
+              <button class="rates__interval-button rates__interval-button--active" data-type="buy">
+                {buyLabel}
+              </button>
+              <button class="rates__interval-button" data-type="sell">{sellLabel}</button>
+            </div>
+
+            <!-- Chart Loading -->
+            <div class="rates__chart-wrapper">
+              <div class="rates__chart-loading" id="chart-loading">
+                <div class="loader"></div>
+              </div>
+              <canvas id="rates-chart" class="rates__chart" style="display: none;"></canvas>
+            </div>
+
+            <div class="rates__interval-buttons">
+              <button
+                class="rates__interval-button rates__interval-button--active"
+                data-interval="day"
+              >
+                {dayLabel}
+              </button>
+              <button class="rates__interval-button" data-interval="week">{weekLabel}</button>
+              <button class="rates__interval-button" data-interval="month">{monthLabel}</button>
+              <button class="rates__interval-button" data-interval="year">{yearLabel}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss" is:global>
+  @use './rates';
+</style>
+
+<script>
+  if (document.getElementById('rates-table')) {
+    import('../../ts/controllers/RatesTableController').then((m) => new m.RatesTableController());
+  }
+</script>

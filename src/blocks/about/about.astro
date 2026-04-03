@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../../components/Icon.astro';
+import EurFlag from '../../assets/eur.webp';
+import UsFlag from '../../assets/us.webp';
+import ChfFlag from '../../assets/chf.webp';
+import UkFlag from '../../assets/uk.webp';
+import CadFlag from '../../assets/cad.webp';
+import AudFlag from '../../assets/aud.webp';
+import BamFlag from '../../assets/bam.webp';
+
+export interface Props {
+  title: string;
+  linkText: string;
+  strong: string;
+  description: string;
+}
+
+const { title, linkText, strong, description } = Astro.props;
+---
+
+<section class="about">
+  <div class="about__container container">
+    <h2 class="about__title rw-54-600">{title}</h2>
+    <p class="about__description rw-24-400">
+      <strong>{strong}</strong>
+      {description}
+    </p>
+    <a
+      href="https://maps.app.goo.gl/vVKm62mFN418jrLAA"
+      target="_blank"
+      class="about__link btn-secondary rw-24-600"
+    >
+      {linkText}
+      <Icon name="arrow-right" />
+    </a>
+  </div>
+  <div class="about__infinity-slider-wrapper">
+    <div class="about__infinity-slider">
+      <Image src={EurFlag} alt="flag of europe union" loading="lazy" decoding="async" />
+      <Image src={UsFlag} alt="flag of united states" loading="lazy" decoding="async" />
+      <Image src={ChfFlag} alt="flag of switzerland" loading="lazy" decoding="async" />
+      <Image src={UkFlag} alt="flag of great britain" loading="lazy" decoding="async" />
+      <Image src={CadFlag} alt="flag of canada" loading="lazy" decoding="async" />
+      <Image src={AudFlag} alt="flag of australia" loading="lazy" decoding="async" />
+      <Image src={BamFlag} alt="flag of bosnia and herzegovina" loading="lazy" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<style lang="scss" is:global>
+  @use './about';
+</style>
+
+<script>
+  import { InfinitySliderController } from '../../ts/animations/InfinitySliderController';
+  if (document.querySelector('.about__infinity-slider')) new InfinitySliderController();
+</script>

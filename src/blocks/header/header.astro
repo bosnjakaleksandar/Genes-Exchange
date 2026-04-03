@@ -1,0 +1,107 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../../components/Icon.astro';
+import GenesLogoWhite from '../../assets/GenesLogo-white.webp';
+import SerbiaFlag from '../../assets/serbia.webp';
+import EnglishFlag from '../../assets/english.webp';
+
+export interface Props {
+  lang?: 'sr' | 'en';
+}
+
+const { lang = 'sr' } = Astro.props;
+
+const translations = {
+  sr: {
+    home: 'Početna',
+    list: 'Kursna lista',
+    faq: 'Česta pitanja',
+  },
+  en: {
+    home: 'Home',
+    list: 'Exchange rates',
+    faq: 'FAQ',
+  },
+};
+
+const t = translations[lang];
+---
+
+<header class="header">
+  <div class="header__container">
+    <a class="header__logo" href={lang === 'en' ? '/en' : '/'}
+      ><Image
+        src={GenesLogoWhite}
+        alt="Genes Exchange Office Logo"
+        loading="eager"
+        fetchpriority="high"
+        decoding="sync"
+      /></a
+    >
+    <nav class="header__nav">
+      <ul class="header__list">
+        <li class="header__item">
+          <a href={lang === 'en' ? '/en' : '/'} class="header__link rw-24-500">{t.home}</a>
+        </li>
+        <li class="header__item">
+          <a
+            href={lang === 'en' ? '/en/exchange-rates' : '/kursna-lista'}
+            class="header__link rw-24-500">{t.list}</a
+          >
+        </li>
+        <li class="header__item">
+          <a href={lang === 'en' ? '/en/faq' : '/cesta-pitanja'} class="header__link rw-24-500"
+            >{t.faq}</a
+          >
+        </li>
+        <li class="header__lang">
+          <div class="custom-select">
+            <div class="custom-select__trigger">
+              <Image
+                src={lang === 'en' ? EnglishFlag : SerbiaFlag}
+                alt={lang === 'en' ? 'English Flag' : 'Zastava Srbije'}
+                class="custom-select__flag"
+                loading="eager"
+                decoding="async"
+              />
+              <span class="custom-select__arrow"><Icon name="caret-down" /></span>
+            </div>
+            <div class="custom-select__options">
+              <div class="custom-select__option" data-value="sr">
+                <span class={lang === 'sr' ? 'rw-16-500 custom-select__disabled' : 'rw-16-500'}>
+                  <Image src={SerbiaFlag} alt="Zastava Srbije" loading="eager" decoding="async" /> SRB
+                </span>
+              </div>
+              <div class="custom-select__option" data-value="en">
+                <span class={lang === 'en' ? 'rw-16-500 custom-select__disabled' : 'rw-16-500'}>
+                  <Image src={EnglishFlag} alt="English Flag" loading="eager" decoding="async" /> ENG
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="burger" role="button" aria-label="Toggle navigation menu" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</header>
+
+<style lang="scss" is:global>
+  @use './header';
+</style>
+
+<script>
+  import { BurgerMenuController } from '../../ts/controllers/BurgerMenuController';
+  import { HeaderScrollController } from '../../ts/controllers/HeaderScrollController';
+  import { CustomSelectController } from '../../ts/controllers/CustomSelectController';
+
+  if (document.querySelector('header')) {
+    new BurgerMenuController();
+    new HeaderScrollController();
+    new CustomSelectController();
+  }
+</script>
