@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://menjacnicagenes.rs',
+  trailingSlash: 'never',
   output: 'server',
   adapter: netlify({
     edgeMiddleware: true,

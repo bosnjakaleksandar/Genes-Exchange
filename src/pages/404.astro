@@ -3,7 +3,7 @@ import Layout from '../layouts/layout.astro';
 import Icon from '../components/Icon.astro';
 
 const isEnglish = Astro.url.pathname.startsWith('/en');
-const homeLink = isEnglish ? '/en/' : '/';
+const homeLink = isEnglish ? '/en' : '/';
 
 const content = {
   sr: {

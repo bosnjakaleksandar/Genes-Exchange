@@ -37,19 +37,23 @@ const title = propTitle || siteData[lang].title;
 const finalDescription = description || siteData[lang].description;
 
 const baseURL = 'https://menjacnicagenes.rs';
-const currentCanonicalURL = canonicalURL || new URL(Astro.url.pathname, baseURL).href;
 
-const currentPath = Astro.url.pathname;
-const srURL = currentPath.startsWith('/en/')
-  ? new URL(currentPath.replace('/en/', '/'), baseURL).href
+const stripTrailingSlash = (path: string) =>
+  path !== '/' && path.endsWith('/') ? path.slice(0, -1) : path;
+
+const currentPath = stripTrailingSlash(Astro.url.pathname);
+const currentCanonicalURL = canonicalURL || new URL(currentPath, baseURL).href;
+
+const srURL = currentPath.startsWith('/en')
+  ? new URL(stripTrailingSlash(currentPath.replace('/en', '')) || '/', baseURL).href
   : new URL(currentPath, baseURL).href;
 
 const hasEnglishVersion =
-  currentPath === '/' || currentPath === '/kursna-lista' || currentPath.startsWith('/en/');
-const enURL = currentPath.startsWith('/en/')
+  currentPath === '/' || currentPath === '/kursna-lista' || currentPath.startsWith('/en');
+const enURL = currentPath.startsWith('/en')
   ? new URL(currentPath, baseURL).href
   : hasEnglishVersion && currentPath === '/'
-    ? new URL('/en/', baseURL).href
+    ? new URL('/en', baseURL).href
     : hasEnglishVersion && currentPath === '/kursna-lista'
       ? new URL('/en/exchange-rates', baseURL).href
       : null;
