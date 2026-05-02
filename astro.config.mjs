@@ -9,6 +9,10 @@ export default defineConfig({
   site: 'https://menjacnicagenes.rs',
   trailingSlash: 'never',
   output: 'server',
+  redirects: {
+    '/exchange-rates': '/en/exchange-rates',
+    '/faq': '/en/faq',
+  },
   adapter: netlify({
     edgeMiddleware: true,
   }),
