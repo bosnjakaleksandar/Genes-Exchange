@@ -38,25 +38,29 @@ const finalDescription = description || siteData[lang].description;
 
 const baseURL = 'https://menjacnicagenes.rs';
 
+const pathMapToSr: Record<string, string> = {
+  '/en': '/',
+  '/en/exchange-rates': '/kursna-lista',
+  '/en/faq': '/cesta-pitanja'
+};
+
+const pathMapToEn: Record<string, string> = {
+  '/': '/en',
+  '/kursna-lista': '/en/exchange-rates',
+  '/cesta-pitanja': '/en/faq'
+};
+
 const stripTrailingSlash = (path: string) =>
   path !== '/' && path.endsWith('/') ? path.slice(0, -1) : path;
 
 const currentPath = stripTrailingSlash(Astro.url.pathname);
 const currentCanonicalURL = canonicalURL || new URL(currentPath, baseURL).href;
 
-const srURL = currentPath.startsWith('/en')
-  ? new URL(stripTrailingSlash(currentPath.replace('/en', '')) || '/', baseURL).href
-  : new URL(currentPath, baseURL).href;
+const srPath = currentPath.startsWith('/en') ? (pathMapToSr[currentPath] || '/') : currentPath;
+const srURL = new URL(srPath, baseURL).href;
 
-const hasEnglishVersion =
-  currentPath === '/' || currentPath === '/kursna-lista' || currentPath.startsWith('/en');
-const enURL = currentPath.startsWith('/en')
-  ? new URL(currentPath, baseURL).href
-  : hasEnglishVersion && currentPath === '/'
-    ? new URL('/en', baseURL).href
-    : hasEnglishVersion && currentPath === '/kursna-lista'
-      ? new URL('/en/exchange-rates', baseURL).href
-      : null;
+const enPath = currentPath.startsWith('/en') ? currentPath : pathMapToEn[currentPath];
+const enURL = enPath ? new URL(enPath, baseURL).href : null;
 
 const defaultOgImage = `${baseURL}/images/GenesLogoMeta.webp`;
 const ogImageURL = ogImage ? `${baseURL}${ogImage}` : defaultOgImage;
