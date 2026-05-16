@@ -3,6 +3,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /email-signature/
 Disallow: /*.json$
 Disallow: /*?*sort=
 
