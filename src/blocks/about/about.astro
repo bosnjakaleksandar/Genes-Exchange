@@ -8,15 +8,50 @@ import UkFlag from '../../assets/uk.webp';
 import CadFlag from '../../assets/cad.webp';
 import AudFlag from '../../assets/aud.webp';
 import BamFlag from '../../assets/bam.webp';
+import type { CurrencyRate } from '../../ts/services/RatesService';
 
 export interface Props {
   title: string;
   linkText: string;
   strong: string;
   description: string;
+  rates?: CurrencyRate[];
+  lang?: 'sr' | 'en';
 }
 
-const { title, linkText, strong, description } = Astro.props;
+const { title, linkText, strong, description, rates = [], lang = 'sr' } = Astro.props;
+
+const rateByCurrency = new Map(rates.map((rate) => [rate.currency, rate]));
+const exchangeRatesHref = lang === 'en' ? '/en/exchange-rates' : '/kursna-lista';
+const currencyLabels: Record<string, string> = {
+  EUR: lang === 'en' ? 'Euro' : 'Evro',
+  USD: lang === 'en' ? 'US Dollar' : 'Američki dolar',
+  CHF: lang === 'en' ? 'Swiss Franc' : 'Švajcarski franak',
+  GBP: lang === 'en' ? 'British Pound' : 'Britanska funta',
+  CAD: lang === 'en' ? 'Canadian Dollar' : 'Kanadski dolar',
+  AUD: lang === 'en' ? 'Australian Dollar' : 'Australijski dolar',
+  BAM: lang === 'en' ? 'Convertible Mark' : 'Konvertibilna marka',
+};
+const sliderCurrencies = [
+  { code: 'EUR', image: EurFlag, alt: 'flag of europe union' },
+  { code: 'USD', image: UsFlag, alt: 'flag of united states' },
+  { code: 'CHF', image: ChfFlag, alt: 'flag of switzerland' },
+  { code: 'GBP', image: UkFlag, alt: 'flag of great britain' },
+  { code: 'CAD', image: CadFlag, alt: 'flag of canada' },
+  { code: 'AUD', image: AudFlag, alt: 'flag of australia' },
+  { code: 'BAM', image: BamFlag, alt: 'flag of bosnia and herzegovina' },
+].map((currency) => ({
+  ...currency,
+  label: currencyLabels[currency.code],
+  rate: rateByCurrency.get(currency.code),
+}));
+
+const labels = {
+  buy: lang === 'en' ? 'Buy' : 'Kupovni',
+  sell: lang === 'en' ? 'Sell' : 'Prodajni',
+  more: lang === 'en' ? 'Show more' : 'Prikaži više',
+  unavailable: lang === 'en' ? 'Rate unavailable' : 'Kurs nije dostupan',
+};
 ---
 
 <section class="about">
@@ -37,13 +72,39 @@ const { title, linkText, strong, description } = Astro.props;
   </div>
   <div class="about__infinity-slider-wrapper">
     <div class="about__infinity-slider">
-      <Image src={EurFlag} alt="flag of europe union" loading="lazy" decoding="async" />
-      <Image src={UsFlag} alt="flag of united states" loading="lazy" decoding="async" />
-      <Image src={ChfFlag} alt="flag of switzerland" loading="lazy" decoding="async" />
-      <Image src={UkFlag} alt="flag of great britain" loading="lazy" decoding="async" />
-      <Image src={CadFlag} alt="flag of canada" loading="lazy" decoding="async" />
-      <Image src={AudFlag} alt="flag of australia" loading="lazy" decoding="async" />
-      <Image src={BamFlag} alt="flag of bosnia and herzegovina" loading="lazy" decoding="async" />
+      {
+        sliderCurrencies.map((currency) => (
+          <article class="about__currency-card" tabindex="0">
+            <Image src={currency.image} alt={currency.alt} loading="lazy" decoding="async" />
+            <span class="about__currency-code rw-16-600">{currency.code}</span>
+            <span class="about__currency-info" aria-hidden="true">
+              <Icon name="info" />
+            </span>
+            <div class="about__currency-tooltip">
+              <p class="about__currency-title rw-20-600">
+                {currency.code} - {currency.label}
+              </p>
+              {currency.rate ? (
+                <dl class="about__currency-rates rw-16-400">
+                  <div>
+                    <dt>{labels.buy}</dt>
+                    <dd>{currency.rate.buyRate.toFixed(2)}</dd>
+                  </div>
+                  <div>
+                    <dt>{labels.sell}</dt>
+                    <dd>{currency.rate.sellRate.toFixed(2)}</dd>
+                  </div>
+                </dl>
+              ) : (
+                <p class="about__currency-unavailable rw-16-400">{labels.unavailable}</p>
+              )}
+              <a class="about__currency-link rw-16-600" href={exchangeRatesHref}>
+                {labels.more}
+              </a>
+            </div>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>

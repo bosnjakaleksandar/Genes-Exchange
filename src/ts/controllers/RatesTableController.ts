@@ -3,6 +3,13 @@ import type { HistoryInterval } from '../services/RatesHistoryService';
 
 type RateType = 'buy' | 'sell';
 
+type ChartPoint = {
+  label: string;
+  value: number;
+};
+
+const LABEL_LENGTH = 16;
+
 export class RatesTableController {
   private chartInstance: any = null;
   private ChartConstructor: any = null;
@@ -231,14 +238,34 @@ export class RatesTableController {
 
     const Chart = await this.ensureChartLoaded();
 
-    const labels = history.map((entry) => entry.recorded_at.replace('T', ' ').substring(0, 16));
-    const data = history.map((entry) =>
-      this.selectedType === 'buy' ? entry.buyRate : entry.sellRate
-    );
+    const points = history
+      .map((entry): ChartPoint | null => {
+        const rawValue =
+          this.selectedType === 'buy'
+            ? (entry.buyRate ?? entry.buy_rate)
+            : (entry.sellRate ?? entry.sell_rate);
+        const value = Number(rawValue);
+        const recordedAt = typeof entry.recorded_at === 'string' ? entry.recorded_at : '';
+
+        if (!recordedAt || !Number.isFinite(value)) return null;
+
+        return {
+          label: recordedAt.replace('T', ' ').substring(0, 16),
+          value,
+        };
+      })
+      .filter((point): point is ChartPoint => point !== null);
+
+    if (!points.length) return;
+
+    const chartPoints = this.getRenderableChartPoints(points);
+    const labels = chartPoints.map((point) => point.label);
+    const data = chartPoints.map((point) => point.value);
 
     const minY = Math.min(...data);
     const maxY = Math.max(...data);
-    const padding = Math.max((maxY - minY) * 0.1, 0.5);
+    const range = maxY - minY;
+    const padding = range === 0 ? Math.max(Math.abs(maxY) * 0.005, 0.5) : range * 0.1;
 
     if (this.chartInstance) {
       this.chartInstance.destroy();
@@ -254,7 +281,11 @@ export class RatesTableController {
             borderColor: '#e0a501',
             backgroundColor: 'rgba(224, 165, 1, 0.1)',
             tension: 0.4,
-            pointRadius: 0,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#e0a501',
+            pointBorderColor: '#e0a501',
+            pointBorderWidth: 0,
             fill: true,
           },
         ],
@@ -297,6 +328,50 @@ export class RatesTableController {
         },
       },
     });
+  }
+
+  private getRenderableChartPoints(points: ChartPoint[]): ChartPoint[] {
+    if (points.length !== 1) return points;
+
+    const nowLabel = new Date().toISOString().replace('T', ' ').substring(0, LABEL_LENGTH);
+
+    if (points[0].label === nowLabel) {
+      const previousLabel = this.getIntervalStartDate()
+        .toISOString()
+        .replace('T', ' ')
+        .substring(0, LABEL_LENGTH);
+
+      return [
+        { label: previousLabel, value: points[0].value },
+        points[0],
+      ];
+    }
+
+    return [
+      points[0],
+      { label: nowLabel, value: points[0].value },
+    ];
+  }
+
+  private getIntervalStartDate(): Date {
+    const date = new Date();
+
+    switch (this.selectedInterval) {
+      case 'day':
+        date.setDate(date.getDate() - 1);
+        break;
+      case 'week':
+        date.setDate(date.getDate() - 7);
+        break;
+      case 'month':
+        date.setMonth(date.getMonth() - 1);
+        break;
+      case 'year':
+        date.setFullYear(date.getFullYear() - 1);
+        break;
+    }
+
+    return date;
   }
 
   destroy(): void {

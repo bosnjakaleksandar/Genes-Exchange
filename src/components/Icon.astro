@@ -2,12 +2,13 @@
 import arrowRightSvg from '../svg/arrow-right.svg?raw';
 import caretDownSvg from '../svg/caret-down.svg?raw';
 import clockSvg from '../svg/clock.svg?raw';
+import infoSvg from '../svg/info.svg?raw';
 import mailboxSvg from '../svg/mailbox.svg?raw';
 import mapPinSvg from '../svg/map-pin.svg?raw';
 import Plus from '../svg/plus.svg?raw';
 
 export interface Props {
-  name: 'arrow-right' | 'caret-down' | 'clock' | 'mailbox' | 'map-pin' | 'plus';
+  name: 'arrow-right' | 'caret-down' | 'clock' | 'info' | 'mailbox' | 'map-pin' | 'plus';
   class?: string;
 }
 
@@ -17,6 +18,7 @@ const svgs = {
   'arrow-right': arrowRightSvg,
   'caret-down': caretDownSvg,
   clock: clockSvg,
+  info: infoSvg,
   mailbox: mailboxSvg,
   'map-pin': mapPinSvg,
   'plus': Plus,

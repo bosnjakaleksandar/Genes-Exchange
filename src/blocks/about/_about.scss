@@ -33,6 +33,9 @@
     .about__infinity-slider-wrapper {
         position: relative;
         overflow: hidden;
+        padding-top: 260px;
+        margin-top: -260px;
+        pointer-events: none;
 
         &::before {
             content: '';
@@ -57,6 +60,11 @@
             z-index: 10;
             pointer-events: none;
         }
+
+        @include mq (991) {
+            padding-top: 230px;
+            margin-top: -230px;
+        }
     }
 
     .about__link {
@@ -71,20 +79,162 @@
         padding-bottom: 100px;
         display: flex;
         align-items: center;
+        gap: 40px;
+        width: max-content;
+        pointer-events: auto;
 
-        img {
-            border-radius: 8px;
-            width: 100%;
+        .about__currency-card {
+            position: relative;
+            flex: 0 0 320px;
+            width: 320px;
             height: 168px;
-            max-width: 320px;
-            object-fit: cover;
-            margin-right: 40px;
+            border: 0;
+            border-radius: 8px;
+            background: rgba($white, 0.9);
+            box-shadow: 0 12px 24px rgba($black, 0.12);
+            cursor: pointer;
+            overflow: visible;
+
+            &:hover,
+            &:focus-visible {
+                z-index: 20;
+            }
+
+            &:hover .about__currency-tooltip,
+            &:focus-visible .about__currency-tooltip {
+                opacity: 1;
+                visibility: visible;
+                transform: translate(-50%, -12px);
+            }
 
             @include mq (991) {
-                max-width: 160px;
+                flex-basis: 160px;
+                width: 160px;
                 height: 100px;
-                margin-right: 20px;
             }
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            display: block;
+            object-fit: cover;
+        }
+
+        .about__currency-code {
+            position: absolute;
+            left: 12px;
+            bottom: 10px;
+            padding: 5px 9px;
+            border-radius: 4px;
+            background: rgba($black, 0.72);
+            color: $white;
+
+            @include mq (991) {
+                left: 8px;
+                bottom: 8px;
+                padding: 4px 7px;
+            }
+        }
+
+        .about__currency-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba($black, 0.76);
+            color: $white;
+
+            span,
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            svg circle:last-child {
+                fill: $white;
+            }
+
+            @include mq (991) {
+                top: 8px;
+                right: 8px;
+                width: 24px;
+                height: 24px;
+
+                svg,
+                span {
+                    width: 15px;
+                    height: 15px;
+                }
+            }
+        }
+
+        .about__currency-tooltip {
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            width: min(280px, 90vw);
+            padding: 16px;
+            border-radius: 8px;
+            background: $black;
+            color: $white;
+            box-shadow: 0 16px 28px rgba($black, 0.25);
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(-50%, 0);
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+            pointer-events: auto;
+
+            &::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                top: 100%;
+                transform: translateX(-50%);
+                border: 8px solid transparent;
+                border-top-color: $black;
+            }
+        }
+
+        .about__currency-title {
+            margin-bottom: 12px;
+        }
+
+        .about__currency-rates {
+            display: grid;
+            gap: 8px;
+            margin: 0 0 14px 0;
+
+            div {
+                display: flex;
+                justify-content: space-between;
+                gap: 16px;
+            }
+
+            dt,
+            dd {
+                margin: 0;
+            }
+        }
+
+        .about__currency-unavailable {
+            margin-bottom: 14px;
+        }
+
+        .about__currency-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: $gold;
+            color: $black;
         }
 
         @include mq (768) {
@@ -103,18 +253,87 @@
             max-width: 57.29167vw;
         }
 
+        .about__infinity-slider-wrapper {
+            padding-top: 13.54167vw;
+            margin-top: -13.54167vw;
+        }
+
         .about__link {
             margin: 4.16667vw auto;
         }
 
         .about__infinity-slider {
             padding-bottom: 5.20833vw;
+            gap: 2.08333vw;
+
+            .about__currency-card {
+                flex: 0 0 16.66667vw;
+                width: 16.66667vw;
+                height: 8.75vw;
+                border-radius: 0.41667vw;
+                box-shadow: 0 0.625vw 1.25vw rgba($black, 0.12);
+
+                &:hover .about__currency-tooltip,
+                &:focus-visible .about__currency-tooltip {
+                    transform: translate(-50%, -0.625vw);
+                }
+            }
 
             img {
                 border-radius: 0.41667vw;
-                height: 8.75vw;
-                max-width: 16.66667vw;
-                margin-right: 2.08333vw;
+            }
+
+            .about__currency-code {
+                left: 0.625vw;
+                bottom: 0.52083vw;
+                padding: 0.26042vw 0.46875vw;
+                border-radius: 0.20833vw;
+            }
+
+            .about__currency-info {
+                top: 0.52083vw;
+                right: 0.52083vw;
+                width: 1.45833vw;
+                height: 1.45833vw;
+
+                span,
+                svg {
+                    width: 0.9375vw;
+                    height: 0.9375vw;
+                }
+            }
+
+            .about__currency-tooltip {
+                width: min(14.58333vw, 90vw);
+                padding: 0.83333vw;
+                border-radius: 0.41667vw;
+                box-shadow: 0 0.83333vw 1.45833vw rgba($black, 0.25);
+
+                &::after {
+                    border: 0.41667vw solid transparent;
+                }
+            }
+
+            .about__currency-title {
+                margin-bottom: 0.625vw;
+            }
+
+            .about__currency-rates {
+                gap: 0.41667vw;
+                margin: 0 0 0.72917vw 0;
+
+                div {
+                    gap: 0.83333vw;
+                }
+            }
+
+            .about__currency-unavailable {
+                margin-bottom: 0.72917vw;
+            }
+
+            .about__currency-link {
+                padding: 0.41667vw 0.625vw;
+                border-radius: 0.3125vw;
             }
         }
     }
