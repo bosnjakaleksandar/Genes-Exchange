@@ -16,28 +16,45 @@ export class CalculatorAnimations {
     }
 
     const calcBg = calculatorSection.querySelector('.calculator__background');
+    const calcContainer = calculatorSection.querySelector('.calculator__container');
     const calcWrapper = calculatorSection.querySelector('.calculator__wrapper');
     const calcBanknotes = calculatorSection.querySelector('.calculator__banknotes');
 
+    if (!calcBg || !calcContainer || !calcWrapper || !calcBanknotes) return;
+
     gsap.set(calcBg, { autoAlpha: 0, scale: 1.05 });
-    gsap.set([calcBanknotes, calcWrapper], { autoAlpha: 0, y: 30 });
+    gsap.set(calcBanknotes, { autoAlpha: 0, y: 34, rotate: -2, scale: 0.96 });
+    gsap.set(calcWrapper, { autoAlpha: 0, y: 34, scale: 0.98 });
 
     ScrollTrigger.create({
-      trigger: calculatorSection,
-      start: 'top 70%',
+      trigger: calcContainer,
+      start: 'top 60%',
+      once: true,
       animation: gsap
         .timeline()
-        .to(calcBg, { autoAlpha: 1, scale: 1, duration: 1.5, ease: 'power2.out' })
+        .to(calcBg, { autoAlpha: 1, scale: 1, duration: 1.1, ease: 'power2.out' })
         .to(
-          [calcBanknotes, calcWrapper],
+          calcBanknotes,
           {
             autoAlpha: 1,
             y: 0,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: 'power4.out',
+            rotate: 0,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power3.out',
           },
-          '-=1.2'
+          '-=0.75'
+        )
+        .to(
+          calcWrapper,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+          },
+          '-=0.65'
         ),
     });
   }

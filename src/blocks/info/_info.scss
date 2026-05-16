@@ -3,10 +3,6 @@
 .info {
     overflow-x: hidden;
 
-    @include mq (1024) {
-        margin-bottom: 70px;
-    }
-
     .info__container {
         display: flex;
         flex-direction: row;

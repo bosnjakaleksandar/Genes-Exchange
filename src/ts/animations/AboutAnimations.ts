@@ -9,26 +9,47 @@ export class AboutAnimations {
     if (!aboutSection) return;
 
     if (isReducedMotion) {
-      gsap.set('.about__title, .about__description', { autoAlpha: 1 });
+      gsap.set('.about__title, .about__description, .about__link, .about__currency-card', {
+        autoAlpha: 1,
+        clearProps: 'transform',
+      });
       return;
     }
 
+    const aboutContainer = aboutSection.querySelector('.about__container');
     const aboutTitle = aboutSection.querySelector('.about__title');
     const aboutDesc = aboutSection.querySelector('.about__description');
     const aboutLink = aboutSection.querySelector('.about__link');
+    const currencyCards = aboutSection.querySelectorAll('.about__currency-card');
 
-    gsap.set([aboutTitle, aboutDesc, aboutLink], { autoAlpha: 0, y: 25 });
+    gsap.set([aboutTitle, aboutDesc, aboutLink], { autoAlpha: 0, y: 28 });
+    gsap.set(currencyCards, { autoAlpha: 0, y: 24, scale: 0.96 });
 
     ScrollTrigger.create({
-      trigger: aboutSection,
-      start: 'top 65%',
-      animation: gsap.to([aboutTitle, aboutDesc, aboutLink], {
-        autoAlpha: 1,
-        y: 0,
-        duration: 1.2,
-        stagger: 0.2,
-        ease: 'power3.out',
-      }),
+      trigger: aboutContainer,
+      start: 'top 50%',
+      once: true,
+      animation: gsap
+        .timeline()
+        .to([aboutTitle, aboutDesc, aboutLink], {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.14,
+          ease: 'power3.out',
+        })
+        .to(
+          currencyCards,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            stagger: 0.06,
+            ease: 'power3.out',
+          },
+          '-=0.25'
+        ),
     });
   }
 }

@@ -232,6 +232,7 @@ const pageData = {
     import { CalculatorAnimations } from '../ts/animations/CalculatorAnimations';
     import { AboutAnimations } from '../ts/animations/AboutAnimations';
     import { AccordionAnimations } from '../ts/animations/AccordionAnimations';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
     const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     HeroAnimations.init(isReducedMotion);
@@ -239,5 +240,9 @@ const pageData = {
     CalculatorAnimations.init(isReducedMotion);
     InfoAnimations.init(isReducedMotion);
     AccordionAnimations.init(isReducedMotion);
+
+    window.addEventListener('load', () => {
+      ScrollTrigger.refresh();
+    });
   </script>
 </Layout>
