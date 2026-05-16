@@ -35,7 +35,7 @@ export class AboutAnimations {
           autoAlpha: 1,
           y: 0,
           duration: 0.9,
-          stagger: 0.14,
+          stagger: 0.2,
           ease: 'power3.out',
         })
         .to(
@@ -45,7 +45,7 @@ export class AboutAnimations {
             y: 0,
             scale: 1,
             duration: 0.65,
-            stagger: 0.06,
+            stagger: 0.1,
             ease: 'power3.out',
           },
           '-=0.25'

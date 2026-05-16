@@ -82,6 +82,17 @@
         gap: 40px;
         width: max-content;
         pointer-events: auto;
+        cursor: grab;
+        touch-action: pan-y;
+        user-select: none;
+
+        &.is-dragging {
+            cursor: grabbing;
+        }
+
+        @include mq (991) {
+            gap: 20px;
+        }
 
         .about__currency-card {
             position: relative;
@@ -101,7 +112,8 @@
             }
 
             &:hover .about__currency-tooltip,
-            &:focus-visible .about__currency-tooltip {
+            &:focus-visible .about__currency-tooltip,
+            &:focus-within .about__currency-tooltip {
                 opacity: 1;
                 visibility: visible;
                 transform: translate(-50%, -12px);
@@ -274,7 +286,8 @@
                 box-shadow: 0 0.625vw 1.25vw rgba($black, 0.12);
 
                 &:hover .about__currency-tooltip,
-                &:focus-visible .about__currency-tooltip {
+                &:focus-visible .about__currency-tooltip,
+                &:focus-within .about__currency-tooltip {
                     transform: translate(-50%, -0.625vw);
                 }
             }
