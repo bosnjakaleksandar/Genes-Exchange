@@ -38,16 +38,13 @@ const finalDescription = description || siteData[lang].description;
 
 const baseURL = 'https://menjacnicagenes.rs';
 
-const pathMapToSr: Record<string, string> = {
-  '/en': '/',
-  '/en/exchange-rates': '/kursna-lista',
-  '/en/faq': '/cesta-pitanja'
-};
-
-const pathMapToEn: Record<string, string> = {
-  '/': '/en',
-  '/kursna-lista': '/en/exchange-rates',
-  '/cesta-pitanja': '/en/faq'
+const localizedRoutes: Record<string, { sr: string; en: string }> = {
+  '/': { sr: '/', en: '/en' },
+  '/en': { sr: '/', en: '/en' },
+  '/kursna-lista': { sr: '/kursna-lista', en: '/en/exchange-rates' },
+  '/en/exchange-rates': { sr: '/kursna-lista', en: '/en/exchange-rates' },
+  '/cesta-pitanja': { sr: '/cesta-pitanja', en: '/en/faq' },
+  '/en/faq': { sr: '/cesta-pitanja', en: '/en/faq' },
 };
 
 const stripTrailingSlash = (path: string) =>
@@ -55,12 +52,14 @@ const stripTrailingSlash = (path: string) =>
 
 const currentPath = stripTrailingSlash(Astro.url.pathname);
 const currentCanonicalURL = canonicalURL || new URL(currentPath, baseURL).href;
-
-const srPath = currentPath.startsWith('/en') ? (pathMapToSr[currentPath] || '/') : currentPath;
-const srURL = new URL(srPath, baseURL).href;
-
-const enPath = currentPath.startsWith('/en') ? currentPath : pathMapToEn[currentPath];
-const enURL = enPath ? new URL(enPath, baseURL).href : null;
+const localizedRoute = localizedRoutes[currentPath];
+const alternateLinks = localizedRoute
+  ? [
+      { hreflang: 'sr-RS', href: new URL(localizedRoute.sr, baseURL).href },
+      { hreflang: 'en-US', href: new URL(localizedRoute.en, baseURL).href },
+      { hreflang: 'x-default', href: new URL(localizedRoute.sr, baseURL).href },
+    ]
+  : [];
 
 const defaultOgImage = `${baseURL}/images/GenesLogoMeta.webp`;
 const ogImageURL = ogImage ? `${baseURL}${ogImage}` : defaultOgImage;
@@ -82,10 +81,12 @@ const keywords = {
     <meta name="generator" content={Astro.generator} />
     <meta
       name="robots"
-      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+      content={isErrorPage
+        ? 'noindex, follow'
+        : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
     />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="bingbot" content="index, follow" />
+    <meta name="googlebot" content={isErrorPage ? 'noindex, follow' : 'index, follow'} />
+    <meta name="bingbot" content={isErrorPage ? 'noindex, follow' : 'index, follow'} />
 
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
@@ -118,10 +119,13 @@ const keywords = {
     <meta name="theme-color" content="#0b0b0b" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <link rel="canonical" href={currentCanonicalURL} />
-    <link rel="alternate" hreflang="sr" href={srURL} />
-    {enURL && <link rel="alternate" hreflang="en" href={enURL} />}
-    <link rel="alternate" hreflang="x-default" href={srURL} />
+    {!isErrorPage && <link rel="canonical" href={currentCanonicalURL} />}
+    {
+      !isErrorPage &&
+        alternateLinks.map(({ hreflang, href }) => (
+          <link rel="alternate" hreflang={hreflang} href={href} />
+        ))
+    }
 
     <meta property="og:url" content={currentCanonicalURL} />
     <meta property="og:image" content={ogImageURL} />
