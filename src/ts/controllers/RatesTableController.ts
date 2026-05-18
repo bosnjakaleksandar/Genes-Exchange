@@ -6,6 +6,7 @@ type RateType = 'buy' | 'sell';
 type ChartPoint = {
   label: string;
   value: number;
+  timestamp: number;
 };
 
 const LABEL_LENGTH = 16;
@@ -16,6 +17,8 @@ export class RatesTableController {
   private selectedCurrency = '';
   private selectedType: RateType = 'buy';
   private selectedInterval: HistoryInterval = 'day';
+  private selectedBuyRate = 0;
+  private selectedSellRate = 0;
   private detailsOpen = false;
   private isMobile = false;
 
@@ -130,6 +133,8 @@ export class RatesTableController {
     currencyImage: string
   ): void {
     this.selectedCurrency = currency;
+    this.selectedBuyRate = buyRate;
+    this.selectedSellRate = sellRate;
 
     if (this.currencyEl) this.currencyEl.textContent = currency;
     if (this.flagEl && currencyImage) {
@@ -234,7 +239,7 @@ export class RatesTableController {
   }
 
   private async renderChart(history: any[]): Promise<void> {
-    if (!this.chartCanvas || !history.length) return;
+    if (!this.chartCanvas) return;
 
     const Chart = await this.ensureChartLoaded();
 
@@ -249,16 +254,22 @@ export class RatesTableController {
 
         if (!recordedAt || !Number.isFinite(value)) return null;
 
+        const recordedDate = this.parseRecordedAt(recordedAt);
+
+        if (!recordedDate) return null;
+
         return {
           label: recordedAt.replace('T', ' ').substring(0, 16),
           value,
+          timestamp: recordedDate.getTime(),
         };
       })
       .filter((point): point is ChartPoint => point !== null);
 
-    if (!points.length) return;
-
     const chartPoints = this.getRenderableChartPoints(points);
+
+    if (!chartPoints.length) return;
+
     const labels = chartPoints.map((point) => point.label);
     const data = chartPoints.map((point) => point.value);
 
@@ -331,26 +342,113 @@ export class RatesTableController {
   }
 
   private getRenderableChartPoints(points: ChartPoint[]): ChartPoint[] {
-    if (points.length !== 1) return points;
+    const intervalStart = this.getIntervalStartDate();
+    const intervalStartPoint = this.getIntervalStartPoint(intervalStart);
+    const currentPoint = this.getCurrentRatePoint();
+    const sortedPoints = [...points].sort((a, b) => a.timestamp - b.timestamp);
 
-    const nowLabel = new Date().toISOString().replace('T', ' ').substring(0, LABEL_LENGTH);
-
-    if (points[0].label === nowLabel) {
-      const previousLabel = this.getIntervalStartDate()
-        .toISOString()
-        .replace('T', ' ')
-        .substring(0, LABEL_LENGTH);
-
-      return [
-        { label: previousLabel, value: points[0].value },
-        points[0],
-      ];
+    if (!currentPoint) {
+      return sortedPoints;
     }
 
-    return [
-      points[0],
-      { label: nowLabel, value: points[0].value },
-    ];
+    if (!sortedPoints.length) {
+      return [intervalStartPoint, currentPoint];
+    }
+
+    const firstPoint = sortedPoints[0];
+    const lastPoint = sortedPoints[sortedPoints.length - 1];
+
+    if (
+      sortedPoints.length === 1 &&
+      firstPoint.timestamp < intervalStart.getTime() &&
+      this.areRatesEqual(firstPoint.value, currentPoint.value)
+    ) {
+      return [intervalStartPoint, currentPoint];
+    }
+
+    const chartPoints =
+      firstPoint.timestamp > intervalStart.getTime() &&
+      this.areRatesEqual(firstPoint.value, intervalStartPoint.value)
+        ? [intervalStartPoint, ...sortedPoints]
+        : sortedPoints;
+
+    if (
+      currentPoint.timestamp > lastPoint.timestamp + 60 * 1000 &&
+      this.areRatesEqual(lastPoint.value, currentPoint.value)
+    ) {
+      return [...chartPoints, currentPoint];
+    }
+
+    if (sortedPoints.length === 1) {
+      if (firstPoint.timestamp < intervalStart.getTime()) {
+        return [intervalStartPoint, currentPoint];
+      }
+
+      if (Math.abs(firstPoint.timestamp - currentPoint.timestamp) <= 60 * 1000) {
+        return [intervalStartPoint, firstPoint];
+      }
+
+      return [firstPoint, currentPoint];
+    }
+
+    return chartPoints;
+  }
+
+  private getCurrentRatePoint(): ChartPoint | null {
+    const value = this.selectedType === 'buy' ? this.selectedBuyRate : this.selectedSellRate;
+
+    if (!Number.isFinite(value) || value <= 0) return null;
+
+    const lastUpdateText = document.getElementById('last-update')?.textContent?.trim();
+    const lastUpdateDate = lastUpdateText ? this.parseDisplayedDate(lastUpdateText) : null;
+    const date = lastUpdateDate || new Date();
+
+    return {
+      label: date.toISOString().replace('T', ' ').substring(0, LABEL_LENGTH),
+      value,
+      timestamp: date.getTime(),
+    };
+  }
+
+  private getIntervalStartPoint(intervalStart: Date): ChartPoint {
+    const value = this.selectedType === 'buy' ? this.selectedBuyRate : this.selectedSellRate;
+
+    return {
+      label: intervalStart.toISOString().replace('T', ' ').substring(0, LABEL_LENGTH),
+      value,
+      timestamp: intervalStart.getTime(),
+    };
+  }
+
+  private parseRecordedAt(recordedAt: string): Date | null {
+    const dateString =
+      recordedAt.includes('Z') || /[+-]\d{2}:?\d{2}$/.test(recordedAt)
+        ? recordedAt
+        : `${recordedAt}Z`;
+    const date = new Date(dateString);
+
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  private parseDisplayedDate(dateText: string): Date | null {
+    const match = dateText.match(/^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2})$/);
+
+    if (!match) return null;
+
+    const [, day, month, year, hour, minute] = match;
+    const date = new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hour),
+      Number(minute)
+    );
+
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  private areRatesEqual(first: number, second: number): boolean {
+    return Math.abs(first - second) < 0.005;
   }
 
   private getIntervalStartDate(): Date {

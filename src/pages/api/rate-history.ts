@@ -12,10 +12,10 @@ type RateHistoryRow = {
 const VALID_INTERVALS: ReadonlySet<string> = new Set(['day', 'week', 'month', 'year']);
 
 const CACHE_DURATIONS: Record<HistoryInterval, number> = {
-  day: 300,     // 5 min
-  week: 600,    // 10 min
-  month: 1800,  // 30 min
-  year: 3600,   // 1 hour
+  day: 300, // 5 min
+  week: 600, // 10 min
+  month: 1800, // 30 min
+  year: 3600, // 1 hour
 };
 
 function jsonResponse(data: unknown, status: number, cacheMaxAge = 0): Response {
@@ -88,7 +88,7 @@ export const GET: APIRoute = async (context) => {
     const history = await includePreviousRate(SUPABASE_URL, supabaseHeaders, currency, data);
 
     if (history.length === 0) {
-      return await fetchFallbackRate(SUPABASE_URL, supabaseHeaders, currency, fromISO, cacheAge);
+      return await fetchFallbackRate(SUPABASE_URL, supabaseHeaders, currency, cacheAge);
     }
 
     return jsonResponse(history, 200, cacheAge);
@@ -123,30 +123,15 @@ async function fetchFallbackRate(
   supabaseUrl: string,
   headers: Record<string, string>,
   currency: string,
-  fromISO: string,
   cacheAge: number
 ): Promise<Response> {
-  const lastRateUrl = `${supabaseUrl}/rest/v1/rate_history?currency=eq.${encodeURIComponent(currency)}&order=recorded_at.desc&limit=2`;
+  const lastRateUrl = `${supabaseUrl}/rest/v1/rate_history?currency=eq.${encodeURIComponent(currency)}&order=recorded_at.desc&limit=1`;
 
   const lastRateResponse = await fetch(lastRateUrl, { headers });
   const lastRateData = await lastRateResponse.json();
 
-  if (Array.isArray(lastRateData) && lastRateData.length > 1) {
-    return jsonResponse(lastRateData.reverse(), 200, cacheAge);
-  }
-
-  if (Array.isArray(lastRateData) && lastRateData.length === 1) {
-    const lastRate = lastRateData[0];
-    const now = new Date().toISOString();
-
-    return jsonResponse(
-      [
-        { ...lastRate, recorded_at: fromISO },
-        { ...lastRate, recorded_at: now },
-      ],
-      200,
-      cacheAge
-    );
+  if (Array.isArray(lastRateData) && lastRateData.length > 0) {
+    return jsonResponse(lastRateData, 200, cacheAge);
   }
 
   return jsonResponse([], 200, cacheAge);
